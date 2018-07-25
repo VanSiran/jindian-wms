@@ -1,0 +1,32 @@
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr='//script[@src="/web/static/src/js/chrome/action_manager.js"]' position='replace'>
+            <script type="text/javascript" src="/wms/static/src/js/action_manager.js"></script>
+        </xpath>
+        <!-- <xpath expr='//script[@src="/web/static/src/js/fields/basic_fields.js"]' position='replace'>
+            <script type="text/javascript" src="/wms/static/src/js/basic_fields.js"></script>
+        </xpath> -->
+
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css"
+                href="/wms/static/src/css/style.min.css"/>
+            <link rel="stylesheet" type="text/css"
+                href="/wms/static/src/css/zoomify.min.css"/>
+
+            <script type="text/javascript"
+                src="/wms/static/src/js/enter_to_submit.js" />
+            <!-- <script type="text/javascript"
+                src="/wms/static/src/js/showwarn_field.js" /> -->
+            <!-- <script type="text/javascript"
+                src="/wms/static/src/js/filter_search.js" /> -->
+            <script type="text/javascript"
+                src="/wms/static/src/js/jstree.min.js" />
+            <script type="text/javascript"
+                src="/wms/static/src/js/tree_selection.js" />
+            <script type="text/javascript"
+                src="/wms/static/src/js/zoomify.min.js" />
+            <script type="text/javascript"
+                src="/wms/static/src/js/zoomable_image.js" />
+        </xpath>
+    </template>
+</odoo>

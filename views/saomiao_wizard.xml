@@ -1,0 +1,33 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="saomiao_wizard_view">
+        <field name="name">扫码查询</field>
+        <field name="model">wms.wizard.saomiao</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+        	<form string="扫码查询">
+            <h2 style="margin-top:-8px" colspan="2"><field name="info" style="color:#7c7bad" attrs="{'readonly': True}"/></h2>
+            <group>
+              <field name="xuliehao" widget="enter_to_submit_field" default_focus="1" class="jq_clickselect"/>
+            </group>
+            <footer>
+                <button name="submit" string="查询" type="object"
+                  class="btn-primary enter_to_submit_button"/>
+                <button string="取消" class="btn-default" special="cancel"/>
+            </footer>
+          </form>
+        </field>
+    </record>
+
+    <record id="saomiao_wizard_act_window" model="ir.actions.act_window">
+        <field name="name">扫码查询</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wms.wizard.saomiao</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="saomiao_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+
+  </data>
+</odoo>

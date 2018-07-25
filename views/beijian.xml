@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+
+    <record id="beijianext_form_view" model="ir.ui.view">
+      <field name="name">备件型号表视图</field>
+      <field name="model">wms.beijianext</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <field name="image" widget="image" class="oe_avatar"/>
+            <div class="oe_title">
+              <label class="oe_edit_only" for="beijian" string="备件名称"/>
+              <h3><field name="beijian"/></h3>
+              <label class="oe_edit_only" for="name" string="备件型号"/>
+              <h1><field name="name"/></h1>
+            </div><div class="oe_clear"/>
+            <group>
+              <field name="shiyongshebei" widget="many2many_tags"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="beijian_act_window" model="ir.actions.act_window">
+      <field name="name">备件名称配置</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wms.beijian</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="beijianext_act_window" model="ir.actions.act_window">
+      <field name="name">备件型号配置</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wms.beijianext</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

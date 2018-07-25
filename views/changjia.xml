@@ -1,0 +1,13 @@
+<odoo>
+  <data>
+
+    <record id="changjia_act_window" model="ir.actions.act_window">
+      <field name="name">供应商配置</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wms.changjia</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

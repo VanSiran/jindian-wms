@@ -1,0 +1,11 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="user_mod_view" inherit_id="base.view_users_form">
+      <arch>
+        <xpath expr="//page[@name='access_rights']">
+          <field name="cangku"/>
+        </xpath>
+      </arch>
+    </record>
+  </data>
+</odoo>

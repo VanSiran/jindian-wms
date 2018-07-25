@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+    <record id="cangku_form_view" model="ir.ui.view">
+        <field name="name">仓库表单视图</field>
+        <field name="model">wms.cangku</field>
+        <field name="arch" type="xml">
+            <form class="oe_form_configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="仓库名称" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group name="first" col="2">
+                        <field name="parent_id" class="oe_inline"/>
+                        <field name="suoxie" placeholder="填写仓库拼音首字母（不分大小写）"/>
+                        <field name="huowei"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="cangku_act_window" model="ir.actions.act_window">
+      <field name="name">仓库分级结构</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wms.cangku</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+  </data>
+</odoo>

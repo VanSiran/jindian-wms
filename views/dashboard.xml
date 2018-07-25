@@ -1,0 +1,65 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="dashboard_view">
+        <field name="name">仪表盘</field>
+        <field name="model">wms.view.dashboard</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+        	<kanban create="false">
+            <field name="name"/>
+            <field name="action_id"/>
+            <templates>
+              <t t-name="kanban-box">
+                <div class="oe_kanban_card">
+                  <a type="action" t-att-data-name="record.action_id.raw_value">
+                      <h3><field name="name"/></h3>
+                  </a>
+                </div>
+              </t>
+                <!-- <t t-name="kanban-description">
+                    <div class="oe_group_description" t-if="record.description.raw_value">
+                        <field name="description"/>
+                    </div>
+                </t>
+                <t t-name="kanban-box">
+                    <div class="oe_module_vignette oe_kanban_global_click">
+                        <img t-att-src="kanban_image('mail.channel', 'image_medium', record.id.raw_value)" class="oe_module_icon"/>
+                        <div class="oe_module_desc">
+                            <h4 class="o_kanban_record_title">#<field name="name"/></h4>
+                            <p class="oe_module_name">
+                                <field name="description"/>
+                            </p>
+                            <button type="object" attrs="{'invisible':['|', ('is_subscribed','=',True), ('group_ids', '!=', [])]}" class="btn btn-primary pull-right btn-sm" name="channel_join_and_get_info">Join</button>
+                            <button type="object" attrs="{'invisible':['|', ('is_subscribed','=',False), ('group_ids', '!=', [])]}" class="btn btn-default pull-right btn-sm" name="action_unfollow">Leave</button>
+                        </div>
+                    </div>
+                </t> -->
+            </templates>
+          </kanban>
+        </field>
+    </record>
+    <!-- <record model="ir.ui.view" id="dashboard_form_view">
+        <field name="name">仪表盘</field>
+        <field name="model">wms.view.dashboard</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+        	<tree>
+            <field name="name"/>
+            <field name="action"/>
+
+          </tree>
+        </field>
+    </record> -->
+
+    <record id="dashboard_act_window" model="ir.actions.act_window">
+        <field name="name">仪表盘</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wms.view.dashboard</field>
+        <!-- <field name="view_type">kanban</field> -->
+        <field name="view_mode">kanban</field>
+        <!-- <field name="view_id" ref="dashboard_view"/> -->
+        <!-- <field name="target">main</field> -->
+    </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,4 @@
+"id","name","action/id","actionc/id"
+"wms.dashboard_ruku","入库","wms.ruku_wizard_act_window",""
+"wms.dashboard_saoma","扫码","wms.saomiao_wizard_act_window",""
+"wms.dashboard_shaixuan","筛选","wms.filtersearch_act_window",""

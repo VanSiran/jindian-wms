@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+    <menuitem name="库存管理" id="wms.menu_root"/>
+
+    <!-- <menuitem name="仪表盘" id="wms.menu_dashboard"/> -->
+    <!-- <menuitem name="入库" id="wms.menu_ruku" parent="wms.menu_dashboard" action="ruku_wizard_act_window"/> -->
+    <menuitem name="仪表盘" id="wms.menu_dashboard1" parent="wms.menu_root" action="dashboard_act_window"/>
+
+    <!-- <menuitem name="入库" id="wms.menu_ruku" parent="wms.menu_dashboard" action="ruku_wizard_act_window"/> -->
+
+    <menuitem name="备件个体档案" id="wms.menu_geti" parent="wms.menu_root" action="geti_act_window"/>
+    <menuitem name="货位清单" id="wms.menu_huowei" parent="wms.menu_root" action="huowei_act_window"/>
+    <menuitem name="备件库存策略" id="wms.menu_kucuncelue" parent="wms.menu_root" action="kucuncelue_act_window"/>
+
+
+    <menuitem name="库存通用设置" id="wms.menu_general"/>
+
+    <menuitem name="仓库分级结构" id="wms.menu_cangku" parent="wms.menu_general" action="cangku_act_window"/>
+    <menuitem name="设备分级结构" id="wms.menu_shebei" parent="wms.menu_general" action="shebei_act_window"/>
+    <menuitem name="备件名称配置" id="wms.menu_beijian" parent="wms.menu_general" action="beijian_act_window"/>
+    <menuitem name="备件型号配置" id="wms.menu_beijianext" parent="wms.menu_general" action="beijianext_act_window"/>
+    <menuitem name="供应商配置" id="wms.menu_changjia" parent="wms.menu_general" action="changjia_act_window"/>
+
+  </data>
+</odoo>

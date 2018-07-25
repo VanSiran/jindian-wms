@@ -1,0 +1,35 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="huowei_list_view">
+      <field name="name">货位清单列表视图</field>
+      <field name="model">wms.huowei</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="complete_bianma"/>
+          <field name="beijianext"/>
+          <field name="beijian_count"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="huowei_search_view" model="ir.ui.view">
+        <field name="name">货位搜索视图</field>
+        <field name="model">wms.huowei</field>
+        <field name="arch" type="xml">
+            <search>
+              
+            </search>
+        </field>
+    </record>
+
+    <record id="huowei_act_window" model="ir.actions.act_window">
+      <field name="name">货位清单</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wms.huowei</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

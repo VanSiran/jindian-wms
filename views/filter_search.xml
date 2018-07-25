@@ -1,0 +1,23 @@
+<odoo>
+  <data>
+
+    <record id="filtersearch_act_window" model="ir.actions.act_window">
+      <field name="name">筛选查询</field>
+      <field name="type">ir.actions.act_window</field>
+      <!-- <field name="tag">wms.filter_search_client_action</field> -->
+      <field name="target">new</field>
+      <field name="res_model">wms.geti</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="wms.geti_search_view"/>
+      <field name="context">{'search_default_zaiku': 1}</field>
+    </record>
+    <!-- <record id="filtersearch_client_window" model="ir.actions.client">
+      <field name="name">筛选查询</field>
+      <field name="type">ir.actions.client</field>
+      <field name="tag">wms.filter_search_client_action</field>
+      <field name="target">new</field>
+    </record> -->
+
+  </data>
+</odoo>

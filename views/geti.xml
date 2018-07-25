@@ -1,0 +1,99 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="geti_list_view">
+      <field name="name">设备个体档案列表视图</field>
+      <field name="model">wms.geti</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="beijian"/>
+          <field name="beijianext"/>
+          <field name="xuliehao"/>
+          <field name="cangku"/>
+          <field name="huowei"/>
+          <field name="zhuangtai"/>
+          <field name="changjia"/>
+          <field name="shiyongshebei" widget="many2many_tags"/>
+          <field name="pihao"/>
+          <field name="shengchanriqi"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="geti_ro_form_view">
+      <field name="name">设备个体档案只读表视图</field>
+      <field name="model">wms.geti</field>
+      <field name="arch" type="xml">
+        <form create="false" edit="false">
+          <field name="cangku" invisible="1"/>
+          <field name="image" widget="zoomable_image" class="oe_avatar"/>
+          <div class="oe_title">
+            <button name="chuku" string="出库" type="object" class="btn btn-primary"
+              attrs="{'invisible': [('zhuangtai', '=', 'chuku')]}"/>
+          </div>
+          <group>
+            <group>
+              <field name="beijian" readonly="1"/>
+              <field name="beijianext" readonly="1"/>
+              <field name="shiyongshebei" readonly="1" widget="many2many_tags"/>
+            </group>
+            <group>
+              <field name="xuliehao" readonly="1"/>
+              <field name="zhuangtai" readonly="1"/>
+              <field name="huowei" readonly="1"/>
+            </group>
+          </group>
+          <group>
+            <field name="changjia" class=""/>
+            <field name="pihao" class=""/>
+            <field name="shengchanriqi" class=""/>
+            <field name="lishijilu" class=""/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record id="geti_search_view" model="ir.ui.view">
+        <field name="name">个体搜索视图</field>
+        <field name="model">wms.geti</field>
+        <field name="arch" type="xml">
+            <search string="备件个体筛选查询">
+                <field name="beijian" string="备件名称" filter_domain="['|', ('beijian.suoxie', 'ilike', self), ('beijian.name', 'ilike', self)]"/>
+                <field name="cangku" string="仓库" filter_domain="['|', ('cangku.suoxie', 'ilike', self), ('cangku.name', 'ilike', self)]"/>
+                <filter name="zaiku" string="在库" domain="[('zhuangtai', '=', 'zaiku')]"/>
+                <filter name="chuku" string="出库" domain="[('zhuangtai', '=', 'chuku')]"/>
+                <!-- <field name="categ_id" filter_domain="[('categ_id', 'child_of', raw_value)]"/>               <separator/>
+                <filter string="Services" name="services" domain="[('type','=','service')]"/>
+                <filter string="Products" name="consumable" domain="[('type', 'in', ['consu', 'product'])]"/>
+                <separator/>
+                <filter string="Can be Sold" name="filter_to_sell" domain="[('sale_ok','=',1)]"/>
+                <filter string="Can be Purchased" name="filter_to_purchase" domain="[('purchase_ok', '=', 1)]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                <field string="Attributes" name="attribute_line_ids" groups="product.group_product_variant"/>
+                <field name="pricelist_id" widget="selection" context="{'pricelist': self}" filter_domain="[]" groups="product.group_sale_pricelist"/>  -->
+                <!-- Keep widget=selection on this field to pass numeric `self` value, which is not the case for regular m2o widgets! -->
+                <separator/>
+                <!-- <filter string="Late Activities" name="activities_overdue"
+                    domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                    help="Show all records which has next action date is before today"/>
+                <filter string="Today Activities" name="activities_today"
+                    domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Future Activities" name="activities_upcoming_all"
+                    domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                    ]"/> -->
+            </search>
+        </field>
+    </record>
+
+    <record id="geti_act_window" model="ir.actions.act_window">
+      <field name="name">备件个体档案</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wms.geti</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="wms.geti_search_view"/>
+      <field name="context">{'search_default_zaiku': 1}</field>
+    </record>
+
+  </data>
+</odoo>

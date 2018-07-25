@@ -1,0 +1,67 @@
+<odoo>
+  <data>
+
+    <record id="kucuncelue_tree_view" model="ir.ui.view">
+      <field name="name">备件库存策略列表视图</field>
+      <field name="model">wms.kucuncelue</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="cangku"/>
+          <field name="beijianext"/>
+          <field name="zaikushuliang"/>
+          <field name="xiaxianbaojing"/>
+          <field name="xiaxian"
+            attrs="{'invisible': [('xiaxianbaojing','=',False)]}"/>
+          <field name="shangxianbaojing"/>
+          <field name="shangxian"
+            attrs="{'invisible': [('shangxianbaojing','=',False)]}"/>
+          <field name="baojingdengji"
+            attrs="{'invisible': [('shangxianbaojing','=',False),
+                                  ('xiaxianbaojing','=',False)]}"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="kucuncelue_form_view" model="ir.ui.view">
+      <field name="name">备件库存策略表视图</field>
+      <field name="model">wms.kucuncelue</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="beijianext" readonly="1"/>
+              <field name="cangku" readonly="1"/>
+            </group>
+            <group>
+              <field name="zaikushuliang" readonly="1"/>
+            </group>
+            <group>
+              <field name="xiaxianbaojing" default_focus="1"/>
+              <field name="xiaxian"
+                attrs="{'invisible': [('xiaxianbaojing','=',False)]}"/>
+            </group>
+            <group>
+              <field name="shangxianbaojing"/>
+              <field name="shangxian"
+                attrs="{'invisible': [('shangxianbaojing','=',False)]}"/>
+            </group>
+            <group>
+              <field name="baojingdengji"
+                attrs="{'invisible': [('shangxianbaojing','=',False),
+                                      ('xiaxianbaojing','=',False)]}"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="kucuncelue_act_window" model="ir.actions.act_window">
+      <field name="name">备件库存策略</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wms.kucuncelue</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

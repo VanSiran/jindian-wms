@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="newhuowei_wizard_view">
+        <field name="name">新增货位</field>
+        <field name="model">wms.wizard.newhuowei</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+        	<form string="新增货位">
+            <group>
+                <h2 style="margin-top:-8px" colspan="2">在<field name="cangkuname" style="color:#7c7bad" attrs="{'readonly': True}"/>仓库中选择一个货位，今后用于专门存放<field name="beijianfull" style="color:#7c7bad" attrs="{'readonly': True}"/>。</h2>
+                <div class="oe_title" colspan="2">
+                  <label for="bianma" string="选择的货位是" style="font-weight:bold;font-size:14px"/>
+                  <h3><field name="bianma" placeholder="如：A-01-02-03" widget="enter_to_submit_field" default_focus="1"/></h3>
+                </div>
+            </group>
+            <group string="编码规则">
+              <label colspan="2" string="常见的编码方法：区号-排号-层号-位号。"/>
+              <label colspan="2" string="可以根据仓库的实际情况，自行决定编码规则，确定编码规则后，后续编码都要遵循此规则，以快速确定物品存放位置。"/>
+            </group>
+            <footer>
+                <button name="save_huowei" string="保存" type="object" class="btn-primary enter_to_submit_button"/>
+                <button string="取消" class="btn-default" special="cancel"/>
+            </footer>
+          </form>
+        </field>
+    </record>
+
+    <!-- <record id="newhuowei_wizard_act_window" model="ir.actions.act_window">
+        <field name="name">新增货位</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wms.wizard.newhuowei</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="newhuowei_wizard_view"/>
+        <field name="target">new_no_close</field>
+    </record> -->
+
+  </data>
+</odoo>

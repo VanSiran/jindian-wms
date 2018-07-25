@@ -1,0 +1,47 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="setkucuncelue_wizard_view">
+        <field name="name">备件库存策略</field>
+        <field name="model">wms.wizard.setkucuncelue</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+        	<form string="备件库存策略">
+            <group>
+              <h2 style="margin-top:-8px" colspan="2">为<field name="cangkuname" style="color:#7c7bad" attrs="{'readonly': True}"/>仓库配置<field name="beijianfull" style="color:#7c7bad" attrs="{'readonly': True}"/>的库存上下限。</h2>
+            </group>
+            <group>
+              <field name="xiaxianbaojing" default_focus="1"/>
+              <field name="xiaxian"
+                attrs="{'invisible': [('xiaxianbaojing','=',False)]}"/>
+            </group>
+            <group>
+              <field name="shangxianbaojing"/>
+              <field name="shangxian"
+                attrs="{'invisible': [('shangxianbaojing','=',False)]}"/>
+            </group>
+            <group>
+              <field name="baojingdengji"
+                attrs="{'invisible': [('shangxianbaojing','=',False),
+                                      ('xiaxianbaojing','=',False)]}"/>
+            </group>
+            <footer>
+                <button name="save_shezhi" string="保存" type="object"
+                  class="btn-primary"/>
+                <button string="取消" class="btn-default" special="cancel"/>
+            </footer>
+          </form>
+        </field>
+    </record>
+
+    <!-- <record id="setkucuncelue_wizard_act_window" model="ir.actions.act_window">
+        <field name="name">备件库存策略</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wms.wizard.setkucuncelue</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="setkucuncelue_wizard_view"/>
+        <field name="target">new</field>
+    </record> -->
+
+  </data>
+</odoo>
