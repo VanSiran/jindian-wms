@@ -192,8 +192,9 @@ class huowei(models.Model):
             s.beijian_count = len(s.geti.ids)
 
     bianma = fields.Char('货位编码', required=True)
-    cangku = fields.Many2one('wms.cangku', '所属仓库', required=True)
-    beijianext = fields.Many2one('wms.beijianext', '用于存放备件', required=True)
+    kucuncelue = fields.Many2one('wms.kucuncelue', '所属库存策略', required=True)
+    cangku = fields.Many2one('wms.cangku', '所属仓库', related="kucuncelue.cangku")
+    beijianext = fields.Many2one('wms.beijianext', '用于存放备件', related="kucuncelue.beijianext")
     data = fields.Text('附加数据')
 
     complete_bianma = fields.Char('完整货位编码', compute='_compute_bianma', store=True)
@@ -225,14 +226,10 @@ class Kucuncelue(models.Model):
         if (self.xiaxianbaojing or self.shangxianbaojing) and not self.baojingdengji:
             raise ValidationError("请填写报警等级！")
 
-    @api.depends('cangku.huowei', 'cangku.huowei.beijian_count')
+    @api.depends('huowei', 'huowei.beijian_count')
     def _compute_zaikushuliang(self):
         for s in self:
-            s.zaikushuliang = sum(v.beijian_count for v in
-                s.cangku.huowei.filtered(lambda x: x.beijianext == s.beijianext))
-            # s.zaikushuliang = self.env['wms.geti'].search_count(
-            #     [('cangku', '=', s.cangku.id), ('beijianext', '=', s.beijianext.id),
-            #      ('zhuangtai', '=', 'zaiku')])
+            s.zaikushuliang = sum(v.beijian_count for v in s.huowei)
 
     ident = fields.Char('配置号', compute='_compute_ident', store=True)
     beijianext = fields.Many2one('wms.beijianext', '备件型号', required=True)
@@ -246,5 +243,5 @@ class Kucuncelue(models.Model):
         ('2', 'Ⅱ级报警'),
         ('3', 'Ⅲ级报警')], string='报警等级')
     zaikushuliang = fields.Integer('在库数量', compute='_compute_zaikushuliang', store=True)
-    # huowei = fields.One2many('wms.huowei', '')
+    huowei = fields.One2many('wms.huowei', 'kucuncelue', '货位列表')
     data = fields.Text('附加数据')

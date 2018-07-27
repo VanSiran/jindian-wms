@@ -50,6 +50,7 @@
                 attrs="{'invisible': [('shangxianbaojing','=',False),
                                       ('xiaxianbaojing','=',False)]}"/>
             </group>
+            <field name="huowei" readonly="1"/>
           </sheet>
         </form>
       </field>

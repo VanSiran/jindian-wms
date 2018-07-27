@@ -31,11 +31,13 @@ class Newhuowei(models.TransientModel):
 
     def save_huowei(self):
         Inventory = self.env['wms.huowei']
+        cangku = self.env.context['cangku'],
+        beijianext = self.env.context['beijianext'],
+        kucuncelue = self.env['wms.kucuncelue'].search([('cangku', '=', cangku),('beijianext', '=', beijianext)]).id
         for wizard in self:
             inventory = Inventory.create({
                 'bianma': wizard.bianma,
-                'cangku': self.env.context['cangku'],
-                'beijianext': self.env.context['beijianext'],
+                'kucuncelue': kucuncelue,
             })
         if self.env.context.get('wizard', -1) != -1:
             wiz = self.env['wms.wizard.ruku'].browse(self.env.context['wizard'])

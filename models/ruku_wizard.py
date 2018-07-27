@@ -61,17 +61,24 @@ class RukuWizard(models.TransientModel):
     def constrains_rukushuliang(self):
         if not self.rukushuliang or self.rukushuliang < 1:
             raise ValidationError("入库数量不能小于 1！")
-    # @api.onchange('rukushuliang')
-    # def onchange_rukushuliang(self):
-
-    #     if self.rukushuliang > 1:
-    #         self.showwarn = True
-    #     else:
-    #         self.showwarn = False
 
     def check_missing_settings(self):
         # 查找匹配货位
         caller = traceback.extract_stack()[-2][2]
+        if self.env['wms.kucuncelue'].search_count([
+            ('beijianext', '=', self.beijianext.id),
+            ('cangku', '=', self.cangku.id)]) == 0:
+            return {
+                'name': '为此备件设置库存报警',
+                'type': 'ir.actions.act_window',
+                'res_model': 'wms.wizard.setkucuncelue',
+                'views': [[
+                    self.env.ref('wms.setkucuncelue_wizard_view').id, 'form']],
+                'target': 'new_no_close' if caller == 'progress_next' else 'new',
+                'context': {
+                    'cangku': self.cangku.id,
+                    'beijianext': self.beijianext.id,
+                    'wizard': self.id,}}
         if self.env['wms.huowei'].search_count([
             ('beijianext', '=', self.beijianext.id),
             ('cangku', '=', self.cangku.id)]) == 0:
@@ -91,20 +98,6 @@ class RukuWizard(models.TransientModel):
                 ('beijianext', '=', self.beijianext.id),
                 ('cangku', '=', self.cangku.id)],
                 order='create_date desc', limit=1)
-        if self.env['wms.kucuncelue'].search_count([
-            ('beijianext', '=', self.beijianext.id),
-            ('cangku', '=', self.cangku.id)]) == 0:
-            return {
-                'name': '为此备件设置库存报警',
-                'type': 'ir.actions.act_window',
-                'res_model': 'wms.wizard.setkucuncelue',
-                'views': [[
-                    self.env.ref('wms.setkucuncelue_wizard_view').id, 'form']],
-                'target': 'new_no_close' if caller == 'progress_next' else 'new',
-                'context': {
-                    'cangku': self.cangku.id,
-                    'beijianext': self.beijianext.id,
-                    'wizard': self.id,}}
         self.state = 'fillform'
         return {'type': "ir_actions_act_window_donothing",} \
             if caller == 'progress_next' else \
