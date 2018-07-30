@@ -10,14 +10,14 @@
           <field name="beijianext"/>
           <field name="zaikushuliang"/>
           <field name="xiaxianbaojing" invisible="1"/>
-          <field name="xiaxian"
-            attrs="{'invisible': [('xiaxianbaojing','=',False)]}"/>
+          <field name="xiaxian"/>
+            <!-- attrs="{'invisible': [('xiaxianbaojing','=',False)]}"/> -->
           <field name="shangxianbaojing" invisible="1"/>
-          <field name="shangxian"
-            attrs="{'invisible': [('shangxianbaojing','=',False)]}"/>
-          <field name="baojingdengji"
-            attrs="{'invisible': [('shangxianbaojing','=',False),
-                                  ('xiaxianbaojing','=',False)]}"/>
+          <field name="shangxian"/>
+            <!-- attrs="{'invisible': [('shangxianbaojing','=',False)]}"/> -->
+          <field name="baojingdengji"/>
+            <!-- attrs="{'invisible': [('shangxianbaojing','=',False),
+                                  ('xiaxianbaojing','=',False)]}"/> -->
         </tree>
       </field>
     </record>

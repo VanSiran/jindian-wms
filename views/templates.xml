@@ -3,6 +3,10 @@
         <xpath expr='//script[@src="/web/static/src/js/chrome/action_manager.js"]' position='replace'>
             <script type="text/javascript" src="/wms/static/src/js/action_manager.js"></script>
         </xpath>
+        <xpath expr='//script[@src="/web/static/src/js/views/list/list_renderer.js"]' position='replace'>
+            <script type="text/javascript" src="/wms/static/src/js/list_renderer.js"></script>
+        </xpath>
+
         <!-- <xpath expr='//script[@src="/web/static/src/js/fields/basic_fields.js"]' position='replace'>
             <script type="text/javascript" src="/wms/static/src/js/basic_fields.js"></script>
         </xpath> -->
