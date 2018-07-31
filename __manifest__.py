@@ -26,7 +26,7 @@
         'views/web_customize.xml',
 
         'data/res.company.csv',
-        'data/shebei_data.xml',
+        'data/ir.sequence.csv',
         'data/wms.cangku.csv',
         'data/wms.shebei.csv',
         'data/wms.beijian.csv',
