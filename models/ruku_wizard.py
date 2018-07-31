@@ -30,7 +30,7 @@ class RukuWizard(models.TransientModel):
 
     rukushuliang = fields.Integer('入库数量', default=1)
     huowei = fields.Many2one('wms.huowei', '货位')
-    changjia = fields.Many2one('wms.changjia', '厂家')
+    changjia = fields.Many2one('wms.changjia', '生产厂家')
     shengchanriqi = fields.Date('生产日期', default=fields.Date.today)
     pihao = fields.Char("批次号")
     image = fields.Binary("图片", compute='_compute_img')
@@ -134,7 +134,7 @@ class RukuWizard(models.TransientModel):
                     'beijianext': self.beijianext.id,
                     'rukushuliang': self.rukushuliang,
                     'huowei': self.huowei.id,
-                    'changjia': self.changjia if self.changjia else False,
+                    'changjia': self.changjia.id if self.changjia else False,
                     'shengchanriqi': self.shengchanriqi,
                     'pihao': self.pihao,}}
         #     self.state = 'confirm'

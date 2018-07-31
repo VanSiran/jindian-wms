@@ -17,11 +17,10 @@ class Rukuqueren(models.TransientModel):
         ], default='confirm')
 
     beijianfull = fields.Char('入库备件')
-    beijianext = fields.Many2one('wms.beijianext', '入库备件')
     image = fields.Binary("备件图片")
     rukushuliang = fields.Integer('入库数量')
-    huowei = fields.Many2one('wms.huowei', '货位')
-    changjia = fields.Many2one('wms.changjia', '厂家')
+    huowei = fields.Char('货位')
+    changjia = fields.Char('生产厂家')
     shengchanriqi = fields.Date('生产日期')
     pihao = fields.Char("批次号")
 
@@ -29,10 +28,10 @@ class Rukuqueren(models.TransientModel):
     def default_get(self, fields):
         res = super(Rukuqueren, self).default_get(fields)
         res['beijianfull'], res['image'] = self._compute_beijianfull()
-        res['beijianext'] = self.env.context['beijianext']
+        res['huowei'] = self._compute_huowei_str()
+        res['changjia'] = self._compute_changjia_str()
+        # res['beijianext'] = self.env.context['beijianext']
         res['rukushuliang'] = self.env.context['rukushuliang']
-        res['huowei'] = self.env.context['huowei']
-        res['changjia'] = self.env.context['changjia']
         res['shengchanriqi'] = self.env.context['shengchanriqi']
         res['pihao'] = self.env.context['pihao']
         return res
@@ -41,13 +40,21 @@ class Rukuqueren(models.TransientModel):
         beijianext = self.env['wms.beijianext'].browse(self.env.context['beijianext'])
         return '%s（%s）' % (beijianext.beijian.name, beijianext.name), beijianext.image
 
+    def _compute_huowei_str(self):
+        hw = self.env['wms.huowei'].browse(self.env.context['huowei'])
+        return hw.complete_bianma
+
+    def _compute_changjia_str(self):
+        cj = self.env['wms.changjia'].browse(self.env.context['changjia'])
+        return cj.name
+
     def save_geti(self):
         for i in range(0, self.rukushuliang):
             z = self.env['wms.geti'].create({
                 'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
-                'beijianext': self.beijianext.id,
-                'huowei': self.huowei.id,
-                'changjia': self.changjia.id if self.changjia else False,
+                'beijianext': self.env.context['beijianext'],
+                'huowei': self.env.context['huowei'],
+                'changjia': self.env.context['changjia'] if self.env.context['changjia'] else False,
                 'shengchanriqi': self.shengchanriqi,
                 'pihao': self.pihao,
                 'zhuangtai': 'zaiku',

@@ -1,15 +1,15 @@
 <odoo>
   <data>
     <record model="ir.ui.view" id="rukuqueren_wizard_view">
-        <field name="name">请确认仔细入库信息</field>
+        <field name="name">请仔细确认入库信息</field>
         <field name="model">wms.wizard.rukuqueren</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-        	<form string="请确认仔细入库信息">
+        	<form string="请仔细确认入库信息">
             <header>
           	    <field name="state" widget="statusbar"/>
           	</header>
-            <h2>请确认仔细入库信息</h2>
+            <h2 style="text-align:center;color:#7c7bad;">请仔细确认入库信息</h2>
         	  <group attrs="{'invisible': [('state','!=','confirm')]}">
                 <field name="image" readonly="1" widget="image" class="oe_avatar"/>
 
@@ -35,7 +35,7 @@
           	</group>
 
             <footer style="text-align:center">
-                <button string="取消" class="btn-default" special="cancel"/>
+                <button string="取 消" class="btn-default" special="cancel"/>
                 <span style="display:inline-block;width:20px"></span>
                 <button name="save_geti" string="入 库 √" type="object" class="btn-primary enter_to_submit_button"/>
             </footer>
