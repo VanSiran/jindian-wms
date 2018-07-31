@@ -57,6 +57,7 @@ class Rukuqueren(models.TransientModel):
                 'huowei': self.env.context['huowei'],
                 'changjia': self.env.context['changjia'] if self.env.context['changjia'] else False,
                 'shengchanriqi': self.shengchanriqi,
+                'jianceriqi': self.shengchanriqi,
                 'pihao': self.pihao,
                 'zhuangtai': 'zaiku',
                 })

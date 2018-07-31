@@ -26,6 +26,7 @@ class BJGeTi(models.Model):
         ('daiyiku', '待移库')], required=True, string="备件状态")
     changjia = fields.Many2one('wms.changjia', '厂家')
     shengchanriqi = fields.Date('生产日期')
+    jianceriqi = fields.Date('检测日期')
     pihao = fields.Char("批次号")
     data = fields.Text('附加数据')
 
