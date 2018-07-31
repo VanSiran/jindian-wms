@@ -21,7 +21,9 @@ class BJGeTi(models.Model):
     zhuangtai = fields.Selection([
         ('zaiku', '在库备用'),
         ('chuku', '出库'),
-        ('baofei', '报废')], required=True, string="备件状态")
+        ('baofei', '报废'),
+        ('daibaofei', '待报废'),
+        ('daiyiku', '待移库')], required=True, string="备件状态")
     changjia = fields.Many2one('wms.changjia', '厂家')
     shengchanriqi = fields.Date('生产日期')
     pihao = fields.Char("批次号")

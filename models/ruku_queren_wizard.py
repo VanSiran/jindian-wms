@@ -49,6 +49,7 @@ class Rukuqueren(models.TransientModel):
         return cj.name
 
     def save_geti(self):
+        rukus = []
         for i in range(0, self.rukushuliang):
             z = self.env['wms.geti'].create({
                 'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
@@ -59,4 +60,11 @@ class Rukuqueren(models.TransientModel):
                 'pihao': self.pihao,
                 'zhuangtai': 'zaiku',
                 })
-            _logger.info(z)
+            rukus.append({
+                'xuliehao': z.xuliehao,
+                'huowei': self.huowei,
+                'pihao': self.pihao,
+                'beijianext': self.beijianfull,
+                'changjia': self.changjia,
+                'shengchanriqi': self.shengchanriqi,})
+            # _logger.info(z)
