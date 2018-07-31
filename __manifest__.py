@@ -45,6 +45,7 @@
         'views/saomiao_wizard.xml',
         'views/new_huowei_wizard.xml',
         'views/set_kucuncelue_wizard.xml',
+        'views/ruku_queren_wizard.xml',
         'views/ruku_wizard.xml',
         'views/filter_search.xml',
 

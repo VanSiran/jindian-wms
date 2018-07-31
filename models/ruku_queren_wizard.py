@@ -4,42 +4,52 @@
 from odoo import api, models, fields, tools
 from odoo.exceptions import ValidationError
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class Rukuqueren(models.TransientModel):
     _name = "wms.wizard.rukuqueren"
     _description = "入库确认向导"
 
-    bianma = fields.Char('选择的货位是', required=True)
+    state = fields.Selection([
+        ('confirm', '信息确认'),
+        ('complete', '完成'),
+        ], default='confirm')
 
-    beijianfull = fields.Char()
-    cangkuname = fields.Char()
+    beijianfull = fields.Char('入库备件')
+    beijianext = fields.Many2one('wms.beijianext', '入库备件')
+    image = fields.Binary("备件图片")
+    rukushuliang = fields.Integer('入库数量')
+    huowei = fields.Many2one('wms.huowei', '货位')
+    changjia = fields.Many2one('wms.changjia', '厂家')
+    shengchanriqi = fields.Date('生产日期')
+    pihao = fields.Char("批次号")
 
     @api.model
     def default_get(self, fields):
-        res = super(Newhuowei, self).default_get(fields)
-        res['beijianfull'] = self._compute_beijianfull()
-        res['cangkuname'] = self._compute_cangkuname()
+        res = super(Rukuqueren, self).default_get(fields)
+        res['beijianfull'], res['image'] = self._compute_beijianfull()
+        res['beijianext'] = self.env.context['beijianext']
+        res['rukushuliang'] = self.env.context['rukushuliang']
+        res['huowei'] = self.env.context['huowei']
+        res['changjia'] = self.env.context['changjia']
+        res['shengchanriqi'] = self.env.context['shengchanriqi']
+        res['pihao'] = self.env.context['pihao']
         return res
-
-    def _compute_cangkuname(self):
-        cangku = self.env['wms.cangku'].browse(self.env.context['cangku'])
-        return cangku.name
 
     def _compute_beijianfull(self):
         beijianext = self.env['wms.beijianext'].browse(self.env.context['beijianext'])
-        return '%s（%s）' % (beijianext.beijian.name, beijianext.name)
+        return '%s（%s）' % (beijianext.beijian.name, beijianext.name), beijianext.image
 
-    def save_huowei(self):
-        Inventory = self.env['wms.huowei']
-        for wizard in self:
-            inventory = Inventory.create({
-                'bianma': wizard.bianma,
-                'cangku': self.env.context['cangku'],
-                'beijianext': self.env.context['beijianext'],
-            })
-        if self.env.context.get('wizard', -1) != -1:
-            wiz = self.env['wms.wizard.ruku'].browse(self.env.context['wizard'])
-            if wiz:
-                wiz.huowei = inventory
-                if wiz.state != 'fillform':
-                    return wiz.check_missing_settings()
+    def save_geti(self):
+        for i in range(0, self.rukushuliang):
+            z = self.env['wms.geti'].create({
+                'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
+                'beijianext': self.beijianext.id,
+                'huowei': self.huowei.id,
+                'changjia': self.changjia.id if self.changjia else False,
+                'shengchanriqi': self.shengchanriqi,
+                'pihao': self.pihao,
+                'zhuangtai': 'zaiku',
+                })
+            _logger.info(z)

@@ -10,7 +10,7 @@ class RukuWizard(models.TransientModel):
     _name = "wms.wizard.ruku"
     _description = "入库向导"
 
-    name = fields.Char(default="入库")
+    # name = fields.Char(default="入库")
     state = fields.Selection([
         ('selcangku', '选仓库'),
         ('selbeijianext', '选备件'),
@@ -23,7 +23,7 @@ class RukuWizard(models.TransientModel):
     beijian = fields.Many2one('wms.beijian', '备件名称')
     beijianext = fields.Many2one('wms.beijianext', '备件型号')
 
-    @api.depends('beijianext.image')
+    @api.depends('beijianext')
     def _compute_img(self):
         for i in self:
             i.image = i.beijianext.image
@@ -124,19 +124,32 @@ class RukuWizard(models.TransientModel):
                 raise ValidationError("请填写货位！")
             if not self.shengchanriqi:
                 raise ValidationError("请填写生产日期！")
-            self.state = 'confirm'
-        elif self.state == 'confirm':
-            # pass
-            self.env['wms.geti'].create({
-                'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
-                'beijianext': self.beijianext.id,
-                'huowei': self.huowei.id,
-                'changjia': self.changjia.id if self.changjia else False,
-                'shengchanriqi': self.shengchanriqi,
-                'pihao': self.pihao,
-                'zhuangtai': 'zaiku',
-                })
-            self.state = 'fillform'
+            return {
+                'name': '入库确认',
+                'type': 'ir.actions.act_window',
+                'res_model': 'wms.wizard.rukuqueren',
+                'views': [[self.env.ref('wms.rukuqueren_wizard_view').id, 'form']],
+                'target': 'new_no_close',
+                'context': {
+                    'beijianext': self.beijianext.id,
+                    'rukushuliang': self.rukushuliang,
+                    'huowei': self.huowei.id,
+                    'changjia': self.changjia if self.changjia else False,
+                    'shengchanriqi': self.shengchanriqi,
+                    'pihao': self.pihao,}}
+        #     self.state = 'confirm'
+        # elif self.state == 'confirm':
+        #     # pass
+        #     self.env['wms.geti'].create({
+        #         'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
+        #         'beijianext': self.beijianext.id,
+        #         'huowei': self.huowei.id,
+        #         'changjia': self.changjia.id if self.changjia else False,
+        #         'shengchanriqi': self.shengchanriqi,
+        #         'pihao': self.pihao,
+        #         'zhuangtai': 'zaiku',
+        #         })
+        #     self.state = 'fillform'
         return {'type': "ir_actions_act_window_donothing",}
 
     @api.multi
@@ -146,8 +159,8 @@ class RukuWizard(models.TransientModel):
             self.state = 'selcangku'
         elif self.state == 'fillform':
             self.state = 'selbeijianext'
-        elif self.state == 'confirm':
-            self.state = 'fillform'
+        # elif self.state == 'confirm':
+        #     self.state = 'fillform'
         return {'type': "ir_actions_act_window_donothing",}
 
     @api.model
