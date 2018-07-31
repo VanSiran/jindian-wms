@@ -5,8 +5,9 @@
         <field name="model">wms.view.dashboard</field>
         <field name="type">kanban</field>
         <field name="arch" type="xml">
-        	<kanban create="false">
+        	<kanban create="false" default_group_by="type">
             <field name="name"/>
+            <field name="type"/>
             <field name="action_id"/>
             <templates>
               <t t-name="kanban-box">
@@ -48,6 +49,17 @@
             <field name="action"/>
 
           </tree>
+        </field>
+    </record> -->
+
+    <!-- <record id="dashboard_search_view" model="ir.ui.view">
+        <field name="name">仪表盘搜索视图</field>
+        <field name="model">wms.view.dashboard</field>
+        <field name="arch" type="xml">
+            <search string="仪表盘搜索视图">
+                <field name="create_uid" string="分组" group_by="create_uid"/>
+                <separator/>
+            </search>
         </field>
     </record> -->
 

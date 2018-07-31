@@ -7,6 +7,7 @@ class Dashboard(models.Model):
     _description = "仪表盘"
 
     name = fields.Char(string="动作")
+    type = fields.Char("类型")
     action = fields.Many2one('ir.actions.act_window')
     actionc = fields.Many2one('ir.actions.client')
 

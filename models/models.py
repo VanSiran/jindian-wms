@@ -234,6 +234,16 @@ class Kucuncelue(models.Model):
         for s in self:
             s.zaikushuliang = sum(v.beijian_count for v in s.huowei)
 
+    # @api.depends('zaikushuliang', 'xiaxianbaojing', 'shangxianbaojing', 'xiaxian', 'shangxian', 'baojingdengji')
+    # def onchange_zaikushuliang(self):
+    #     _logger.warning('发现变化！！！！！！！！！')
+    #     self.ensure_one()
+    #     if self.baojingdengji:
+    #         if self.xiaxianbaojing and self.zaikushuliang <= self.xiaxian:
+    #             _logger.warning('下限报警' + self.baojingdengji)
+    #         if self.shangxianbaojing and self.zaikushuliang >= self.shangxian:
+    #             _logger.warning('上限报警' + self.baojingdengji)
+
     ident = fields.Char('配置号', compute='_compute_ident', store=True)
     beijianext = fields.Many2one('wms.beijianext', '备件型号', required=True)
     cangku = fields.Many2one('wms.cangku', '配置仓库', required=True)
