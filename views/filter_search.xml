@@ -5,7 +5,7 @@
       <field name="name">筛选查询</field>
       <field name="type">ir.actions.act_window</field>
       <!-- <field name="tag">wms.filter_search_client_action</field> -->
-      <field name="target">new</field>
+      <field name="target">current</field>
       <field name="res_model">wms.geti</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>

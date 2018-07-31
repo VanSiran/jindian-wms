@@ -23,7 +23,9 @@
     # always loaded
     'data': [
         'views/templates.xml',
+        'views/web_customize.xml',
 
+        'data/res.company.csv',
         'data/shebei_data.xml',
         'data/wms.cangku.csv',
         'data/wms.shebei.csv',

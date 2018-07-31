@@ -160,20 +160,24 @@ var ControlPanel = Widget.extend({
             this._attach_content(new_cp_content);
 
             // Update the searchview and switch buttons
+            if (status.searchview != undefined &&
+               'wms.view.dashboard' === status.searchview.fields_view.model){
+              status.search_view_hidden = true
+            }
             this._update_search_view(status.searchview, status.search_view_hidden);
             if (status.active_view_selector) {
                 this._update_switch_buttons(status.active_view_selector);
             }
         }
 
-        if ('wms.view.dashboard' === status.searchview.fields_view.model){
-          this.nodes.$searchview.hide()
-          this.nodes.$pager.hide()
-          this.nodes.$buttons.hide()
-          this.nodes.$searchview_buttons.hide()
-          this.nodes.$sidebar.hide()
-          this.nodes.$switch_buttons.hide()
-        }
+        // if ('wms.view.dashboard' === status.searchview.fields_view.model){
+        //   this.nodes.$searchview.hide()
+        //   this.nodes.$pager.hide()
+        //   this.nodes.$buttons.hide()
+        //   this.nodes.$searchview_buttons.hide()
+        //   this.nodes.$sidebar.hide()
+        //   this.nodes.$switch_buttons.hide()
+        // }
     },
     /**
      * Private function that hides (or shows) the ControlPanel in headless (resp. non-headless) mode
