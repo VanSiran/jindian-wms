@@ -316,6 +316,10 @@ var ListRenderer = BasicRenderer.extend({
             && record.data["shangxianbaojing"] === false) {
             formattedValue = "未设置"
           }
+        } else if (record.model === "wms.geti") {
+          if (name === "huowei" && record.data["zhuangtai"] === 'chuku') {
+            formattedValue = "已出库"
+          }
         }
         this._handleAttributes($td, node);
         return $td.html(formattedValue);
