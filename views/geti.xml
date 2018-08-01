@@ -29,8 +29,12 @@
             <field name="image" widget="zoomable_image" class="oe_avatar"/>
             <div class="oe_title">
               <button name="chuku" string="出库" type="object" class="btn btn-primary"
-                attrs="{'invisible': [('zhuangtai', '=', 'chuku')]}"
+                attrs="{'invisible': [('zhuangtai', '!=', 'zaiku')]}"
                 confirm="此操作不可撤销，是否继续出库？    (如误操作，请联系系统管理员。)"/>
+              <span style="display:inline-block;width:10px"></span>
+              <button name="jiance" string="检测通过" type="object" class="btn btn-default"
+                attrs="{'invisible': [('zhuangtai', '!=', 'zaiku')]}"
+                confirm="此操作不可撤销，是否确定检测已通过？    (如误操作，请联系系统管理员。)"/>
             </div>
             <group>
               <group>

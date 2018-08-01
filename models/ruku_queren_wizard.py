@@ -4,6 +4,7 @@
 from odoo import api, models, fields, tools
 from odoo.exceptions import ValidationError
 from xmlrpc.client import ServerProxy
+import json
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -12,7 +13,7 @@ class Rukuqueren(models.TransientModel):
     _name = "wms.wizard.rukuqueren"
     _description = "入库确认向导"
 
-    rukus = []
+    # rukus = []
     state = fields.Selection([
         ('confirm', '信息确认'),
         ('complete', '完成'),
@@ -25,6 +26,7 @@ class Rukuqueren(models.TransientModel):
     changjia = fields.Char('生产厂家')
     shengchanriqi = fields.Date('生产日期')
     pihao = fields.Char("批次号")
+    print_info = fields.Text()
     # allxuliehao = fields.Text('入库的序列号')
 
     @api.model
@@ -52,7 +54,7 @@ class Rukuqueren(models.TransientModel):
         return cj.name
 
     def save_geti(self):
-        self.rukus = []
+        rukus = {'xlh': []}
         for i in range(0, self.rukushuliang):
             z = self.env['wms.geti'].create({
                 'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
@@ -62,35 +64,27 @@ class Rukuqueren(models.TransientModel):
                 'shengchanriqi': self.shengchanriqi,
                 'jianceriqi': self.shengchanriqi,
                 'pihao': self.pihao,
-                'zhuangtai': 'zaiku',
-                })
+                'zhuangtai': 'zaiku',})
             self.env['wms.lishijilu'].create({
                 'xinxi': '入库到"%s"' % (z.huowei.complete_bianma),
                 'geti_id': z.id,})
-            self.rukus.append({
-                'xuliehao': z.xuliehao,
-                'huowei': self.huowei,
-                'pihao': self.pihao,
-                'beijianext': self.beijianfull,
-                'changjia': self.changjia,
-                'shengchanriqi': self.shengchanriqi,})
+            rukus['xlh'].append(z.xuliehao)
+        rukus.update({
+            'hw': self.huowei,
+            'ph': self.pihao,
+            'bjext': self.beijianfull,
+            'cj': self.changjia,
+            'scrq': self.shengchanriqi,})
         self.state = 'complete'
+        enc = json.JSONEncoder().encode
+        self.print_info = enc(rukus)
         return {'type': "ir_actions_act_window_donothing",}
 
     def close_all(self):
         return {'type': 'ir_actions_act_window_close_all'}
 
     def print_code(self):
-        pass
-        # if
-        # db = 'odoo11'
-        # user = 'admin'
-        # password = 'admin'
-        # odoo = ServerProxy('http://localhost:8080/')
-        # installed_modules = odoo.execute_kw(
-        #   db, uid, password, 'ir.module.module', 'search_read',
-        #   [[('state', '=', 'installed')], ['name']],
-        #   {'context': {'lang': 'fr_FR'}},
-        # )
-        # for module in installed_modules:
-        #   print(module['name'])
+        return {
+            'type': 'ir_actions_print_code',
+            'data': self.print_info,
+            'url': 'http://localhost:8080/jsonrpc'}

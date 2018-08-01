@@ -957,6 +957,21 @@ var ActionManager = Widget.extend({
         })
         return $.when();
     },
+    ir_actions_print_code: function (action, options) {
+        console.log(action, options)
+        $.ajax(action.url, {
+	          method: 'post',
+	          headers: {'content-type':'application/json'},
+            data: JSON.stringify({
+              method:'print_code_multi',
+              params: [action.data],
+              jsonrpc:"2.0",
+              id:0
+            }),
+        }).then(function(e){
+          console.log(e)
+        })
+    },
     ir_actions_server: function (action, options) {
         var self = this;
         return this._rpc({

@@ -32,11 +32,11 @@
           	</group>
 
             <div attrs="{'invisible': [('state','=','confirm')]}" style="text-align:center;">
-              <h1>✅</h1>
+              <img src="/wms/static/src/css/success.png" height="200" width="200"/>
               <h2 style="color:#00af00;">入库完成</h2>
-              <button class="btn-primary enter_to_submit_button"
+              <button class="btn-primary"
                 style="background-color:#00d000;display:inline-block;margin:60px 0;"
-                name="print_code" string="🖨️ 打印标签" type="object"/>
+                name="print_code" type="object" string="打印标签"/>
             </div>
 
             <footer style="text-align:center">

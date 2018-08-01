@@ -9,9 +9,10 @@ class Dashboard(models.Model):
     name = fields.Char(string="动作")
     type = fields.Char("类型")
     action = fields.Many2one('ir.actions.act_window')
+    xinxi = fields.Char("信息")
     # actionc = fields.Many2one('ir.actions.client')
     # action_id = fields.Integer(compute="_compute_actionid")
-    
+
     # @api.depends('action', 'actionc')
     # def _compute_actionid(self):
     #     for s in self:

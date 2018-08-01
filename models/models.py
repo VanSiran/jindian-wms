@@ -44,6 +44,13 @@ class BJGeTi(models.Model):
             'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
             'geti_id': self.id,})
 
+    @api.multi
+    def jiance(self):
+        self.ensure_one()
+        self.jianceriqi = fields.Date.today()
+        self.env['wms.lishijilu'].create({
+            'xinxi': '检测通过',
+            'geti_id': self.id,})
     # @api.multi
     # def yiku(self):
     #     self.ensure_one()
