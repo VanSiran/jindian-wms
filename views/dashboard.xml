@@ -8,11 +8,11 @@
         	<kanban create="false" default_group_by="type">
             <field name="name"/>
             <field name="type"/>
-            <field name="action_id"/>
+            <field name="action"/>
             <templates>
               <t t-name="kanban-box">
                 <div class="oe_kanban_card">
-                  <a type="action" t-att-data-name="record.action_id.raw_value">
+                  <a type="action" t-att-data-name="record.action.raw_value">
                       <h3><field name="name"/></h3>
                   </a>
                 </div>

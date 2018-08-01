@@ -44,6 +44,14 @@ class BJGeTi(models.Model):
             'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
             'geti_id': self.id,})
 
+    # @api.multi
+    # def yiku(self):
+    #     self.ensure_one()
+    #     self.zhuangtai = 'daiyiku'
+    #     self.env['wms.lishijilu'].create({
+    #         'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
+    #         'geti_id': self.id,})
+
 
 class LishiJilu(models.Model):
     _name = 'wms.lishijilu'

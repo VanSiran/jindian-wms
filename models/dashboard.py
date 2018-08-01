@@ -9,17 +9,19 @@ class Dashboard(models.Model):
     name = fields.Char(string="动作")
     type = fields.Char("类型")
     action = fields.Many2one('ir.actions.act_window')
-    actionc = fields.Many2one('ir.actions.client')
+    # actionc = fields.Many2one('ir.actions.client')
+    # action_id = fields.Integer(compute="_compute_actionid")
+    
+    # @api.depends('action', 'actionc')
+    # def _compute_actionid(self):
+    #     for s in self:
+    #         if s.action:
+    #             s.action_id = s.action.id
+    #         if s.actionc:
+    #             s.action_id = s.actionc.id
 
-    action_id = fields.Integer(compute="_compute_actionid")
 
-    @api.depends('action', 'actionc')
-    def _compute_actionid(self):
-        for s in self:
-            if s.action:
-                s.action_id = s.action.id
-            if s.actionc:
-                s.action_id = s.actionc.id
+
     # view = fields.Many2one('ir.ui.view')
     # model = fields.Char()
 
