@@ -12,9 +12,6 @@
         <xpath expr='//script[@src="/web/static/src/js/chrome/abstract_web_client.js"]' position='replace'>
             <script type="text/javascript" src="/wms/static/src/js/abstract_web_client.js"></script>
         </xpath>
-        <!-- <xpath expr='//script[@src="/web/static/src/js/views/form/form_controller.js"]' position='replace'>
-            <script type="text/javascript" src="/wms/static/src/js/form_controller.js"></script>
-        </xpath> -->
         <!-- <xpath expr='//script[@src="/web/static/src/js/fields/basic_fields.js"]' position='replace'>
             <script type="text/javascript" src="/wms/static/src/js/basic_fields.js"></script>
         </xpath> -->
