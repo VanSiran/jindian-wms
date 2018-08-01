@@ -30,7 +30,7 @@ class BJGeTi(models.Model):
     pihao = fields.Char("批次号")
     data = fields.Text('附加数据')
 
-    lishijilu = fields.One2many('wms.getirec', 'geti_id', string='历史记录')
+    lishijilu = fields.One2many('wms.lishijilu', 'geti_id', string='历史记录')
     beijian = fields.Many2one(string='备件名称', related='beijianext.beijian')
     shiyongshebei = fields.Many2many(string='适用设备', related='beijianext.shiyongshebei')
     cangku = fields.Many2one(string='所属仓库', related='huowei.cangku')
@@ -40,13 +40,17 @@ class BJGeTi(models.Model):
     def chuku(self):
         self.ensure_one()
         self.zhuangtai = 'chuku'
+        self.env['wms.lishijilu'].create({
+            'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
+            'geti_id': self.id,})
 
 
-class GetiRecord(models.Model):
-    _name = 'wms.getirec'
+class LishiJilu(models.Model):
+    _name = 'wms.lishijilu'
     _description = "设备个体历史记录"
+    _rec_name = 'xinxi'
 
-    geti_id = fields.Many2one('wms.geti', string="个体", required=True)
+    geti_id = fields.Many2one('wms.geti', string="个体", required=True, ondelete="cascade")
     xinxi = fields.Char(string="信息", required=True)
     data = fields.Text('附加数据')
 

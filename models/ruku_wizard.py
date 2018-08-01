@@ -136,20 +136,8 @@ class RukuWizard(models.TransientModel):
                     'huowei': self.huowei.id,
                     'changjia': self.changjia.id if self.changjia else False,
                     'shengchanriqi': self.shengchanriqi,
-                    'pihao': self.pihao,}}
-        #     self.state = 'confirm'
-        # elif self.state == 'confirm':
-        #     # pass
-        #     self.env['wms.geti'].create({
-        #         'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
-        #         'beijianext': self.beijianext.id,
-        #         'huowei': self.huowei.id,
-        #         'changjia': self.changjia.id if self.changjia else False,
-        #         'shengchanriqi': self.shengchanriqi,
-        #         'pihao': self.pihao,
-        #         'zhuangtai': 'zaiku',
-        #         })
-        #     self.state = 'fillform'
+                    'pihao': self.pihao,
+                    'hide_close_btn': True,}}
         return {'type': "ir_actions_act_window_donothing",}
 
     @api.multi

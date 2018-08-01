@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="lishijilu_list_view">
+      <field name="name">设备历史记录列表视图</field>
+      <field name="model">wms.lishijilu</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="create_date" string="操作时间"/>
+          <field name="xinxi"/>
+          <field name="create_uid" string="操作人"/>
+        </tree>
+      </field>
+    </record>
+
+  </data>
+</odoo>

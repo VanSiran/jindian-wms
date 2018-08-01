@@ -29,7 +29,8 @@
             <field name="image" widget="zoomable_image" class="oe_avatar"/>
             <div class="oe_title">
               <button name="chuku" string="出库" type="object" class="btn btn-primary"
-                attrs="{'invisible': [('zhuangtai', '=', 'chuku')]}"/>
+                attrs="{'invisible': [('zhuangtai', '=', 'chuku')]}"
+                confirm="此操作不可撤销，是否继续出库？    (如误操作，请联系系统管理员。)"/>
             </div>
             <group>
               <group>

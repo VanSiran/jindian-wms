@@ -162,7 +162,7 @@ var ControlPanel = Widget.extend({
             // Update the searchview and switch buttons
             if (status.searchview != undefined &&
                'wms.view.dashboard' === status.searchview.fields_view.model){
-              status.search_view_hidden = true
+               status.search_view_hidden = true
             }
             this._update_search_view(status.searchview, status.search_view_hidden);
             if (status.active_view_selector) {

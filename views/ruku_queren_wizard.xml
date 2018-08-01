@@ -9,7 +9,8 @@
             <header>
           	    <field name="state" widget="statusbar"/>
           	</header>
-            <h2 style="text-align:center;color:#7c7bad;">请仔细确认入库信息</h2>
+            <h2 attrs="{'invisible': [('state','!=','confirm')]}"
+              style="text-align:center;color:#7c7bad;">请仔细确认入库信息</h2>
         	  <group attrs="{'invisible': [('state','!=','confirm')]}">
                 <field name="image" readonly="1" widget="image" class="oe_avatar"/>
 
@@ -30,14 +31,25 @@
                 </group>
           	</group>
 
-          	<group attrs="{'invisible': [('state','!=','complete')]}">
-                <h2>入库成功!</h2>
-          	</group>
+            <div attrs="{'invisible': [('state','=','confirm')]}" style="text-align:center;">
+              <h1>✅</h1>
+              <h2 style="color:#00af00;">入库完成</h2>
+              <button class="btn-primary enter_to_submit_button"
+                style="background-color:#00d000;display:inline-block;margin:60px 0;"
+                name="print_code" string="🖨️ 打印标签" type="object"/>
+            </div>
 
             <footer style="text-align:center">
-                <button string="取 消" class="btn-default" special="cancel"/>
+                <button string="取 消" class="btn-default" special="cancel"
+                  attrs="{'invisible': [('state','!=','confirm')]}"/>
+                <button string="继续入库" confirm="确定后不能再打印标签，是否继续？"
+                  special="cancel" attrs="{'invisible': [('state','=','confirm')]}"/>
                 <span style="display:inline-block;width:20px"></span>
-                <button name="save_geti" string="入 库 √" type="object" class="btn-primary enter_to_submit_button"/>
+                <button name="save_geti" string="入 库 √" type="object"
+                  class="btn-primary" attrs="{'invisible': [('state','!=','confirm')]}"/>
+                <button string="结束" type="object" name="close_all"
+                  confirm="确定后不能再打印标签，是否继续？" class="btn-primary"
+                  attrs="{'invisible': [('state','=','confirm')]}"/>
             </footer>
 
           </form>

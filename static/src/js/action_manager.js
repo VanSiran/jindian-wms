@@ -741,9 +741,6 @@ var ActionManager = Widget.extend({
     ir_actions_common: function(executor, options) {
         var self = this;
         if (executor.action.target === 'new_no_close'){
-          console.log("My custom action manager new_no_close.")
-          // explicitly passing a closing action to dialog_stop() prevents
-          // it from reloading the original form view
           this.dialog = new Dialog(this, _.defaults(options || {}, {
               title: executor.action.name,
               dialogClass: executor.klass,
@@ -754,16 +751,7 @@ var ActionManager = Widget.extend({
           // chain on_close triggers with previous dialog, if any
           this.dialog.on_close = function(){
               options.on_close.apply(null, arguments);
-              if (pre_dialog && pre_dialog.on_close){
-                  // no parameter passed to on_close as this will
-                  // only be called when the last dialog is truly
-                  // closing, and *should* trigger a reload of the
-                  // underlying form view (see comments above)
-                  pre_dialog.on_close();
-              }
-              if (!pre_dialog) {
-                  self.dialog = null;
-              }
+              self.dialog = null;
           };
           this.dialog.on("closed", null, this.dialog.on_close);
           this.dialog_widget = executor.widget();
@@ -805,6 +793,9 @@ var ActionManager = Widget.extend({
               .done(def.resolve.bind(def))
               .fail(def.reject.bind(def));
               self.dialog.open();
+              if (executor.action.context.hide_close_btn == true){
+                  self.dialog.$el.parent().find('div.modal-header>button.close').hide()
+              }
               return def;
           }).then(function () {
               return executor.action;
@@ -958,6 +949,12 @@ var ActionManager = Widget.extend({
             this.trigger_up('show_effect', action.effect);
         }
 
+        return $.when();
+    },
+    ir_actions_act_window_close_all: function (action, options) {
+        $('.modal-dialog').each(function(e,ee){
+          $(ee).find("div.modal-header>button.close").click()
+        })
         return $.when();
     },
     ir_actions_server: function (action, options) {
