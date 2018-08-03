@@ -2,6 +2,7 @@
 
 from odoo.exceptions import ValidationError
 from odoo import models, fields, api, tools
+import datetime
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -26,7 +27,7 @@ class BJGeTi(models.Model):
         ('daiyiku', '待移库')], required=True, string="备件状态")
     changjia = fields.Many2one('wms.changjia', '厂家')
     shengchanriqi = fields.Date('生产日期')
-    jianceriqi = fields.Date('检测日期')
+    jianceriqi = fields.Date('待检测日期')
     pihao = fields.Char("批次号")
     data = fields.Text('附加数据')
 
@@ -44,12 +45,25 @@ class BJGeTi(models.Model):
             'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
             'geti_id': self.id,})
 
+    def _get_due_date(self, start, days):
+        DATE_FORMAT = "%Y-%m-%d"
+        return (datetime.datetime.strptime(start, DATE_FORMAT) + datetime.timedelta(days=days)).strftime(DATE_FORMAT)
+
     @api.multi
     def jiance(self):
         self.ensure_one()
-        self.jianceriqi = fields.Date.today()
+        if self.beijianext.jiancebaojing:
+            self.jianceriqi = self._get_due_date(fields.Date.today(), self.beijianext.jiancezhouqi)
+            self.env['wms.lishijilu'].create({
+                'xinxi': '检测通过',
+                'geti_id': self.id,})
+
+    @api.multi
+    def baofei(self):
+        self.ensure_one()
+        self.zhuangtai = 'baofei'
         self.env['wms.lishijilu'].create({
-            'xinxi': '检测通过',
+            'xinxi': '报废',
             'geti_id': self.id,})
     # @api.multi
     # def yiku(self):
@@ -74,10 +88,23 @@ class BeijianExt(models.Model):
     _name = 'wms.beijianext'
     _description = "备件型号"
 
+    @api.constrains('jiancebaojing', 'jiancezhouqi', 'baojingdengji')
+    def jianceconstrains(self):
+        if self.jiancebaojing and self.jiancezhouqi <= 0:
+            raise ValidationError("检测周期必须大于或等于1天！")
+        if self.jiancebaojing and not self.baojingdengji:
+            raise ValidationError("请填写报警等级！")
+
     name = fields.Char('备件型号', required=True)
     beijian = fields.Many2one('wms.beijian', '备件名称', required=True)
     shiyongshebei = fields.Many2many('wms.shebei', string='适用设备', required=True)
     image = fields.Binary("图片", attachment=True)
+    jiancebaojing = fields.Boolean("检测周期预警")
+    jiancezhouqi = fields.Integer('检测周期（天）', default=0)
+    baojingdengji = fields.Selection([
+        ('1', 'Ⅰ级报警'),
+        ('2', 'Ⅱ级报警'),
+        ('3', 'Ⅲ级报警')], string='报警等级')
     # image_medium = fields.Binary("图片（中）", attachment=True)
     # image_small = fields.Binary("图片（小）", attachment=True)
     data = fields.Text('附加数据')

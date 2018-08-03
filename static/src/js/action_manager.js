@@ -958,7 +958,6 @@ var ActionManager = Widget.extend({
         return $.when();
     },
     ir_actions_print_code: function (action, options) {
-        console.log(action, options)
         $.ajax(action.url, {
 	          method: 'post',
 	          headers: {'content-type':'application/json'},

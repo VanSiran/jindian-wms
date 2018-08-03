@@ -9,49 +9,35 @@
             <field name="name"/>
             <field name="type"/>
             <field name="action"/>
+            <field name="xinxi"/>
             <templates>
               <t t-name="kanban-box">
-                <div class="oe_kanban_card">
+                <div class="oe_kanban_card" t-if="record.type.raw_value == '操作'">
                   <a type="action" t-att-data-name="record.action.raw_value">
                       <h3><field name="name"/></h3>
                   </a>
                 </div>
+                <div class="oe_kanban_card" t-elif="record.type.raw_value == '报警'">
+                  <p style="color:red"><field name="xinxi"/></p>
+                </div>
               </t>
-                <!-- <t t-name="kanban-description">
-                    <div class="oe_group_description" t-if="record.description.raw_value">
-                        <field name="description"/>
-                    </div>
-                </t>
-                <t t-name="kanban-box">
-                    <div class="oe_module_vignette oe_kanban_global_click">
-                        <img t-att-src="kanban_image('mail.channel', 'image_medium', record.id.raw_value)" class="oe_module_icon"/>
-                        <div class="oe_module_desc">
-                            <h4 class="o_kanban_record_title">#<field name="name"/></h4>
-                            <p class="oe_module_name">
-                                <field name="description"/>
-                            </p>
-                            <button type="object" attrs="{'invisible':['|', ('is_subscribed','=',True), ('group_ids', '!=', [])]}" class="btn btn-primary pull-right btn-sm" name="channel_join_and_get_info">Join</button>
-                            <button type="object" attrs="{'invisible':['|', ('is_subscribed','=',False), ('group_ids', '!=', [])]}" class="btn btn-default pull-right btn-sm" name="action_unfollow">Leave</button>
-                        </div>
-                    </div>
-                </t> -->
             </templates>
           </kanban>
         </field>
     </record>
-    <!-- <record model="ir.ui.view" id="dashboard_form_view">
-        <field name="name">仪表盘</field>
+
+    <record model="ir.ui.view" id="dashboard_tree_view">
+        <field name="name">仪表盘列表</field>
         <field name="model">wms.view.dashboard</field>
-        <field name="type">tree</field>
         <field name="arch" type="xml">
         	<tree>
             <field name="name"/>
+            <field name="xinxi"/>
+            <field name="type"/>
             <field name="action"/>
-
           </tree>
         </field>
-    </record> -->
-
+    </record>
     <!-- <record id="dashboard_search_view" model="ir.ui.view">
         <field name="name">仪表盘搜索视图</field>
         <field name="model">wms.view.dashboard</field>

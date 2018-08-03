@@ -17,6 +17,13 @@
             <group>
               <field name="shiyongshebei" widget="many2many_tags"/>
             </group>
+            <group>
+              <field name="jiancebaojing"/>
+              <field name="jiancezhouqi"
+                attrs="{'invisible': [('jiancebaojing','=',False)]}"/>
+              <field name="baojingdengji"
+                attrs="{'invisible': [('jiancebaojing','=',False)]}"/>
+            </group>
           </sheet>
         </form>
       </field>

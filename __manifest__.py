@@ -26,6 +26,7 @@
         'views/web_customize.xml',
 
         'data/res.company.csv',
+        'data/ir.cron.csv',
         'data/ir.sequence.csv',
         'data/wms.cangku.csv',
         'data/wms.shebei.csv',

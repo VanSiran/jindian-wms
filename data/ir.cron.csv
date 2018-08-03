@@ -1,0 +1,41 @@
+"id","name","code","model_id/id","state","user_id/id","numbercall","interval_number","priority","doall","nextcall","active","interval_type"
+"__export__.ir_cron_4","报警","dash = env['wms.view.dashboard']
+
+for r in env['wms.kucuncelue'].search([('baojingdengji','!=',False),('xiaxianbaojing','!=',False),]):
+  if r.zaikushuliang <= r.xiaxian:
+    if (dash.search_count([('baojingid','=',r.id)]) == 0):
+      dash.create({
+        'type':""报警"",
+        'baojingid': r.id,
+        'cangkuid': r.cangku.id,
+        'xinxi':r.cangku.name+"" 的 ""+r.beijianext.beijian.name+""(""+r.beijianext.name+"") 下限报警！""})
+  else:
+    if (dash.search_count([('baojingid','=',r.id)]) > 0):
+      dash.search([('baojingid','=',r.id)]).unlink()
+
+for r in env['wms.kucuncelue'].search([('baojingdengji','!=',False),('shangxianbaojing','!=',False),]):
+  if r.zaikushuliang >= r.shangxian:
+    if (dash.search_count([('baojingid','=',r.id)]) == 0):
+      dash.create({
+      'type':""报警"",
+      'baojingid': r.id,
+      'cangkuid': r.cangku.id,
+      'xinxi':r.cangku.name+"" 的 ""+r.beijianext.beijian.name+""(""+r.beijianext.name+"") 上限报警！""})
+  else:
+    if (dash.search_count([('baojingid','=',r.id)]) > 0):
+      dash.search([('baojingid','=',r.id)]).unlink()
+for r in dash.search([('baojingid2','!=',False)]):
+  geti = env['wms.geti'].browse(r.baojingid2)
+  if geti.exists():
+    date1 = datetime.datetime.strptime(geti.jianceriqi, ""%Y-%m-%d"")
+    if (date1.date() > datetime.date.today() or geti.zhuangtai!='zaiku'):
+      r.unlink()
+  else:
+    r.unlink()
+for r in env['wms.geti'].search([('zhuangtai','=','zaiku'),('beijianext.jiancebaojing','=',True),('jianceriqi','<=',datetime.date.today()),]):
+  if (dash.search_count([('baojingid2','=',r.id)]) == 0):
+    dash.create({
+    'type':""报警"",
+    'baojingid2': r.id,
+    'xinxi':""序列号为 "" + r.xuliehao+"" 的""+r.beijianext.beijian.name+""(""+r.beijianext.name+"") 需要检测！""})
+","wms.model_wms_kucuncelue","code","base.user_root","-1","1","5","False","2018-07-31 15:25:00","True","分钟"

@@ -10,6 +10,9 @@ class Dashboard(models.Model):
     type = fields.Char("类型")
     action = fields.Many2one('ir.actions.act_window')
     xinxi = fields.Char("信息")
+    baojingid = fields.Integer()
+    baojingid2 = fields.Integer()
+    cangkuid = fields.Integer()
     # actionc = fields.Many2one('ir.actions.client')
     # action_id = fields.Integer(compute="_compute_actionid")
 

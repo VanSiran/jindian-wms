@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, models, fields, tools
+import datetime
 from odoo.exceptions import ValidationError
 from xmlrpc.client import ServerProxy
 import json
@@ -53,8 +54,16 @@ class Rukuqueren(models.TransientModel):
         cj = self.env['wms.changjia'].browse(self.env.context['changjia'])
         return cj.name
 
+    def _get_due_date(self, start, days):
+        DATE_FORMAT = "%Y-%m-%d"
+        return (datetime.datetime.strptime(start, DATE_FORMAT) + datetime.timedelta(days=days)).strftime(DATE_FORMAT)
+
     def save_geti(self):
         rukus = {'xlh': []}
+        beijianext = self.env['wms.beijianext'].browse(self.env.context['beijianext'])
+        jiance = beijianext.jiancebaojing
+        jiancezhouqi = beijianext.jiancezhouqi
+        jianceriqi = self._get_due_date(self.shengchanriqi, jiancezhouqi)
         for i in range(0, self.rukushuliang):
             z = self.env['wms.geti'].create({
                 'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
@@ -62,7 +71,7 @@ class Rukuqueren(models.TransientModel):
                 'huowei': self.env.context['huowei'],
                 'changjia': self.env.context['changjia'] if self.env.context['changjia'] else False,
                 'shengchanriqi': self.shengchanriqi,
-                'jianceriqi': self.shengchanriqi,
+                'jianceriqi': jianceriqi if jiance else False,
                 'pihao': self.pihao,
                 'zhuangtai': 'zaiku',})
             self.env['wms.lishijilu'].create({
