@@ -52,6 +52,7 @@
         'views/ruku_queren_wizard.xml',
         'views/ruku_wizard.xml',
         'views/filter_search.xml',
+        'views/cangkuyonghu.xml',
 
         'data/wms.view.dashboard.csv',
 

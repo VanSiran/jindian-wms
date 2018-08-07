@@ -63,7 +63,7 @@ class Rukuqueren(models.TransientModel):
         beijianext = self.env['wms.beijianext'].browse(self.env.context['beijianext'])
         jiance = beijianext.jiancebaojing
         jiancezhouqi = beijianext.jiancezhouqi
-        jianceriqi = self._get_due_date(self.shengchanriqi, jiancezhouqi)
+        jiancedaoqiri = self._get_due_date(self.shengchanriqi, jiancezhouqi)
         for i in range(0, self.rukushuliang):
             z = self.env['wms.geti'].create({
                 'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
@@ -71,7 +71,7 @@ class Rukuqueren(models.TransientModel):
                 'huowei': self.env.context['huowei'],
                 'changjia': self.env.context['changjia'] if self.env.context['changjia'] else False,
                 'shengchanriqi': self.shengchanriqi,
-                'jianceriqi': jianceriqi if jiance else False,
+                'jiancedaoqiri': jiancedaoqiri if jiance else False,
                 'pihao': self.pihao,
                 'zhuangtai': 'zaiku',})
             self.env['wms.lishijilu'].create({

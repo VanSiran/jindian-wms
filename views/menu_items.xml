@@ -20,6 +20,7 @@
     <menuitem name="备件名称配置" id="wms.menu_beijian" parent="wms.menu_general" action="beijian_act_window"/>
     <menuitem name="备件型号配置" id="wms.menu_beijianext" parent="wms.menu_general" action="beijianext_act_window"/>
     <menuitem name="供应商配置" id="wms.menu_changjia" parent="wms.menu_general" action="changjia_act_window"/>
+    <menuitem name="用户管理" id="wms.menu_cangkuyonghu" parent="wms.menu_general" action="cangkuyonghu_act_window"/>
 
   </data>
 </odoo>

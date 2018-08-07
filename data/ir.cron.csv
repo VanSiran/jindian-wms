@@ -27,12 +27,12 @@ for r in env['wms.kucuncelue'].search([('baojingdengji','!=',False),('shangxianb
 for r in dash.search([('baojingid2','!=',False)]):
   geti = env['wms.geti'].browse(r.baojingid2)
   if geti.exists():
-    date1 = datetime.datetime.strptime(geti.jianceriqi, ""%Y-%m-%d"")
+    date1 = datetime.datetime.strptime(geti.jiancedaoqiri, ""%Y-%m-%d"")
     if (date1.date() > datetime.date.today() or geti.zhuangtai!='zaiku'):
       r.unlink()
   else:
     r.unlink()
-for r in env['wms.geti'].search([('zhuangtai','=','zaiku'),('beijianext.jiancebaojing','=',True),('jianceriqi','<=',datetime.date.today()),]):
+for r in env['wms.geti'].search([('zhuangtai','=','zaiku'),('beijianext.jiancebaojing','=',True),('jiancedaoqiri','<=',datetime.date.today()),]):
   if (dash.search_count([('baojingid2','=',r.id)]) == 0):
     dash.create({
     'type':""报警"",

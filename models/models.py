@@ -27,7 +27,7 @@ class BJGeTi(models.Model):
         ('daiyiku', '待移库')], required=True, string="备件状态")
     changjia = fields.Many2one('wms.changjia', '厂家')
     shengchanriqi = fields.Date('生产日期')
-    jianceriqi = fields.Date('待检测日期')
+    jiancedaoqiri = fields.Date('检测到期日')
     pihao = fields.Char("批次号")
     data = fields.Text('附加数据')
 
@@ -53,7 +53,7 @@ class BJGeTi(models.Model):
     def jiance(self):
         self.ensure_one()
         if self.beijianext.jiancebaojing:
-            self.jianceriqi = self._get_due_date(fields.Date.today(), self.beijianext.jiancezhouqi)
+            self.jiancedaoqiri = self._get_due_date(fields.Date.today(), self.beijianext.jiancezhouqi)
             self.env['wms.lishijilu'].create({
                 'xinxi': '检测通过',
                 'geti_id': self.id,})
@@ -304,3 +304,12 @@ class Kucuncelue(models.Model):
     zaikushuliang = fields.Integer('在库数量', compute='_compute_zaikushuliang', store=True)
     huowei = fields.One2many('wms.huowei', 'kucuncelue', '货位列表')
     data = fields.Text('附加数据')
+
+
+class CangkuYonghu(models.Model):
+    #_name = 'wms.cangkuyonghu'
+    #_inherits = {'res.users': 'user_id'}
+    _inherit = 'res.partner'
+
+    #user_id = fields.Many2one('res.users', '关联内系统用户', ondelete='restrict')
+    cangku_id = fields.Many2one('wms.cangku', '所属仓库', default=False)

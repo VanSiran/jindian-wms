@@ -1,0 +1,56 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="cangkuyonghu_list_view">
+      <field name="name">用户管理列表视图</field>
+      <field name="model">res.users</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="cangku_id"/>
+          <field name="login"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="cangkuyonghu_form_view">
+      <!-- <field name="name">用户管理表视图</field> -->
+      <field name="inherit_id" ref="base.view_users_form"/>
+      <field name="model">res.users</field>
+      <field name="arch" type="xml">
+        <field name="partner_id" position="replace">
+          <field name="cangku_id"/>
+        </field>
+        <xpath expr="//label[@for='login']" position="attributes">
+          <attribute name="string">手机</attribute>
+        </xpath>
+        <group name="messaging" position="replace"/>
+      </field>
+    </record>
+
+    <record id="cangkuyonghu_act_window" model="ir.actions.act_window">
+      <field name="name">用户管理</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">res.users</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="cangkuyonghu_list_view_">
+      <field name="act_window_id" ref="cangkuyonghu_act_window"/>
+      <field name="view_id" ref="cangkuyonghu_list_view"/>
+      <field name="view_mode">tree</field>
+    </record>
+    <record model="ir.actions.act_window.view" id="cangkuyonghu_form_view_">
+      <field name="act_window_id" ref="cangkuyonghu_act_window"/>
+      <field name="view_id" ref="cangkuyonghu_form_view"/>
+      <field name="view_mode">form</field>
+    </record>
+    <record id="cangkuyonghu_act_window" model="ir.actions.act_window">
+      <field name="view_ids" eval="[(6, 0, [
+        ref('cangkuyonghu_form_view_'), ref('cangkuyonghu_list_view_')
+      ])]"/>
+    </record>
+
+  </data>
+</odoo>
