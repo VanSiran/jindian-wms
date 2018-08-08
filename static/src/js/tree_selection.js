@@ -23,6 +23,13 @@ odoo.define('tree_selection', function(require){
           delete r.name
           return r
         })
+        allid = _.map(result, function(e){return e.id})
+        result=_.map(result, function(e) {
+          if (allid.indexOf(e.parent)==-1) {
+            e.parent = '#'
+          }
+					return e
+        })
         self.$el.jstree({ 'core' : {
             'data' : result,
             'multiple': false,
