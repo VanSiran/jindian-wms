@@ -7,7 +7,7 @@
     <menuitem name="仪表盘" id="wms.menu_dashboard1" parent="wms.menu_root" action="dashboard_act_window"/>
 
     <!-- <menuitem name="入库" id="wms.menu_ruku" parent="wms.menu_dashboard" action="ruku_wizard_act_window"/> -->
-
+    <menuitem name="检测报警" id="wms.menu_jiancebaojing" parent="wms.menu_root" action="jiancebaojing_act_window"/>
     <menuitem name="备件个体档案" id="wms.menu_geti" parent="wms.menu_root" action="geti_act_window"/>
     <!-- <menuitem name="货位清单" id="wms.menu_huowei" parent="wms.menu_root" action="huowei_act_window"/> -->
     <menuitem name="备件库存策略" id="wms.menu_kucuncelue" parent="wms.menu_root" action="kucuncelue_act_window"/>

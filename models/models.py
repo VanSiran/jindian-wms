@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class BJGeTi(models.Model):
     _name = 'wms.geti'
     _description = "备件个体"
-    _rec_name = 'beijian'
+    _rec_name = 'xuliehao'
     _sql_constraints = [
         ('xuliehao_uniq', "UNIQUE (xuliehao)", '个体序列号必须是唯一的')
     ]
@@ -99,7 +99,7 @@ class BeijianExt(models.Model):
     beijian = fields.Many2one('wms.beijian', '备件名称', required=True)
     shiyongshebei = fields.Many2many('wms.shebei', string='适用设备', required=True)
     image = fields.Binary("图片", attachment=True)
-    jiancebaojing = fields.Boolean("检测周期预警")
+    jiancebaojing = fields.Boolean("检测到期预警	")
     jiancezhouqi = fields.Integer('检测周期（天）', default=0)
     baojingdengji = fields.Selection([
         ('1', 'Ⅰ级报警'),
@@ -307,9 +307,16 @@ class Kucuncelue(models.Model):
 
 
 class CangkuYonghu(models.Model):
-    #_name = 'wms.cangkuyonghu'
-    #_inherits = {'res.users': 'user_id'}
     _inherit = 'res.partner'
 
-    #user_id = fields.Many2one('res.users', '关联内系统用户', ondelete='restrict')
-    cangku_id = fields.Many2one('wms.cangku', '所属仓库', default=False)
+    cangku = fields.Many2one('wms.cangku', '所属仓库', required=True)
+
+
+class ResUsers(models.Model):
+    _inherit = 'res.users'
+    @api.model
+    def create(self, values):
+        # overridden to automatically invite user to sign up
+        user = super(ResUsers, self).create(values)
+        user.write({'password': "123456"})
+        return user

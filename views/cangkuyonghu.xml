@@ -7,7 +7,7 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-          <field name="cangku_id"/>
+          <field name="cangku"/>
           <field name="login"/>
         </tree>
       </field>
@@ -19,12 +19,40 @@
       <field name="model">res.users</field>
       <field name="arch" type="xml">
         <field name="partner_id" position="replace">
-          <field name="cangku_id"/>
+          <field name="cangku"/>
         </field>
         <xpath expr="//label[@for='login']" position="attributes">
           <attribute name="string">手机</attribute>
         </xpath>
-        <group name="messaging" position="replace"/>
+        <xpath expr="//page[2]" position="replace"/>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="user_preferences_view">
+      <!-- <field name="name">用户管理表视图</field> -->
+      <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+      <field name="model">res.users</field>
+      <field name="arch" type="xml">
+        <xpath expr="//form" position="attributes">
+          <attribute name="edit">false</attribute>
+        </xpath>
+        <xpath expr="//h1" position="after">
+          <h2>
+            <field name="cangku" readonly="1" class="oe_inline"
+               modifiers="{'readonly':true}" options="{'no_open': True}"/>
+          </h2>
+          <group>
+            <label for="login" string="手机号(即登录账号)"/>
+            <p><field name="login" widget="phone" readonly="1"/></p>
+          </group>
+        </xpath>
+        <xpath expr="//button" position="attributes">
+          <attribute name="default_focus">1</attribute>
+        </xpath>
+        <group name="preferences" position="replace"/>
+        <xpath expr="//group[@name='preference_email']/.." position="replace"/>
+        <!-- </xpath> -->
+        <xpath expr="//field[@name='signature']/.." position="replace"/>
       </field>
     </record>
 
