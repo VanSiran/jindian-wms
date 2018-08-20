@@ -1,0 +1,12 @@
+.bg-danger {
+  background-color: #f2dede !important;
+  color: #4c4c4c;
+}
+.bg-warning {
+  background-color: #fcf8e3 !important;
+  color: #4c4c4c;
+}
+.bg-info {
+  background-color: #d9edf7 !important;
+  color: #4c4c4c;
+}

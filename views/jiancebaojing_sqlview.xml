@@ -5,12 +5,13 @@
       <field name="name">检测报警列表视图</field>
       <field name="model">wms.sqlview.jiancebaojing</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree default_order="jiancedaoqiri" decoration-danger="baojingdengji in ('1', '-1')" decoration-warning="baojingdengji == '2'" decoration-info="baojingdengji == '3'">
           <field name="geti"/>
           <field name="beijianext"/>
           <field name="huowei"/>
           <field name="jiancedaoqiri"/>
           <field name="cangku" invisible="1"/>
+          <field name="baojingdengji" invisible="1"/>
         </tree>
       </field>
     </record>

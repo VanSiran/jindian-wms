@@ -709,10 +709,17 @@ var ListRenderer = BasicRenderer.extend({
      * @param {jQueryElement} $tr a jquery <tr> element (the row to add decoration)
      */
     _setDecorationClasses: function (record, $tr) {
-        _.each(this.rowDecorations, function (expr, decoration) {
-            var cssClass = decoration.replace('decoration', 'text');
-            $tr.toggleClass(cssClass, py.PY_isTrue(py.evaluate(expr, record.evalContext)));
-        });
+        if (record.model === 'wms.sqlview.jiancebaojing') {
+          _.each(this.rowDecorations, function (expr, decoration) {
+              var cssClass = decoration.replace('decoration', 'bg');
+              $tr.toggleClass(cssClass, py.PY_isTrue(py.evaluate(expr, record.evalContext)));
+          });
+        } else {
+          _.each(this.rowDecorations, function (expr, decoration) {
+              var cssClass = decoration.replace('decoration', 'text');
+              $tr.toggleClass(cssClass, py.PY_isTrue(py.evaluate(expr, record.evalContext)));
+          });
+        }
     },
     /**
      * Update the footer aggregate values.  This method should be called each

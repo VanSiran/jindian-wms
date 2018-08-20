@@ -21,6 +21,8 @@
 
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/css"
+                href="/wms/static/src/css/tree_view_bg.css"/>
+            <link rel="stylesheet" type="text/css"
                 href="/wms/static/src/css/style.min.css"/>
             <link rel="stylesheet" type="text/css"
                 href="/wms/static/src/css/zoomify.min.css"/>
