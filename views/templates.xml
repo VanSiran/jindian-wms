@@ -43,4 +43,10 @@
                 src="/wms/static/src/js/zoomable_image.js" />
         </xpath>
     </template>
+
+    <template id="login" inherit_id="web.login">
+      <xpath expr='//label[@for="login"]' position="replace">
+        <label for="login" class="control-label">手机</label>
+      </xpath>
+    </template>
 </odoo>
