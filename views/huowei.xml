@@ -18,17 +18,28 @@
         <field name="model">wms.huowei</field>
         <field name="arch" type="xml">
             <search>
-              
+
             </search>
         </field>
     </record>
 
-    <record id="huowei_act_window" model="ir.actions.act_window">
+    <!-- <record id="huowei_act_window" model="ir.actions.act_window">
       <field name="name">货位清单</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">wms.huowei</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
+    </record> -->
+
+    <record id="huowei_act_window" model="ir.actions.server">
+      <field name="name">货位清单</field>
+      <field name="model_id" ref="model_wms_huowei"/>
+      <field name="state">code</field>
+      <field name="code">if len(user.cangku.child_id) > 0:
+    action = {"type": "ir.actions.act_window", "name":"货位清单","view_type":"form", "view_mode": "tree,form", "res_model": "wms.huowei", "context": {'group_by':'cangku'}}
+else:
+    action = {"type": "ir.actions.act_window", "name":"货位清单","view_type":"form", "view_mode": "tree,form", "res_model": "wms.huowei"}
+      </field>
     </record>
 
   </data>

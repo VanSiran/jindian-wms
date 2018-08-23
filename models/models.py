@@ -34,7 +34,7 @@ class BJGeTi(models.Model):
     lishijilu = fields.One2many('wms.lishijilu', 'geti_id', string='历史记录')
     beijian = fields.Many2one(string='备件名称', related='beijianext.beijian')
     shiyongshebei = fields.Many2many(string='适用设备', related='beijianext.shiyongshebei')
-    cangku = fields.Many2one(string='所属仓库', related='huowei.cangku')
+    cangku = fields.Many2one(string='所属仓库', related='huowei.cangku', store=True)
     image = fields.Binary(string='图片', related='beijianext.image')
 
     @api.multi

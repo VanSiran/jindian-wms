@@ -5,8 +5,8 @@
       <field name="name">备件库存策略列表视图</field>
       <field name="model">wms.kucuncelue</field>
       <field name="arch" type="xml">
-        <tree>
-          <field name="cangku"/>
+        <tree create="false" delete="false">
+          <field name="cangku" invisible="1"/>
           <field name="beijianext"/>
           <field name="zaikushuliang"/>
           <field name="xiaxianbaojing" invisible="1"/>
@@ -56,12 +56,23 @@
       </field>
     </record>
 
-    <record id="kucuncelue_act_window" model="ir.actions.act_window">
+    <!-- <record id="kucuncelue_act_window" model="ir.actions.act_window">
       <field name="name">备件库存策略</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">wms.kucuncelue</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
+    </record> -->
+
+    <record id="kucuncelue_act_window" model="ir.actions.server">
+      <field name="name">备件库存策略</field>
+      <field name="model_id" ref="model_wms_kucuncelue"/>
+      <field name="state">code</field>
+      <field name="code">if len(user.cangku.child_id) > 0:
+    action = {"type": "ir.actions.act_window", "name":"备件库存策略","view_type":"form", "view_mode": "tree,form", "res_model": "wms.kucuncelue", "context": {'group_by':'cangku'}}
+else:
+    action = {"type": "ir.actions.act_window", "name":"备件库存策略","view_type":"form", "view_mode": "tree,form", "res_model": "wms.kucuncelue"}
+      </field>
     </record>
 
   </data>

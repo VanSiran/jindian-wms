@@ -4,11 +4,10 @@
       <field name="name">设备个体档案列表视图</field>
       <field name="model">wms.geti</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree create="false" delete="false">
           <field name="beijian"/>
           <field name="beijianext"/>
           <field name="xuliehao"/>
-          <field name="cangku"/>
           <field name="huowei"/>
           <field name="zhuangtai"/>
           <field name="changjia"/>
@@ -104,14 +103,25 @@
         </field>
     </record>
 
-    <record id="geti_act_window" model="ir.actions.act_window">
+    <!-- <record id="geti_act_window" model="ir.actions.act_window">
       <field name="name">备件个体档案</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">wms.geti</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="search_view_id" ref="wms.geti_search_view"/>
-      <field name="context">{'search_default_zaiku': 1}</field>
+      <field name="context">{'group_by':'cangku', 'search_default_zaiku': 1}</field>
+    </record> -->
+
+    <record id="geti_act_window" model="ir.actions.server">
+      <field name="name">备件个体档案</field>
+      <field name="model_id" ref="model_wms_geti"/>
+      <field name="state">code</field>
+      <field name="code">if len(user.cangku.child_id) > 0:
+    action = {"type": "ir.actions.act_window", "name":"备件个体档案","view_type":"form", "view_mode": "tree,form", "res_model": "wms.geti", "context": {'group_by':'cangku','search_default_zaiku': 1}}
+else:
+    action = {"type": "ir.actions.act_window", "name":"备件个体档案","view_type":"form", "view_mode": "tree,form", "res_model": "wms.geti", "context": {'search_default_zaiku': 1}}
+      </field>
     </record>
 
   </data>

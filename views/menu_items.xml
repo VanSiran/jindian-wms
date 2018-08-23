@@ -12,7 +12,6 @@
     <!-- <menuitem name="货位清单" id="wms.menu_huowei" parent="wms.menu_root" action="huowei_act_window"/> -->
     <menuitem name="备件库存策略" id="wms.menu_kucuncelue" parent="wms.menu_root" action="kucuncelue_act_window"/>
 
-
     <menuitem name="库存通用设置" id="wms.menu_general"/>
 
     <menuitem name="仓库分级结构" id="wms.menu_cangku" parent="wms.menu_general" action="cangku_act_window"/>

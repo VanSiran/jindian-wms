@@ -36,7 +36,6 @@
         # 'security/ir.rule.xml',
         # 'security/ir.model.access.csv',
 
-        # 'views/user_mod.xml',
         'views/dashboard.xml',
         'views/jiancebaojing_sqlview.xml',
         'views/cangku.xml',
