@@ -12,4 +12,10 @@
              <title t-esc="title or '天津电务段仓库管理系统'"/>
         </xpath>
     </template>
+
+    <template id="login" inherit_id="web.login">
+      <xpath expr='//label[@for="login"]' position="replace">
+        <label for="login" class="control-label">手机</label>
+      </xpath>
+    </template>
 </odoo>

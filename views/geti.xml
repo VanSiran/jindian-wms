@@ -31,6 +31,9 @@
                 attrs="{'invisible': [('zhuangtai', '!=', 'zaiku')]}"
                 confirm="此操作不可撤销，是否继续出库？    (如误操作，请联系系统管理员。)"/>
               <span style="display:inline-block;width:10px"></span>
+              <button name="%(wms.yiku_wizard_act_window)d" string="移库" type="action" class="btn btn-primary"
+                attrs="{'invisible': [('zhuangtai', '!=', 'zaiku')]}"/>
+              <span style="display:inline-block;width:10px"></span>
               <button name="jiance" string="检测通过" type="object" class="btn btn-default"
                 attrs="{'invisible': ['|',('zhuangtai', '!=', 'zaiku'),('jiancedaoqiri','=',False)]}"
                 confirm="此操作不可撤销，是否确定检测已通过？    (如误操作，请联系系统管理员。)"/>
