@@ -28,7 +28,7 @@ class Rukuqueren(models.TransientModel):
     shengchanriqi = fields.Date('生产日期')
     pihao = fields.Char("批次号")
     print_info = fields.Text()
-    # allxuliehao = fields.Text('入库的序列号')
+    # allxuliehao = fields.Text('入库的编号')
 
     @api.model
     def default_get(self, fields):

@@ -21,8 +21,8 @@
               <field name="jiancebaojing"/>
               <field name="jiancezhouqi"
                 attrs="{'invisible': [('jiancebaojing','=',False)]}"/>
-              <field name="baojingdengji"
-                attrs="{'invisible': [('jiancebaojing','=',False)]}"/>
+              <!-- <field name="baojingdengji"
+                attrs="{'invisible': [('jiancebaojing','=',False)]}"/> -->
             </group>
           </sheet>
         </form>

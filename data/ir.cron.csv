@@ -37,5 +37,5 @@ for r in env['wms.geti'].search([('zhuangtai','=','zaiku'),('beijianext.jianceba
     dash.create({
     'type':""报警"",
     'baojingid2': r.id,
-    'xinxi':""序列号为 "" + r.xuliehao+"" 的""+r.beijianext.beijian.name+""(""+r.beijianext.name+"") 需要检测！""})
+    'xinxi':""编号为 "" + r.xuliehao+"" 的""+r.beijianext.beijian.name+""(""+r.beijianext.name+"") 需要检测！""})
 ","wms.model_wms_kucuncelue","code","base.user_root","-1","1","5","False","2018-07-31 15:25:00","True","分钟"

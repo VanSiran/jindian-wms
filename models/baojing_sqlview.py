@@ -8,7 +8,7 @@ class JianceBaojingSqlView(models.Model):
     _auto = False
     _rec_name = 'beijianext'
 
-    geti = fields.Many2one('wms.geti', '序列号', readonly=True)
+    geti = fields.Many2one('wms.geti', '编号', readonly=True)
     beijianext = fields.Many2one('wms.beijianext', '备件型号', readonly=True)
     huowei = fields.Many2one('wms.huowei', '货位', readonly=True)
     jiancedaoqiri = fields.Date('检测到期日', readonly=True)

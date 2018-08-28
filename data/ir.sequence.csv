@@ -1,2 +1,2 @@
 "name","code","prefix","padding","company_id"
-"个体序列号","wms.geti","%(y)s%(month)s%(day)s","6",,
+"个体编号","wms.geti","%(y)s%(month)s%(day)s","6",,

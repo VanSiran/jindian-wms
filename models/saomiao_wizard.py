@@ -7,7 +7,7 @@ class SaomiaoWizard(models.TransientModel):
     _name = "wms.wizard.saomiao"
     _description = "扫描向导"
 
-    xuliehao = fields.Char(string="序列号扫描输入", required=True)
+    xuliehao = fields.Char(string="编号扫描输入", required=True)
     info = fields.Char()
 
     @api.model
