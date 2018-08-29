@@ -231,12 +231,12 @@ class Changjia(models.Model):
     data = fields.Text('附加数据')
 
 
-class huowei(models.Model):
+class Huowei(models.Model):
     _name = 'wms.huowei'
     _description = '货位'
     _rec_name = 'complete_bianma'
     _sql_constraints = [
-        ('complete_bianma_uniq', "UNIQUE (complete_bianma)", '该货位已经用于存放其他备件。\n\n请使用其他货位编码，或进入“货位清单”选项更改货位配置。')
+        ('complete_bianma_uniq', "UNIQUE (complete_bianma)", '该货位已经用于存放其他备件。\n\n请使用其他货位编码，或通过“备件库存策略”页面分配货位。')
     ]
 
     @api.depends('bianma', 'cangku.name')
@@ -251,9 +251,8 @@ class huowei(models.Model):
 
     bianma = fields.Char('货位编码', required=True)
     kucuncelue = fields.Many2one('wms.kucuncelue', '所属库存策略', required=True)
-    cangku = fields.Many2one('wms.cangku', '所属仓库', related="kucuncelue.cangku")
+    cangku = fields.Many2one('wms.cangku', '所属仓库', related="kucuncelue.cangku", store=True)
     beijianext = fields.Many2one('wms.beijianext', '用于存放备件', related="kucuncelue.beijianext")
-    data = fields.Text('附加数据')
 
     complete_bianma = fields.Char('完整货位编码', compute='_compute_bianma', store=True)
     beijian_count = fields.Integer('本货位在库备品数量', compute='_compute_beijian_count', store=True)
@@ -289,6 +288,11 @@ class Kucuncelue(models.Model):
         for s in self:
             s.zaikushuliang = sum(v.beijian_count for v in s.huowei)
 
+    @api.depends('huowei')
+    def _compute_huoweishuliang(self):
+        for s in self:
+            s.huoweishuliang = len(s.huowei)
+
     ident = fields.Char('配置号', compute='_compute_ident', store=True)
     beijianext = fields.Many2one('wms.beijianext', '备件型号', required=True)
     cangku = fields.Many2one('wms.cangku', '配置仓库', required=True)
@@ -302,6 +306,7 @@ class Kucuncelue(models.Model):
         ('3', 'Ⅲ级报警')], string='报警等级')
     zaikushuliang = fields.Integer('在库数量', compute='_compute_zaikushuliang', store=True)
     huowei = fields.One2many('wms.huowei', 'kucuncelue', '货位列表')
+    huoweishuliang = fields.Integer('货位个数', compute='_compute_huoweishuliang')
     data = fields.Text('附加数据')
 
 
@@ -315,7 +320,6 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
     @api.model
     def create(self, values):
-        # overridden to automatically invite user to sign up
         user = super(ResUsers, self).create(values)
         user.write({'password': "123456"})
         return user

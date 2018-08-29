@@ -25,15 +25,15 @@
         </field>
     </record>
 
-    <!-- <record id="newhuowei_wizard_act_window" model="ir.actions.act_window">
+    <record id="newhuowei_wizard_act_window" model="ir.actions.act_window">
         <field name="name">新增货位</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">wms.wizard.newhuowei</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="newhuowei_wizard_view"/>
-        <field name="target">new_no_close</field>
-    </record> -->
+        <field name="target">new</field>
+    </record>
 
   </data>
 </odoo>

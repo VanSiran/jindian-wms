@@ -22,7 +22,16 @@
           	    <field name="cangku" options="{'no_create': True}" widget="tree_selection_field" attrs="{'required': True}"/>
           	</group>
 
-          	<group attrs="{'invisible': [('state','!=','selbeijianext')]}">
+            <group attrs="{'invisible': [('state','!=','selbeijianext')]}">
+                <h3 colspan="2" style="text-align:center;color:#7c7bad;margin-top:-8px">
+                  <span class="o_field_char o_field_widget">选择备件</span>
+                </h3>
+                <field name="shebei" options="{'no_create': True}" widget="tree_selection_field"/>
+                <field attrs="{'invisible': [('shebei','=',False)]}" name="beijian" domain="[('id', 'in', tbeijians)]" options="{'no_create': True}"/>
+                <field attrs="{'invisible': [('beijian','=',False)]}" name="beijianext" domain="[('beijian', '=', beijian), ('id', 'in', tbeijianexts)]" options="{'no_create': True}"/>
+                <field attrs="{'invisible': [('beijianext','=',False)]}" name="image" widget="image" class="oe_avatar" readonly="1"/>
+            </group>
+          	<!-- <group attrs="{'invisible': [('state','!=','selbeijianext')]}">
                 <h3 colspan="2" style="text-align:center;color:#7c7bad;margin-top:-8px">
                   <span class="o_field_char o_field_widget">选择备件</span>
                 </h3>
@@ -30,7 +39,7 @@
                 <field attrs="{'invisible': [('shebei','=',False)],'required': [('state','=','selbeijianext')]}" name="beijian" domain="[('id', 'in', tbeijians)]" options="{'no_create': True}"/>
                 <field attrs="{'invisible': [('beijian','=',False)],'required': [('state','=','selbeijianext')]}" name="beijianext" domain="[('beijian', '=', beijian), ('id', 'in', tbeijianexts)]" options="{'no_create': True}"/>
                 <field attrs="{'invisible': [('beijianext','=',False)],'required': [('state','=','selbeijianext')]}" name="image" widget="image" class="oe_avatar" readonly="1"/>
-          	</group>
+          	</group> -->
 
           	<group attrs="{'invisible': [('state','!=','fillform')]}" col="10">
                 <h3 colspan="10" style="text-align:center;color:#7c7bad;margin-top:-8px">

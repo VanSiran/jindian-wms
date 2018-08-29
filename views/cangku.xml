@@ -13,7 +13,7 @@
                     <group name="first" col="2">
                         <field name="parent_id" class="oe_inline"/>
                         <field name="suoxie" placeholder="填写仓库拼音首字母（不分大小写）"/>
-                        <field name="huowei"/>
+                        <field name="huowei" readonly="1"/>
                     </group>
                 </sheet>
             </form>
