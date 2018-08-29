@@ -19,11 +19,11 @@
               <field name="shangxian"
                 attrs="{'invisible': [('shangxianbaojing','=',False)]}"/>
             </group>
-            <group>
+            <!-- <group>
               <field name="baojingdengji"
                 attrs="{'invisible': [('shangxianbaojing','=',False),
                                       ('xiaxianbaojing','=',False)]}"/>
-            </group>
+            </group> -->
             <footer>
                 <button name="save_shezhi" string="保存" type="object"
                   class="btn-primary"/>

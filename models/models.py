@@ -281,23 +281,13 @@ class Kucuncelue(models.Model):
             raise ValidationError("库存上限不能小于 1！")
         if self.shangxianbaojing and self.xiaxianbaojing and self.shangxian <= self.xiaxian:
             raise ValidationError("库存上限必须大于下限！")
-        if (self.xiaxianbaojing or self.shangxianbaojing) and not self.baojingdengji:
-            raise ValidationError("请填写报警等级！")
+        # if (self.xiaxianbaojing or self.shangxianbaojing) and not self.baojingdengji:
+        #     raise ValidationError("请填写报警等级！")
 
     @api.depends('huowei', 'huowei.beijian_count')
     def _compute_zaikushuliang(self):
         for s in self:
             s.zaikushuliang = sum(v.beijian_count for v in s.huowei)
-
-    # @api.depends('zaikushuliang', 'xiaxianbaojing', 'shangxianbaojing', 'xiaxian', 'shangxian', 'baojingdengji')
-    # def onchange_zaikushuliang(self):
-    #     _logger.warning('发现变化！！！！！！！！！')
-    #     self.ensure_one()
-    #     if self.baojingdengji:
-    #         if self.xiaxianbaojing and self.zaikushuliang <= self.xiaxian:
-    #             _logger.warning('下限报警' + self.baojingdengji)
-    #         if self.shangxianbaojing and self.zaikushuliang >= self.shangxian:
-    #             _logger.warning('上限报警' + self.baojingdengji)
 
     ident = fields.Char('配置号', compute='_compute_ident', store=True)
     beijianext = fields.Many2one('wms.beijianext', '备件型号', required=True)

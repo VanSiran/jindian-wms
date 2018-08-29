@@ -312,10 +312,10 @@ var ListRenderer = BasicRenderer.extend({
           if (name === "xiaxian" && record.data["xiaxianbaojing"] === false) {
             formattedValue = "未设置"
           }
-          if (name === "baojingdengji" && record.data["xiaxianbaojing"] === false
-            && record.data["shangxianbaojing"] === false) {
-            formattedValue = "未设置"
-          }
+          // if (name === "baojingdengji" && record.data["xiaxianbaojing"] === false
+          //   && record.data["shangxianbaojing"] === false) {
+          //   formattedValue = "未设置"
+          // }
         } else if (record.model === "wms.geti") {
           if (name === "huowei" && record.data["zhuangtai"] === 'chuku') {
             formattedValue = "已出库"

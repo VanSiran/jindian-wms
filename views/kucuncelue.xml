@@ -15,9 +15,7 @@
           <field name="shangxianbaojing" invisible="1"/>
           <field name="shangxian"/>
             <!-- attrs="{'invisible': [('shangxianbaojing','=',False)]}"/> -->
-          <field name="baojingdengji"/>
-            <!-- attrs="{'invisible': [('shangxianbaojing','=',False),
-                                  ('xiaxianbaojing','=',False)]}"/> -->
+          <!-- <field name="baojingdengji"/> -->
         </tree>
       </field>
     </record>
@@ -45,11 +43,11 @@
               <field name="shangxian"
                 attrs="{'invisible': [('shangxianbaojing','=',False)]}"/>
             </group>
-            <group>
+            <!-- <group>
               <field name="baojingdengji"
                 attrs="{'invisible': [('shangxianbaojing','=',False),
                                       ('xiaxianbaojing','=',False)]}"/>
-            </group>
+            </group> -->
             <field name="huowei" readonly="1"/>
           </sheet>
         </form>
