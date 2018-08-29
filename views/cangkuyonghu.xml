@@ -65,16 +65,19 @@
     </record> -->
 
     <record model="ir.actions.act_window.view" id="cangkuyonghu_list_view_">
-      <field name="act_window_id" ref="cangkuyonghu_act_window"/>
       <field name="view_id" ref="cangkuyonghu_list_view"/>
       <field name="view_mode">tree</field>
     </record>
     <record model="ir.actions.act_window.view" id="cangkuyonghu_form_view_">
-      <field name="act_window_id" ref="cangkuyonghu_act_window"/>
       <field name="view_id" ref="cangkuyonghu_form_view"/>
       <field name="view_mode">form</field>
     </record>
     <record id="cangkuyonghu_act_window" model="ir.actions.act_window">
+      <field name="name">用户管理</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">res.users</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
       <field name="view_ids" eval="[(6, 0, [
         ref('cangkuyonghu_form_view_'), ref('cangkuyonghu_list_view_')
       ])]"/>
