@@ -20,12 +20,19 @@ class BJGeTi(models.Model):
     beijianext = fields.Many2one('wms.beijianext', "备件型号", required=True)
     huowei = fields.Many2one('wms.huowei', '货位', required=True)
     zhuangtai = fields.Selection([
-        ('zaiku', '在库'),
-        ('guoqi', '过期未检测'),
-        ('chuku', '出库'),
-        ('baofei', '报废'),
-        ('daibaofei', '待报废'),
-        ('daiyiku', '待移库')], required=True, string="备件状态")
+        ('zaiku', '正常在库'),
+        ('daijiance', '即将检测'),
+        ('daibaofei', '即将报废'),
+        ('jianceguoqi', '过期未检测'),
+        ('baofeiguoqi', '过期未报废'),
+        ('chuku', '已出库'),
+        ('baofei', '已报废'),
+        ('yiku', '移库中')], string="备件状态", compute='_compute_zhuangtai', store=True)
+    zhuangtai_core = fields.Selection([
+        ('jiashang', '架上'),
+        ('chukuqu', '出库区'),
+        ('baofeiqu', '报废区'),
+        ('yikuqu', '移库区')], required=True)
     changjia = fields.Many2one('wms.changjia', '厂家')
     shengchanriqi = fields.Date('生产日期', required=True)
     shangcijiance = fields.Date('上次检测')
@@ -38,6 +45,28 @@ class BJGeTi(models.Model):
     cangku = fields.Many2one(string='所属仓库', related='huowei.cangku', store=True)
     image = fields.Binary(string='图片', related='beijianext.image')
     jiancedaoqiri = fields.Date(string='检测到期日', compute='_compute_daoqiri', store=True)
+
+    @api.depends('jiancedaoqiri', 'beijianext.jiancebaojing', 'zhuangtai_core')
+    def _compute_zhuangtai(self):
+        DATE_FORMAT = "%Y-%m-%d"
+        for geti in self:
+            # 注意：cron job 只更新 架上 备件
+            # 若今后对 出库区 备件也要进行状态更新，则需修改cron job
+            if geti.zhuangtai_core == 'jiashang':
+                geti.zhuangtai = 'zaiku'
+                if geti.beijianext.jiancebaojing:
+                    daoqiri = datetime.datetime.strptime(geti.jiancedaoqiri, DATE_FORMAT)
+                    today = datetime.datetime.strptime(fields.Date.today(), DATE_FORMAT)
+                    if daoqiri < today:
+                        geti.zhuangtai = 'jianceguoqi'
+                    elif daoqiri <= datetime.timedelta(days=30) + today:
+                        geti.zhuangtai = 'daijiance'
+            elif geti.zhuangtai_core == 'chukuqu':
+                geti.zhuangtai = 'chuku'
+            elif geti.zhuangtai_core == 'yikuqu':
+                geti.zhuangtai = 'daiyiku'
+            elif geti.zhuangtai_core == 'baofeiqu':
+                geti.zhuangtai = 'baofei'
 
     @api.depends('shangcijiance', 'beijianext.jiancezhouqi', 'beijianext.jiancebaojing', 'shengchanriqi')
     def _compute_daoqiri(self):
@@ -54,21 +83,18 @@ class BJGeTi(models.Model):
     @api.multi
     def chuku(self):
         self.ensure_one()
+        # if self.env['wms.sqlview.jiancebaojing'].search_count([('geti','=',self.id)]):
+        #     raise ValidationError('快过期了')
         self.zhuangtai = 'chuku'
         self.env['wms.lishijilu'].create({
             'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
             'geti_id': self.id,})
-
-    # def _get_due_date(self, start, days):
-    #     DATE_FORMAT = "%Y-%m-%d"
-    #     return (datetime.datetime.strptime(start, DATE_FORMAT) + datetime.timedelta(days=days)).strftime(DATE_FORMAT)
 
     @api.multi
     def jiance(self):
         self.ensure_one()
         if self.beijianext.jiancebaojing:
             self.shangcijiance = fields.Date.today()
-            # self.jiancedaoqiri = self._get_due_date(fields.Date.today(), self.beijianext.jiancezhouqi)
             self.env['wms.lishijilu'].create({
                 'xinxi': '检测通过',
                 'geti_id': self.id,})
@@ -272,7 +298,8 @@ class Kucuncelue(models.Model):
         for s in self:
             s.ident = '%s-%s' % (s.cangku.id, s.beijianext.id)
 
-    @api.constrains('xiaxianbaojing', 'xiaxian', 'shangxianbaojing', 'shangxian', 'baojingdengji')
+    # @api.constrains('xiaxianbaojing', 'xiaxian', 'shangxianbaojing', 'shangxian', 'baojingdengji')
+    @api.constrains('xiaxianbaojing', 'xiaxian', 'shangxianbaojing', 'shangxian')
     def xianconstrains(self):
         if self.xiaxianbaojing and self.xiaxian < 0:
             raise ValidationError("库存下限不能小于 0！")
@@ -289,9 +316,9 @@ class Kucuncelue(models.Model):
             s.zaikushuliang = sum(v.beijian_count for v in s.huowei)
 
     @api.depends('huowei')
-    def _compute_huoweishuliang(self):
+    def _compute_huoweigeshu(self):
         for s in self:
-            s.huoweishuliang = len(s.huowei)
+            s.huoweigeshu = len(s.huowei)
 
     ident = fields.Char('配置号', compute='_compute_ident', store=True)
     beijianext = fields.Many2one('wms.beijianext', '备件型号', required=True)
@@ -300,13 +327,13 @@ class Kucuncelue(models.Model):
     shangxianbaojing = fields.Boolean('上限报警', default=False)
     xiaxian = fields.Integer('库存下限', required=True)
     shangxian = fields.Integer('库存上限', required=True)
-    baojingdengji = fields.Selection([
-        ('1', 'Ⅰ级报警'),
-        ('2', 'Ⅱ级报警'),
-        ('3', 'Ⅲ级报警')], string='报警等级')
-    zaikushuliang = fields.Integer('在库数量', compute='_compute_zaikushuliang', store=True)
+    # baojingdengji = fields.Selection([
+    #     ('1', 'Ⅰ级报警'),
+    #     ('2', 'Ⅱ级报警'),
+    #     ('3', 'Ⅲ级报警')], string='报警等级')
     huowei = fields.One2many('wms.huowei', 'kucuncelue', '货位列表')
-    huoweishuliang = fields.Integer('货位个数', compute='_compute_huoweishuliang')
+    zaikushuliang = fields.Integer('在库数量', compute='_compute_zaikushuliang', store=True)
+    huoweigeshu = fields.Integer('货位个数', compute='_compute_huoweigeshu', store=True)
     data = fields.Text('附加数据')
 
 

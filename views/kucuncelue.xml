@@ -6,14 +6,14 @@
       <field name="model">wms.kucuncelue</field>
       <field name="arch" type="xml">
         <tree create="false" delete="false">
-          <field name="cangku" invisible="1"/>
+          <field name="cangku"/>
           <field name="beijianext"/>
           <field name="zaikushuliang"/>
           <field name="xiaxianbaojing" invisible="1"/>
           <field name="xiaxian"/>
           <field name="shangxianbaojing" invisible="1"/>
           <field name="shangxian"/>
-          <field name="huoweishuliang"/>
+          <field name="huoweigeshu"/>
           <!-- <field name="baojingdengji"/> -->
         </tree>
       </field>
@@ -29,7 +29,7 @@
                 <button class="oe_stat_button" name="%(wms.huowei_act_window)d" icon="fa-th-list" type="action" context="{'search_default_kucuncelue':active_id}">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_text">货位列表</span>
-                        <span class="o_stat_value">(共<field name="huoweishuliang"/>个)</span>
+                        <span class="o_stat_value">(共<field name="huoweigeshu"/>个)</span>
                     </div>
                 </button>
                 <button class="oe_stat_button" name="%(wms.newhuowei_wizard_act_window)d" icon="fa-plus-circle" type="action" context="{'cangku':cangku,'beijianext':beijianext}">

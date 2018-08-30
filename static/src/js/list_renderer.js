@@ -709,7 +709,7 @@ var ListRenderer = BasicRenderer.extend({
      * @param {jQueryElement} $tr a jquery <tr> element (the row to add decoration)
      */
     _setDecorationClasses: function (record, $tr) {
-        if (record.model === 'wms.sqlview.jiancebaojing') {
+        if (record.model.indexOf('wms.sqlview') != -1) {
           _.each(this.rowDecorations, function (expr, decoration) {
               var cssClass = decoration.replace('decoration', 'bg');
               $tr.toggleClass(cssClass, py.PY_isTrue(py.evaluate(expr, record.evalContext)));

@@ -26,7 +26,7 @@
         'views/web_customize.xml',
 
         'data/res.company.csv',
-        # 'data/ir.cron.csv',
+        'data/ir.cron.csv',
         'data/ir.sequence.csv',
         'data/wms.cangku.csv',
         'data/wms.shebei.csv',
@@ -38,6 +38,7 @@
 
         'views/dashboard.xml',
         'views/jiancebaojing_sqlview.xml',
+        'views/kucunbaojing_sqlview.xml',
         'views/cangku.xml',
         'views/huowei.xml',
         'views/new_huowei_wizard.xml',

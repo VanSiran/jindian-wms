@@ -1,40 +1,39 @@
 <odoo>
   <data>
 
-    <record model="ir.ui.view" id="jiancebaojing_list_view">
-      <field name="name">检测报警列表视图</field>
-      <field name="model">wms.sqlview.jiancebaojing</field>
+    <record model="ir.ui.view" id="kucunbaojing_list_view">
+      <field name="name">库存报警列表视图</field>
+      <field name="model">wms.sqlview.kucunbaojing</field>
       <field name="arch" type="xml">
-        <tree create="false" delete="false" default_order="jiancedaoqiri" decoration-danger="baojingdengji in ('1', '-1')" decoration-warning="baojingdengji == '2'" decoration-info="baojingdengji == '3'">
-          <field name="geti"/>
+        <tree create="false" delete="false" decoration-danger="baojingleixing == '1'" decoration-warning="baojingleixing == '2'">
           <field name="beijianext"/>
-          <field name="huowei"/>
-          <field name="jiancedaoqiri"/>
-          <field name="baojingdengji" invisible="1"/>
+          <field name="zaikushuliang"/>
+          <field name="zhengchangfanwei"/>
+          <field name="baojingleixing" invisible="1"/>
         </tree>
       </field>
     </record>
 
     <!-- <field name="cangku" invisible="1"/> -->
 
-    <!-- <record id="jiancebaojing_search_view" model="ir.ui.view">
-        <field name="name">检测报警搜索视图</field>
-        <field name="model">wms.sqlview.jiancebaojing</field>
+    <!-- <record id="kucunbaojing_search_view" model="ir.ui.view">
+        <field name="name">库存报警搜索视图</field>
+        <field name="model">wms.sqlview.kucunbaojing</field>
         <field name="arch" type="xml">
-            <search string="检测报警搜索视图">
+            <search string="库存报警搜索视图">
                 <filter name="group_cangku" string="按仓库分组" context="{'group_by':'cangku'}"/>
             </search>
         </field>
     </record> -->
 
-    <record id="jiancebaojing_act_window" model="ir.actions.server">
-      <field name="name">检测报警</field>
-      <field name="model_id" ref="model_wms_sqlview_jiancebaojing"/>
+    <record id="kucunbaojing_act_window" model="ir.actions.server">
+      <field name="name">库存报警</field>
+      <field name="model_id" ref="model_wms_sqlview_kucunbaojing"/>
       <field name="state">code</field>
       <field name="code">if len(user.cangku.child_id) > 0:
-    action = {"type": "ir.actions.act_window", "name":"检测报警","view_type":"form", "view_mode": "tree,form", "res_model": "wms.sqlview.jiancebaojing", "context": {'group_by':['cangku','baojingdengji']}}
+    action = {"type": "ir.actions.act_window", "name":"库存报警","view_type":"form", "view_mode": "tree,form", "res_model": "wms.sqlview.kucunbaojing", "context": {'group_by':['cangku','baojingleixing']}}
 else:
-    action = {"type": "ir.actions.act_window", "name":"检测报警","view_type":"form", "view_mode": "tree,form", "res_model": "wms.sqlview.jiancebaojing", "context": {'group_by':'baojingdengji'}}
+    action = {"type": "ir.actions.act_window", "name":"库存报警","view_type":"form", "view_mode": "tree,form", "res_model": "wms.sqlview.kucunbaojing", "context": {'group_by':'baojingleixing'}}
       </field>
     </record>
 
