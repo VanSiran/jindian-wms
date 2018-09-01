@@ -26,6 +26,7 @@
             <footer>
                 <button name="save_huiku" string="保存" type="object" class="btn-primary enter_to_submit_button" attrs="{'invisible': [('state', '!=', 'dest')]}"/>
                 <button string="取消" class="btn-default" special="cancel"  attrs="{'invisible': [('state', '=', 'complete')]}"/>
+                <button string="关闭" class="btn-primary" special="save"  attrs="{'invisible': [('state', '!=', 'complete')]}"/>
             </footer>
           </form>
         </field>

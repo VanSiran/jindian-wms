@@ -33,9 +33,7 @@
                     </div>
                 </button>
                 <!-- NOTE: 暂定不是待检测的备件，不可检测 -->
-                <!-- <button name="jiance" string="检测通过" type="object" class="btn btn-default"
-                  attrs="{'invisible': ['|',('zhuangtai', '!=', 'zaiku'),('jiancedaoqiri','=',False)]}"
-                  confirm="此操作不可撤销，是否确定检测已通过？    (如误操作，请联系系统管理员。)"/> -->
+                <!-- attrs="{'invisible': ['|',('zhuangtai', '!=', 'zaiku'),('jiancedaoqiri','=',False)]}" -->
                 <button class="oe_stat_button" name="jiance" icon="fa-thermometer-empty" type="object"
                   attrs="{'invisible': [('zhuangtai', 'not in', ('jianceguoqi', 'daijiance'))]}"
                   confirm="如果检测结果良好，请点击 “确定” ；否则请点击 “取消” 。此操作不可撤销！(如误操作，请联系系统管理员。)">

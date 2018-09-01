@@ -38,6 +38,9 @@ class HuikuWiz(models.TransientModel):
         if not self.huowei:
             raise ValidationError("请选择货位！")
         geti = self.env['wms.geti'].browse(self.env.context['geti'])
+        # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
+        if geti.zhuangtai not in ('chuku', 'yiku'):
+            raise ValidationError("备件已经回库，若界面未更新，请刷新网页。")
         geti.huowei = self.huowei
         geti.zhuangtai_core = 'jiashang'
         self.env['wms.lishijilu'].create({

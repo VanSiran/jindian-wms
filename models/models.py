@@ -83,11 +83,14 @@ class BJGeTi(models.Model):
     @api.multi
     def jiance(self):
         self.ensure_one()
-        if self.beijianext.jiancebaojing:
-            self.shangcijiance = fields.Date.today()
-            self.env['wms.lishijilu'].create({
-                'xinxi': '检测通过',
-                'geti_id': self.id,})
+        # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
+        if self.zhuangtai not in ('jianceguoqi', 'daijiance'):
+            raise ValidationError("备件无需检测，若界面未更新，请刷新网页。")
+        # if self.beijianext.jiancebaojing:
+        self.shangcijiance = fields.Date.today()
+        self.env['wms.lishijilu'].create({
+            'xinxi': '检测通过',
+            'geti_id': self.id,})
 
     # @api.multi
     # def baofei(self):
