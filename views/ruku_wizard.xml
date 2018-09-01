@@ -6,9 +6,7 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
         	<form string="入库" create="false" edit="false">
-            <!--The header tag is built to add buttons within. This puts them at the top -->
           	<header>
-          	    <!--This will create the statusbar, thanks to the widget. -->
           	    <field name="state" widget="statusbar"/>
           	</header>
 
@@ -31,15 +29,6 @@
                 <field attrs="{'invisible': [('beijian','=',False)]}" name="beijianext" domain="[('beijian', '=', beijian), ('id', 'in', tbeijianexts)]" options="{'no_create': True}"/>
                 <field attrs="{'invisible': [('beijianext','=',False)]}" name="image" widget="image" class="oe_avatar" readonly="1"/>
             </group>
-          	<!-- <group attrs="{'invisible': [('state','!=','selbeijianext')]}">
-                <h3 colspan="2" style="text-align:center;color:#7c7bad;margin-top:-8px">
-                  <span class="o_field_char o_field_widget">选择备件</span>
-                </h3>
-          	    <field attrs="{'required': [('state','=','selbeijianext')]}" name="shebei" options="{'no_create': True}" widget="tree_selection_field"/>
-                <field attrs="{'invisible': [('shebei','=',False)],'required': [('state','=','selbeijianext')]}" name="beijian" domain="[('id', 'in', tbeijians)]" options="{'no_create': True}"/>
-                <field attrs="{'invisible': [('beijian','=',False)],'required': [('state','=','selbeijianext')]}" name="beijianext" domain="[('beijian', '=', beijian), ('id', 'in', tbeijianexts)]" options="{'no_create': True}"/>
-                <field attrs="{'invisible': [('beijianext','=',False)],'required': [('state','=','selbeijianext')]}" name="image" widget="image" class="oe_avatar" readonly="1"/>
-          	</group> -->
 
           	<group attrs="{'invisible': [('state','!=','fillform')]}" col="10">
                 <h3 colspan="10" style="text-align:center;color:#7c7bad;margin-top:-8px">
@@ -47,7 +36,7 @@
                 </h3>
                 <field name="rukushuliang" colspan="10"/>
                 <field name="huowei" colspan="9" options="{'no_create': True}" domain="[('beijianext', '=', beijianext), ('cangku', '=', cangku)]"/>
-                <button string="+ 新增货位" colspan="1" type="object" name="newhuowei_wizard_act_window" context="{'cangku': cangku, 'beijianext': beijianext, 'wizard': active_id}"/>
+                <button string="+ 新增货位" colspan="1" type="object" name="newhuowei_wizard_act_window"/>
                 <field name="changjia" colspan="10" domain="['|', ('beijian', '=', beijian), ('beijian', '=', False)]" options="{'no_create': True}"/>
                 <field name="shengchanriqi" colspan="10"/>
                 <field name="pihao" colspan="10"/>

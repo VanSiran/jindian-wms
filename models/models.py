@@ -50,7 +50,7 @@ class BJGeTi(models.Model):
     def _compute_zhuangtai(self):
         DATE_FORMAT = "%Y-%m-%d"
         for geti in self:
-            # 注意：cron job 只更新 架上 备件
+            # NOTE：cron job 只更新 架上 备件
             # 若今后对 出库区 备件也要进行状态更新，则需修改cron job
             if geti.zhuangtai_core == 'jiashang':
                 geti.zhuangtai = 'zaiku'
@@ -89,13 +89,13 @@ class BJGeTi(models.Model):
                 'xinxi': '检测通过',
                 'geti_id': self.id,})
 
-    @api.multi
-    def baofei(self):
-        self.ensure_one()
-        self.zhuangtai = 'baofei'
-        self.env['wms.lishijilu'].create({
-            'xinxi': '报废',
-            'geti_id': self.id,})
+    # @api.multi
+    # def baofei(self):
+    #     self.ensure_one()
+    #     self.zhuangtai = 'baofei'
+    #     self.env['wms.lishijilu'].create({
+    #         'xinxi': '报废',
+    #         'geti_id': self.id,})
     # @api.multi
     # def yiku(self):
     #     self.ensure_one()
@@ -266,11 +266,6 @@ class Huowei(models.Model):
             s.keyonggetishu = s.geti.search_count([('huowei', '=', s.id), ('zhuangtai', 'in', ('zaiku', 'daibaofei', 'daijiance'))])
             s.bukeyonggetishu = s.geti.search_count([('huowei', '=', s.id), ('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))])
 
-    # @api.depends('geti', 'geti.zhuangtai')
-    # def _compute_bukeyonggetishu(self):
-    #     for s in self:
-    #         s.bukeyonggetishu = s.geti.search_count([('huowei', '=', s.id), ('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))])
-
     bianma = fields.Char('货位编码', required=True)
     kucuncelue = fields.Many2one('wms.kucuncelue', '所属库存策略', required=True)
     cangku = fields.Many2one('wms.cangku', '所属仓库', related="kucuncelue.cangku", store=True)
@@ -280,8 +275,6 @@ class Huowei(models.Model):
     keyonggetishu = fields.Integer('本货位可用备品数量', compute='_compute_getishu', store=True)
     bukeyonggetishu = fields.Integer('本货位不可用备品数量', compute='_compute_getishu', store=True)
     geti = fields.One2many('wms.geti', 'huowei', '架上备品', domain=[('zhuangtai_core', '=', 'jiashang')])
-    # keyonggeti = fields.One2many('wms.geti', 'huowei', '可用备品清单', domain=[('zhuangtai', 'in', ('zaiku', 'daibaofei, daijiance'))])
-    # bukeyonggeti = fields.One2many('wms.geti', 'huowei', '不可用备品清单', domain=[('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))])
 
 
 class Kucuncelue(models.Model):

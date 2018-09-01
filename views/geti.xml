@@ -25,35 +25,36 @@
         <form create="false" edit="false">
           <sheet>
               <div class="oe_button_box" name="button_box">
-                <button class="oe_stat_button" name="%(wms.chuku_wizard_act_window)d" icon="fa-eject" type="action" attrs="{'invisible': [('zhuangtai', 'not in', ('zaiku', 'daibaofei', 'daijiance'))]}" context="{'geti': active_id}">
+                <button class="oe_stat_button" name="%(wms.chuku_wizard_act_window)d"
+                  type="action" icon="fa-eject" context="{'geti': active_id}"
+                  attrs="{'invisible': [('zhuangtai', 'not in', ('zaiku', 'daibaofei', 'daijiance'))]}">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_text">出库</span>
                     </div>
                 </button>
-                <!-- <button class="oe_stat_button" name="%(wms.newhuowei_wizard_act_window)d" icon="fa-plus-circle" type="action" context="{'cangku':cangku,'beijianext':beijianext}">
+                <!-- NOTE: 暂定不是待检测的备件，不可检测 -->
+                <!-- <button name="jiance" string="检测通过" type="object" class="btn btn-default"
+                  attrs="{'invisible': ['|',('zhuangtai', '!=', 'zaiku'),('jiancedaoqiri','=',False)]}"
+                  confirm="此操作不可撤销，是否确定检测已通过？    (如误操作，请联系系统管理员。)"/> -->
+                <button class="oe_stat_button" name="jiance" icon="fa-thermometer-empty" type="object"
+                  attrs="{'invisible': [('zhuangtai', 'not in', ('jianceguoqi', 'daijiance'))]}"
+                  confirm="如果检测结果良好，请点击 “确定” ；否则请点击 “取消” 。此操作不可撤销！(如误操作，请联系系统管理员。)">
                     <div class="o_field_widget o_stat_info">
-                        <span class="o_stat_text">添加货位</span>
+                        <span class="o_stat_text">检测</span>
                     </div>
-                </button> -->
+                </button>
+                <button class="oe_stat_button" name="%(wms.huiku_wizard_act_window)d"
+                  type="action" icon="fa-home" context="{'geti': active_id}"
+                  attrs="{'invisible': [('zhuangtai', 'not in', ('chuku', 'yiku'))]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">回库</span>
+                    </div>
+                </button>
             </div>
             <field name="cangku" invisible="1"/>
             <field name="image" widget="zoomable_image" class="oe_avatar"/>
-            <div class="oe_title">
-              <!-- <button name="chuku" string="出库" type="object" class="btn btn-primary"
-                attrs="{'invisible': [('zhuangtai', 'in', ('zaiku', 'daibaofei', 'daijiance'))]}"
-                confirm="此操作不可撤销，是否继续出库？    (如误操作，请联系系统管理员。)"/> -->
-              <span style="display:inline-block;width:10px"></span>
-              <button name="%(wms.yiku_wizard_act_window)d" string="移库" type="action" class="btn btn-primary"
-                attrs="{'invisible': [('zhuangtai', '!=', 'zaiku')]}"/>
-              <span style="display:inline-block;width:10px"></span>
-              <button name="jiance" string="检测通过" type="object" class="btn btn-default"
-                attrs="{'invisible': ['|',('zhuangtai', '!=', 'zaiku'),('jiancedaoqiri','=',False)]}"
-                confirm="此操作不可撤销，是否确定检测已通过？    (如误操作，请联系系统管理员。)"/>
-              <span style="display:inline-block;width:10px"></span>
-              <button name="baofei" string="报废" type="object" class="btn btn-default"
-                attrs="{'invisible': [('zhuangtai', '=', 'baofei')]}"
-                confirm="此操作不可撤销，是否确定备件已报废？    (如误操作，请联系系统管理员。)"/>
-            </div>
+            <!-- <div class="oe_title">
+            </div> -->
             <group>
               <group>
                 <field name="beijian" readonly="1"/>

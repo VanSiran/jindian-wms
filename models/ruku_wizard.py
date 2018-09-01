@@ -147,8 +147,6 @@ class RukuWizard(models.TransientModel):
             self.state = 'selcangku'
         elif self.state == 'fillform':
             self.state = 'selbeijianext'
-        # elif self.state == 'confirm':
-        #     self.state = 'fillform'
         return {'type': "ir_actions_act_window_donothing",}
 
     @api.model
