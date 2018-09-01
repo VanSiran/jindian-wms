@@ -42,6 +42,7 @@ class JianceBaojingSqlView(models.Model):
             FROM wms_geti AS geti
             WHERE geti.zhuangtai in ('daijiance', 'jianceguoqi')
             ) AS tmp)'''
+            # 待检测 判断阈值（30天）在 models.py 里面修改
         self.env.cr.execute(query)
 
 
@@ -57,7 +58,8 @@ class KucunBaojingSqlView(models.Model):
     baojingleixing = fields.Selection([
         ('1', '库存不足'),
         ('2', '库存过多')], string="报警类型", readonly=True)
-    zaikushuliang = fields.Integer('在库数量', readonly=True)
+    keyongshuliang = fields.Integer('在库可用数量', readonly=True)
+    bukeyongshuliang = fields.Integer('在库不可用数量', readonly=True)
     zhengchangfanwei = fields.Char('正常范围', readonly=True)
 
     @api.model_cr
@@ -65,18 +67,18 @@ class KucunBaojingSqlView(models.Model):
         tools.drop_view_if_exists(self.env.cr, self._table)
         query = '''
         CREATE OR REPLACE VIEW wms_sqlview_kucunbaojing AS (
-        SELECT id, cangku, beijianext, zaikushuliang, xiaxian, shangxian,
+        SELECT id, cangku, beijianext, keyongshuliang, bukeyongshuliang, xiaxian, shangxian,
         id AS kucuncelue,
         CASE
-        WHEN zaikushuliang <= xiaxian THEN '1'
+        WHEN keyongshuliang <= xiaxian THEN '1'
         ELSE '2'
         END AS baojingleixing,
         CASE
-        WHEN xiaxianbaojing != false AND shangxianbaojing != false THEN xiaxian || ' < 在库数量 < ' || shangxian
-        WHEN xiaxianbaojing != false AND shangxianbaojing = false THEN '在库数量 > ' || xiaxian
-        WHEN xiaxianbaojing = false AND shangxianbaojing != false THEN '在库数量 < ' || shangxian
+        WHEN xiaxianbaojing != false AND shangxianbaojing != false THEN xiaxian || ' < 在库可用数量 < ' || shangxian
+        WHEN xiaxianbaojing != false AND shangxianbaojing = false THEN '在库可用数量 > ' || xiaxian
+        WHEN xiaxianbaojing = false AND shangxianbaojing != false THEN '在库可用数量 < ' || shangxian
         END AS zhengchangfanwei
         FROM wms_kucuncelue
-        WHERE (xiaxianbaojing = true AND zaikushuliang <= xiaxian)
-        OR (shangxianbaojing = true AND zaikushuliang >= shangxian))'''
+        WHERE (xiaxianbaojing = true AND keyongshuliang <= xiaxian)
+        OR (shangxianbaojing = true AND keyongshuliang >= shangxian))'''
         self.env.cr.execute(query)

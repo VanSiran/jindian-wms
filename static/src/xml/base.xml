@@ -1,0 +1,16 @@
+<templates>
+
+  <!-- 继承自 web/static/src/xml/base.xml -->
+  <!-- <t t-extend="base.template"> -->
+  <t t-name="asd">
+    <t t-set="abc" t-value="asfasgasdasd"/>
+    <t t-log="abc"/>
+    <!-- <t t-jquery="[data-menu='documentation']" t-operation="replace">
+    </t>
+    <t t-jquery="[data-menu='support']" t-operation="replace">
+    </t>
+    <t t-jquery="[data-menu='account']" t-operation="replace">
+    </t> -->
+  </t>
+
+</templates>

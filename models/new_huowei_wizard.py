@@ -33,7 +33,7 @@ class Newhuowei(models.TransientModel):
         Inventory = self.env['wms.huowei']
         cangku = self.env.context['cangku'],
         beijianext = self.env.context['beijianext'],
-        kucuncelue = self.env['wms.kucuncelue'].search([('cangku', '=', cangku),('beijianext', '=', beijianext)]).id
+        kucuncelue = self.env['wms.kucuncelue'].search([('cangku', 'in', cangku),('beijianext', 'in', beijianext)]).id
         for wizard in self:
             inventory = Inventory.create({
                 'bianma': wizard.bianma,

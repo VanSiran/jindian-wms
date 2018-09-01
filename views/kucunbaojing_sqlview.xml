@@ -7,8 +7,9 @@
       <field name="arch" type="xml">
         <tree create="false" delete="false" decoration-danger="baojingleixing == '1'" decoration-warning="baojingleixing == '2'">
           <field name="beijianext"/>
-          <field name="zaikushuliang"/>
+          <field name="keyongshuliang"/>
           <field name="zhengchangfanwei"/>
+          <field name="bukeyongshuliang"/>
           <field name="baojingleixing" invisible="1"/>
         </tree>
       </field>

@@ -8,7 +8,8 @@
         <tree create="false">
           <field name="complete_bianma"/>
           <field name="beijianext"/>
-          <field name="beijian_count"/>
+          <field name="keyonggetishu"/>
+          <field name="bukeyonggetishu"/>
           <field name="kucuncelue" invisible="1"/>
         </tree>
       </field>
@@ -27,10 +28,13 @@
               </group>
               <group>
                 <field name="beijianext" readonly="1"/>
-                <field name="beijian_count"/>
+                <field name="keyonggetishu"/>
+                <field name="bukeyonggetishu"/>
               </group>
             </group>
             <field name="geti"/>
+            <!-- <field name="keyonggeti"/>
+            <field name="bukeyonggeti"/> -->
           </sheet>
         </form>
       </field>

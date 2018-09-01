@@ -26,15 +26,11 @@
         'views/web_customize.xml',
 
         'data/res.company.csv',
-        'data/ir.cron.csv',
         'data/ir.sequence.csv',
         'data/wms.cangku.csv',
         'data/wms.shebei.csv',
         'data/wms.beijian.csv',
         'data/wms.beijianext.csv',
-
-        # 'security/ir.rule.xml',
-        # 'security/ir.model.access.csv',
 
         'views/dashboard.xml',
         'views/jiancebaojing_sqlview.xml',
@@ -59,7 +55,17 @@
         'data/wms.view.dashboard.csv',
 
         'views/menu_items.xml',
+
+        'data/res.groups.csv',
+        'data/ir.rule.csv',
+        'data/ir.model.access.csv',
+        'data/ir.cron.csv',
+        'data/res.users.csv',
     ],
+
+    # 'qweb': [
+    #     'static/src/xml/base.xml',
+    # ],
     # only loaded in demonstration mode
     # 'demo': [
     #     'demo/demo.xml',

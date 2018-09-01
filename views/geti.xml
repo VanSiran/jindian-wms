@@ -24,12 +24,25 @@
       <field name="arch" type="xml">
         <form create="false" edit="false">
           <sheet>
+              <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button" name="chuku" icon="fa-eject" type="object" attrs="{'invisible': [('zhuangtai', 'not in', ('zaiku', 'daibaofei', 'daijiance'))]}"
+                confirm="此操作不可撤销，是否继续出库？    (如误操作，请联系系统管理员。)">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">出库</span>
+                    </div>
+                </button>
+                <!-- <button class="oe_stat_button" name="%(wms.newhuowei_wizard_act_window)d" icon="fa-plus-circle" type="action" context="{'cangku':cangku,'beijianext':beijianext}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">添加货位</span>
+                    </div>
+                </button> -->
+            </div>
             <field name="cangku" invisible="1"/>
             <field name="image" widget="zoomable_image" class="oe_avatar"/>
             <div class="oe_title">
-              <button name="chuku" string="出库" type="object" class="btn btn-primary"
-                attrs="{'invisible': [('zhuangtai', '!=', 'zaiku')]}"
-                confirm="此操作不可撤销，是否继续出库？    (如误操作，请联系系统管理员。)"/>
+              <!-- <button name="chuku" string="出库" type="object" class="btn btn-primary"
+                attrs="{'invisible': [('zhuangtai', 'in', ('zaiku', 'daibaofei', 'daijiance'))]}"
+                confirm="此操作不可撤销，是否继续出库？    (如误操作，请联系系统管理员。)"/> -->
               <span style="display:inline-block;width:10px"></span>
               <button name="%(wms.yiku_wizard_act_window)d" string="移库" type="action" class="btn btn-primary"
                 attrs="{'invisible': [('zhuangtai', '!=', 'zaiku')]}"/>
@@ -80,8 +93,11 @@
             <search string="备件个体筛选查询">
                 <field name="beijian" string="备件名称" filter_domain="['|', ('beijian.suoxie', 'ilike', self), ('beijian.name', 'ilike', self)]"/>
                 <field name="cangku" string="仓库" filter_domain="['|', ('cangku.suoxie', 'ilike', self), ('cangku.name', 'ilike', self)]"/>
-                <filter name="zaiku" string="在库" domain="[('zhuangtai', '=', 'zaiku')]"/>
-                <filter name="chuku" string="出库" domain="[('zhuangtai', '=', 'chuku')]"/>
+                <filter name="zaikukeyong" string="在库可用" domain="[('zhuangtai', 'in', ('zaiku', 'daibaofei', 'daijiance'))]"/>
+                <filter name="zaikubukeyong" string="在库不可用" domain="[('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))]"/>
+                <separator/>
+                <filter name="chuku" string="已出库" domain="[('zhuangtai', '=', 'chuku')]"/>
+                <filter name="yiku" string="移库中" domain="[('zhuangtai', '=', 'yiku')]"/>
                 <!-- <field name="categ_id" filter_domain="[('categ_id', 'child_of', raw_value)]"/>               <separator/>
                 <filter string="Services" name="services" domain="[('type','=','service')]"/>
                 <filter string="Products" name="consumable" domain="[('type', 'in', ['consu', 'product'])]"/>
@@ -121,9 +137,9 @@
       <field name="model_id" ref="model_wms_geti"/>
       <field name="state">code</field>
       <field name="code">if len(user.cangku.child_id) > 0:
-    action = {"type": "ir.actions.act_window", "name":"备件个体档案","view_type":"form", "view_mode": "tree,form", "res_model": "wms.geti", "context": {'group_by':'cangku','search_default_zaiku': 1}}
+    action = {"type": "ir.actions.act_window", "name":"备件个体档案","view_type":"form", "view_mode": "tree,form", "res_model": "wms.geti", "context": {'group_by':'cangku','search_default_zaikukeyong': 1}}
 else:
-    action = {"type": "ir.actions.act_window", "name":"备件个体档案","view_type":"form", "view_mode": "tree,form", "res_model": "wms.geti", "context": {'search_default_zaiku': 1}}
+    action = {"type": "ir.actions.act_window", "name":"备件个体档案","view_type":"form", "view_mode": "tree,form", "res_model": "wms.geti", "context": {'search_default_zaikukeyong': 1}}
       </field>
     </record>
 

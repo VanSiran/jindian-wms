@@ -1,0 +1,4 @@
+"id","share","category_id/id","implied_ids/id","is_portal","view_access/id","name","menu_access/id","color","comment"
+"__export__.res_groups_11","False","base.module_category_human_resources","","False","","职工","wms.menu_root,wms.menu_dashboard1,wms.menu_jiancebaojing,wms.menu_geti,wms.menu_kucuncelue","0",""
+"__export__.res_groups_12","False","base.module_category_human_resources","","False","","调度","wms.menu_root,wms.menu_jiancebaojing,wms.menu_geti,wms.menu_kucuncelue","0",""
+"__export__.res_groups_13","False","base.module_category_human_resources","__export__.res_groups_11","False","","仓库包管员","","0",""

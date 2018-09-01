@@ -64,7 +64,7 @@ class BJGeTi(models.Model):
             elif geti.zhuangtai_core == 'chukuqu':
                 geti.zhuangtai = 'chuku'
             elif geti.zhuangtai_core == 'yikuqu':
-                geti.zhuangtai = 'daiyiku'
+                geti.zhuangtai = 'yiku'
             elif geti.zhuangtai_core == 'baofeiqu':
                 geti.zhuangtai = 'baofei'
 
@@ -109,7 +109,7 @@ class BJGeTi(models.Model):
     # @api.multi
     # def yiku(self):
     #     self.ensure_one()
-    #     self.zhuangtai = 'daiyiku'
+    #     self.zhuangtai = 'yiku'
     #     self.env['wms.lishijilu'].create({
     #         'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
     #         'geti_id': self.id,})
@@ -270,10 +270,16 @@ class Huowei(models.Model):
         for s in self:
             s.complete_bianma = '%s / %s' % (s.cangku.name, s.bianma)
 
-    @api.depends('geti', 'geti.zhuangtai')
-    def _compute_beijian_count(self):
+    @api.depends('geti','geti.zhuangtai')
+    def _compute_getishu(self):
         for s in self:
-            s.beijian_count = len(s.geti.ids)
+            s.keyonggetishu = s.geti.search_count([('huowei', '=', s.id), ('zhuangtai', 'in', ('zaiku', 'daibaofei', 'daijiance'))])
+            s.bukeyonggetishu = s.geti.search_count([('huowei', '=', s.id), ('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))])
+
+    # @api.depends('geti', 'geti.zhuangtai')
+    # def _compute_bukeyonggetishu(self):
+    #     for s in self:
+    #         s.bukeyonggetishu = s.geti.search_count([('huowei', '=', s.id), ('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))])
 
     bianma = fields.Char('货位编码', required=True)
     kucuncelue = fields.Many2one('wms.kucuncelue', '所属库存策略', required=True)
@@ -281,8 +287,11 @@ class Huowei(models.Model):
     beijianext = fields.Many2one('wms.beijianext', '用于存放备件', related="kucuncelue.beijianext")
 
     complete_bianma = fields.Char('完整货位编码', compute='_compute_bianma', store=True)
-    beijian_count = fields.Integer('本货位在库备品数量', compute='_compute_beijian_count', store=True)
-    geti = fields.One2many('wms.geti', 'huowei', '存放备品清单', domain=[('zhuangtai', '=', 'zaiku')])
+    keyonggetishu = fields.Integer('本货位可用备品数量', compute='_compute_getishu', store=True)
+    bukeyonggetishu = fields.Integer('本货位不可用备品数量', compute='_compute_getishu', store=True)
+    geti = fields.One2many('wms.geti', 'huowei', '架上备品', domain=[('zhuangtai_core', '=', 'jiashang')])
+    # keyonggeti = fields.One2many('wms.geti', 'huowei', '可用备品清单', domain=[('zhuangtai', 'in', ('zaiku', 'daibaofei, daijiance'))])
+    # bukeyonggeti = fields.One2many('wms.geti', 'huowei', '不可用备品清单', domain=[('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))])
 
 
 class Kucuncelue(models.Model):
@@ -310,10 +319,15 @@ class Kucuncelue(models.Model):
         # if (self.xiaxianbaojing or self.shangxianbaojing) and not self.baojingdengji:
         #     raise ValidationError("请填写报警等级！")
 
-    @api.depends('huowei', 'huowei.beijian_count')
-    def _compute_zaikushuliang(self):
+    @api.depends('huowei', 'huowei.keyonggetishu')
+    def _compute_keyongshuliang(self):
         for s in self:
-            s.zaikushuliang = sum(v.beijian_count for v in s.huowei)
+            s.keyongshuliang = sum(v.keyonggetishu for v in s.huowei)
+
+    @api.depends('huowei', 'huowei.bukeyonggetishu')
+    def _compute_bukeyongshuliang(self):
+        for s in self:
+            s.bukeyongshuliang = sum(v.bukeyonggetishu for v in s.huowei)
 
     @api.depends('huowei')
     def _compute_huoweigeshu(self):
@@ -332,7 +346,8 @@ class Kucuncelue(models.Model):
     #     ('2', 'Ⅱ级报警'),
     #     ('3', 'Ⅲ级报警')], string='报警等级')
     huowei = fields.One2many('wms.huowei', 'kucuncelue', '货位列表')
-    zaikushuliang = fields.Integer('在库数量', compute='_compute_zaikushuliang', store=True)
+    keyongshuliang = fields.Integer('在库可用数量', compute='_compute_keyongshuliang', store=True)
+    bukeyongshuliang = fields.Integer('在库不可用数量', compute='_compute_bukeyongshuliang', store=True)
     huoweigeshu = fields.Integer('货位个数', compute='_compute_huoweigeshu', store=True)
     data = fields.Text('附加数据')
 
