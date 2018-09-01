@@ -1,0 +1,44 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="chuku_wizard_view">
+        <field name="name">出库向导</field>
+        <field name="model">wms.wizard.chuku</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+        	<form string="出库">
+            <field name="state" invisible="1"/>
+            <group attrs="{'invisible': [('state', '!=', 'confirm')]}">
+              <h2>注意：</h2>
+              <h2 style="margin-top:-8px" colspan="2">该备件即将到检测日期，是否继续出库？</h2>
+            </group>
+            <group attrs="{'invisible': [('state', '!=', 'dest')]}">
+                <h2 style="margin-top:-8px" colspan="2">该<field name="beijianfull" style="color:#7c7bad" attrs="{'readonly': True}"/>将从<field name="huoweiname" style="color:#7c7bad" attrs="{'readonly': True}"/>出库。</h2>
+                <div class="oe_title" colspan="2">
+                  <label for="bianma" string="出库后用于哪个设备（设备编号）？" style="font-weight:bold;font-size:14px"/>
+                  <h3><field name="bianma" placeholder="如：12#" widget="enter_to_submit_field" default_focus="1" attrs="{'required': [('state', '=', 'dest')]}"/></h3>
+                </div>
+            </group>
+            <group attrs="{'invisible': [('state', '!=', 'complete')]}">
+              <h2>已办理出库</h2>
+            </group>
+            <footer>
+                <button name="continues" string="继续" type="object" class="btn-primary enter_to_submit_button"  attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
+                <button name="save_chuku" string="保存" type="object" class="btn-primary enter_to_submit_button" attrs="{'invisible': [('state', '!=', 'dest')]}"/>
+                <button string="取消" class="btn-default" special="cancel"  attrs="{'invisible': [('state', '=', 'complete')]}"/>
+            </footer>
+          </form>
+        </field>
+    </record>
+
+    <record id="chuku_wizard_act_window" model="ir.actions.act_window">
+        <field name="name">出库向导</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wms.wizard.chuku</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="chuku_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+
+  </data>
+</odoo>

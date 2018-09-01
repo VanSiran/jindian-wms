@@ -81,16 +81,6 @@ class BJGeTi(models.Model):
                 geti.jiancedaoqiri = False
 
     @api.multi
-    def chuku(self):
-        self.ensure_one()
-        # if self.env['wms.sqlview.jiancebaojing'].search_count([('geti','=',self.id)]):
-        #     raise ValidationError('快过期了')
-        self.zhuangtai = 'chuku'
-        self.env['wms.lishijilu'].create({
-            'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
-            'geti_id': self.id,})
-
-    @api.multi
     def jiance(self):
         self.ensure_one()
         if self.beijianext.jiancebaojing:

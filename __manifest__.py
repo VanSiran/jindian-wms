@@ -42,6 +42,7 @@
         'views/beijian.xml',
         'views/changjia.xml',
         'views/yiku_wizard.xml',
+        'views/chuku_wizard.xml',
         'views/geti.xml',
         'views/lishijilu.xml',
         'views/shebei.xml',

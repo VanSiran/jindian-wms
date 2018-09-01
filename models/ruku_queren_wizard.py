@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, models, fields, tools
-import datetime
 from odoo.exceptions import ValidationError
 from xmlrpc.client import ServerProxy
 import json
