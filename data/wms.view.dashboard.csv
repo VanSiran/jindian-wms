@@ -2,3 +2,4 @@
 "wms.dashboard_ruku","操作","入库","wms.ruku_wizard_act_window"
 "wms.dashboard_saoma","操作","扫码","wms.saomiao_wizard_act_window"
 "wms.dashboard_shaixuan","操作","筛选","wms.filtersearch_act_window"
+"wms.dashboard_yiku","操作","移库","wms.yiku_wizard_act_window"
