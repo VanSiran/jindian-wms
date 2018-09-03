@@ -24,9 +24,10 @@
       <field name="arch" type="xml">
         <form create="false" edit="false">
           <sheet>
+              <field name="id" invisible="1"/>
               <div class="oe_button_box" name="button_box">
                 <button class="oe_stat_button" name="%(wms.chuku_wizard_act_window)d"
-                  type="action" icon="fa-eject" context="{'geti': active_id}"
+                  type="action" icon="fa-eject" context="{'geti': id}"
                   attrs="{'invisible': [('zhuangtai', 'not in', ('zaiku', 'daibaofei', 'daijiance'))]}">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_text">出库</span>
@@ -42,7 +43,7 @@
                     </div>
                 </button>
                 <button class="oe_stat_button" name="%(wms.huiku_wizard_act_window)d"
-                  type="action" icon="fa-home" context="{'geti': active_id}"
+                  type="action" icon="fa-home" context="{'geti': id}"
                   attrs="{'invisible': [('zhuangtai', 'not in', ('chuku', 'yiku'))]}">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_text">回库</span>
@@ -91,6 +92,7 @@
             <search string="备件个体筛选查询">
                 <field name="beijian" string="备件名称" filter_domain="['|', ('beijian.suoxie', 'ilike', self), ('beijian.name', 'ilike', self)]"/>
                 <field name="cangku" string="仓库" filter_domain="['|', ('cangku.suoxie', 'ilike', self), ('cangku.name', 'ilike', self)]"/>
+                <field name="huowei" string="货位"/>
                 <filter name="zaikukeyong" string="在库可用" domain="[('zhuangtai', 'in', ('zaiku', 'daibaofei', 'daijiance'))]"/>
                 <filter name="zaikubukeyong" string="在库不可用" domain="[('zhuangtai', 'in', ('jianceguoqi', 'baofeiguoqi'))]"/>
                 <separator/>
@@ -120,15 +122,14 @@
         </field>
     </record>
 
-    <!-- <record id="geti_act_window" model="ir.actions.act_window">
+    <record id="geti_act_window_for_huowei" model="ir.actions.act_window">
       <field name="name">备件个体档案</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">wms.geti</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="search_view_id" ref="wms.geti_search_view"/>
-      <field name="context">{'group_by':'cangku', 'search_default_zaiku': 1}</field>
-    </record> -->
+      <!-- <field name="context">{'group_by':'cangku', 'search_default_zaiku': 1}</field> -->
+    </record>
 
     <record id="geti_act_window" model="ir.actions.server">
       <field name="name">备件个体档案</field>

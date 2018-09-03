@@ -21,20 +21,32 @@
       <field name="arch" type="xml">
         <form create="false">
           <sheet>
+            <field name="id" invisible="1"/>
+            <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button" name="%(wms.geti_act_window_for_huowei)d"
+                  type="action" icon="fa-th-list" context="{'search_default_huowei': id, 'search_default_zaikukeyong': '1'}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">可用个体</span>
+                        <span class="o_stat_value">(共<field name="keyonggetishu"/>个)</span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" name="%(wms.geti_act_window_for_huowei)d"
+                  type="action" icon="fa-th-list" context="{'search_default_huowei': id, 'search_default_zaikubukeyong': '1'}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">不可用个体</span>
+                        <span class="o_stat_value">(共<field name="bukeyonggetishu"/>个)</span>
+                    </div>
+                </button>
+            </div>
+            <div class="oe_title">
+                <h1><field name="bianma"/></h1>
+                <h3><field name="cangku" readonly="1"/></h3>
+            </div>
             <group>
-              <group>
-                <field name="bianma"/>
-                <field name="cangku" readonly="1"/>
-              </group>
-              <group>
-                <field name="beijianext" readonly="1"/>
-                <field name="keyonggetishu"/>
-                <field name="bukeyonggetishu"/>
-              </group>
+              <field name="beijianext" readonly="1"/>
+              <field name="keyonggetishu" readonly="1"/>
+              <field name="bukeyonggetishu" readonly="1"/>
             </group>
-            <field name="geti"/>
-            <!-- <field name="keyonggeti"/>
-            <field name="bukeyonggeti"/> -->
           </sheet>
         </form>
       </field>

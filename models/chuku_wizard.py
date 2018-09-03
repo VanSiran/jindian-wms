@@ -46,7 +46,7 @@ class ChukuWiz(models.TransientModel):
         geti = self.env['wms.geti'].browse(self.env.context['geti'])
         # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
         if geti.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
-            raise ValidationError("备件已经出库，若界面未更新，请刷新网页。")
+            raise ValidationError("备件已经出库，若界面未更新，请刷新网页。%s" % geti.xuliehao)
         geti.zhuangtai_core = 'chukuqu'
         self.env['wms.lishijilu'].create({
             'xinxi': '从"%s"出库,用于"%s"' % (self.huoweiname, self.bianma),
