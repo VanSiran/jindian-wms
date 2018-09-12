@@ -1,18 +1,12 @@
 <odoo>
   <data>
     <record model="ir.ui.view" id="yiku_wizard_view">
-        <field name="name">移库</field>
+        <field name="name">移库向导</field>
         <field name="model">wms.wizard.yiku</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
         	<form string="移库" create="false" edit="false">
-          	<header>
-          	    <field name="state" widget="statusbar"/>
-          	</header>
-
-            <!-- <field name="tbeijians" attrs="{'invisible': True}"/>
-            <field name="tbeijianexts" attrs="{'invisible': True}"/> -->
-
+            <field name="state" invisible="1"/>
           	<group attrs="{'invisible': [('state','!=','selcangku')]}">
                 <h3 colspan="2" style="text-align:center;color:#7c7bad;margin-top:-8px">
                   <span class="o_field_char o_field_widget">选择仓库</span>
@@ -21,9 +15,7 @@
           	</group>
 
             <footer style="text-align:center">
-                <button string="&lt; 上一步" type="object" name="progress_prev" attrs="{'invisible': [('state','==','selcangku')]}"/>
-                <span style="display:inline-block;width:20px" attrs="{'invisible': [('state','==','selcangku')]}"/>
-                <button string="下一步 &gt;" type="object" name="progress_next" class="btn-primary" attrs="{'invisible': [('state','==','confirm')]}"/>
+                <button string="下一步 &gt;" type="object" name="save_yiku" class="btn-primary" attrs="{'invisible': [('state','==','complete')]}"/>
             </footer>
           </form>
         </field>

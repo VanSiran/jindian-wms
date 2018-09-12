@@ -1,65 +1,42 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields, tools
 from odoo.exceptions import ValidationError
-import traceback
 
-# import logging
-# _logger = logging.getLogger(__name__)
 
-class YikuWizard(models.TransientModel):
+class YikuWiz(models.TransientModel):
     _name = "wms.wizard.yiku"
     _description = "移库向导"
 
-    # name = fields.Char(default="入库")
     state = fields.Selection([
         ('selcangku', '选仓库'),
-        ('confirm', '信息确认'),
+        ('complete', '信息确认'),
         ], default='selcangku')
 
-    cangku = fields.Many2one('wms.cangku', '选择要管理的仓库')
-    beijian = fields.Many2one('wms.beijian', '备件名称')
-    beijianext = fields.Many2one('wms.beijianext', '备件型号')
-
-    tbeijians = fields.Many2many('wms.beijian')
-    tbeijianexts = fields.Many2many('wms.beijianext')
-    info = fields.Char()
-
-    @api.constrains('rukushuliang')
-    def constrains_rukushuliang(self):
-        if not self.rukushuliang or self.rukushuliang < 1:
-            raise ValidationError("入库数量不能小于 1！")
+    cangku = fields.Many2one('wms.cangku.mirror', '移动到哪个仓库？')
+    beijianfull = fields.Char()
+    # geti = fields.Many2one('wms.geti', '个体')
 
 
-    @api.multi
-    def progress_next(self):
-        self.ensure_one()
-        if self.state == 'selcangku':
-            if not self.cangku:
-                raise ValidationError("请选择仓库！")
-            self.state = 'selbeijianext'
-            return {
-                'name': '入库确认',
-                'type': 'ir.actions.act_window',
-                'res_model': 'wms.wizard.rukuqueren',
-                'views': [[self.env.ref('wms.rukuqueren_wizard_view').id, 'form']],
-                'target': 'new_no_close',
-                'context': {
-                    'beijianext': self.beijianext.id,
-                    'rukushuliang': self.rukushuliang,
-                    'huowei': self.huowei.id,
-                    'changjia': self.changjia.id if self.changjia else False,
-                    'shengchanriqi': self.shengchanriqi,
-                    'pihao': self.pihao,
-                    'hide_close_btn': True,}}
-        return {'type': "ir_actions_act_window_donothing",}
+    @api.model
+    def default_get(self, fields):
+        res = super(YikuWiz, self).default_get(fields)
+        geti = self.env['wms.geti'].browse(self.env.context['geti'])
+        beijianext = geti.beijianext
+        res['beijianfull'] = '%s（%s）' % (beijianext.beijian.name, beijianext.name)
+        return res
 
     @api.multi
-    def progress_prev(self):
+    def save_yiku(self):
         self.ensure_one()
-        if self.state == 'selbeijianext':
-            self.state = 'selcangku'
-        elif self.state == 'fillform':
-            self.state = 'selbeijianext'
-        # elif self.state == 'confirm':
-        #     self.state = 'fillform'
-        return {'type': "ir_actions_act_window_donothing",}
+        if not self.cangku:
+            raise ValidationError("请选择仓库！")
+        geti = self.env['wms.geti'].browse(self.env.context['geti'])
+        # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
+        if geti.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
+            raise ValidationError("备件正在移库，若界面未更新，请刷新网页。%s" % geti.xuliehao)
+        geti.zhuangtai_core = 'yikuqu'
+        self.env['wms.lishijilu'].create({
+            'xinxi': '从"%s"移动到"%s",等待接收方收货' % (geti.huowei.complete_bianma, cangku.name),
+            'geti_id': geti.id,})
+        self.state = 'complete'
+        return {'type': 'ir_actions_act_window_donothing'}

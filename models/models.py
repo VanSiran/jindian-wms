@@ -239,6 +239,30 @@ class Cangku(models.Model):
         return True
 
 
+class CangkuSqlView(models.Model):
+    _name = 'wms.cangku.mirror'
+    _description = '仓库镜像'
+    _auto = False
+
+    name = fields.Char('仓库名称', required=True)
+    suoxie = fields.Char('搜索缩写', required=False)
+    # complete_name = fields.Char(
+    #     '仓库组织结构', compute='_compute_complete_name', store=True)
+    parent_id = fields.Many2one('wms.cangku', '上级仓库', ondelete='restrict')
+    # child_id = fields.One2many('wms.cangku', 'parent_id', '子仓库')
+    parent_left = fields.Integer('Left Parent', index=1)
+    parent_right = fields.Integer('Right Parent', index=1)
+
+    @api.model_cr
+    def init(self):
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        query = '''
+        CREATE OR REPLACE VIEW wms_cangku_mirror AS (
+        SELECT id, name, parent_id, parent_left, parent_right, suoxie
+        FROM wms_cangku)'''
+        self.env.cr.execute(query)
+
+
 class Changjia(models.Model):
     _name = 'wms.changjia'
     _description = "供应商"
