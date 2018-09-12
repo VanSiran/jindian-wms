@@ -2,3 +2,6 @@ pg_dumpall -Uodoo > /var/lib/postgresql/data/bkup_all.dmp
 
 docker ps
 docker cp 18e43386f068:/var/lib/postgresql/data/bkup_all.dmp .
+
+
+psql –f /usr/local/pgsql/backup/pg_all.dmp postgres
