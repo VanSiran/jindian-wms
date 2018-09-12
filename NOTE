@@ -1,0 +1,1 @@
+pg_dumpall -Uodoo > /var/lib/postgresql/data/bkup_all.dmp
