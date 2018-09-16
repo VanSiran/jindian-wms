@@ -1,7 +1,14 @@
+# host 1
 pg_dumpall -Uodoo > /var/lib/postgresql/data/bkup_all.dmp
-
 docker ps
 docker cp 18e43386f068:/var/lib/postgresql/data/bkup_all.dmp .
 
-
-psql –f /usr/local/pgsql/backup/pg_all.dmp postgres
+# host 2
+docker ps
+docker cp bkup_all.dmp 8732558fe714:/var/lib/postgresql/data/
+psql -Uodoo
+\l
+DROP DATABASE "xxx";
+CREATE DATABASE "xxx";
+\q
+psql -Uodoo –f /var/lib/postgresql/data/bkup_all.dmp xxx
