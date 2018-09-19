@@ -92,6 +92,45 @@ class BJGeTi(models.Model):
             'xinxi': '检测通过',
             'geti_id': self.id,})
 
+    @api.multi
+    def list_geti(self, cangku, shebei):
+        # NOTE: 此处若顶层仓库不是“电务段”要更改！
+        domain = []
+        if isinstance(cangku, (list, tuple)):
+            domain.append(('cangku.complete_name', '=', ' / '.join(str(x) for x in cangku if x)))
+            #duan = '电务段'
+        elif isinstance(cangku, str):
+            domain.append(('cangku.name', '=', cangku))
+        else:
+            return "Error: 'cangku' 必须是数组、字符串"
+        if isinstance(shebei, (list, tuple)):
+            shebeiname = ' / '.join(str(x) for x in shebei if x)
+            shebeiobj = self.env['wms.shebei'].search([('complete_name','=',shebeiname)], limit=1)
+            if len(shebeiobj) == 1:
+                domain.append(('beijianext','in',[obj.id for obj in shebeiobj.beijianexts]))
+            else:
+                return "Error: 未找到设备 %s" % shebeiname
+            #domain.append(('beijianext.shiyongshebei.complete_name', '=', ' / '.join(str(x) for x in cangku)))
+        elif isinstance(shebei, str):
+            pass
+            #domain.append(('cangku.name', '=', cangku))
+        else:
+            return "Error: 'cangku' 必须是数组、字符串"
+        # NOTE: 返回可用备件
+        domain.append(('zhuangtai','in',('zaiku', 'daijiance', 'daibaofei')))
+        objs = self.search(domain)
+        return [
+            {'beijianmingcheng': obj.beijian.name,
+             'beijianxinghao': obj.beijianext.name,
+             'huowei': obj.huowei.complete_bianma,
+             'bianhao': obj.xuliehao,
+             'zhuangtai': obj.zhuangtai,
+             'changjia': obj.changjia.name,
+             'shiyongshebei': [x.complete_name for x in obj.shiyongshebei],
+             'pihao': obj.pihao,
+             'shengchanriqi': obj.shengchanriqi}
+              for obj in objs]
+
     # @api.multi
     # def baofei(self):
     #     self.ensure_one()
