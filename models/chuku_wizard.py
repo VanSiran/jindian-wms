@@ -39,7 +39,6 @@ class ChukuWiz(models.TransientModel):
         self.state = 'dest'
         return {'type': 'ir_actions_act_window_donothing'}
 
-
     @api.multi
     def save_chuku(self):
         self.ensure_one()

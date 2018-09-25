@@ -111,11 +111,10 @@ class BJGeTi(models.Model):
             else:
                 return "Error: 未找到设备 %s" % shebeiname
             #domain.append(('beijianext.shiyongshebei.complete_name', '=', ' / '.join(str(x) for x in cangku)))
-        elif isinstance(shebei, str):
-            pass
-            #domain.append(('cangku.name', '=', cangku))
+        # elif isinstance(shebei, str):
+        #     return "Error: 未找到设备 %s" % shebeiname
         else:
-            return "Error: 'cangku' 必须是数组、字符串"
+            return "Error: 'shebei' 必须是数组"
         # NOTE: 返回可用备件
         domain.append(('zhuangtai','in',('zaiku', 'daijiance', 'daibaofei')))
         objs = self.search(domain)
@@ -130,6 +129,36 @@ class BJGeTi(models.Model):
              'pihao': obj.pihao,
              'shengchanriqi': obj.shengchanriqi}
               for obj in objs]
+
+    @api.multi
+    def chuku(self, bianhao, yongtu, yonghu):
+        if isinstance(bianhao, str):
+            domain = [('xuliehao', '=', bianhao)]
+        elif isinstance(bianhao, (list, tuple)):
+            domain = [('xuliehao', 'in', bianhao)]
+        else:
+            return "Error: 'bianhao' 必须是数组、字符串"
+        objs = self.search(domain)
+        if len(objs):
+            for obj in objs:
+                # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
+                if obj.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
+                    return "Error: 备件已经出库。%s" % obj.xuliehao
+                obj.zhuangtai_core = 'chukuqu'
+                # user = self.env['res.users'].search([('name','=',yonghu)], limit=1)
+                self.env['wms.lishijilu'].create({
+                    'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, yongtu, "(办理人: %s)" % yonghu),
+                    'geti_id': obj.id,})
+                    #'create_uid': user.id if user else False})
+                return "Success: 出库成功。%s" % obj.xuliehao
+                # hist = {
+                #     'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, self.yongtu, "(办理人: %s)" % yonghu if not user else ''),
+                #     'geti_id': geti.id,}
+                # if user:
+                #     hist['create_uid'] = user.id
+                # self.env['wms.lishijilu'].create()
+        else:
+            return "Error: 'bianhao' 未找到"
 
     # @api.multi
     # def baofei(self):
