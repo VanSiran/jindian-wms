@@ -35,8 +35,11 @@ class YikuWiz(models.TransientModel):
         if geti.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
             raise ValidationError("备件正在移库，若界面未更新，请刷新网页。%s" % geti.xuliehao)
         geti.zhuangtai_core = 'yikuqu'
+        self.env['wms.daiyiku'].create({
+            'geti_id': geti.id,
+            'mudicangku': self.cangku.id,})
         self.env['wms.lishijilu'].create({
-            'xinxi': '从"%s"移动到"%s",等待接收方收货' % (geti.huowei.complete_bianma, cangku.name),
+            'xinxi': '从"%s"移动到"%s",等待接收方收货' % (geti.huowei.complete_bianma, self.cangku.name),
             'geti_id': geti.id,})
         self.state = 'complete'
         return {'type': 'ir_actions_act_window_donothing'}

@@ -160,21 +160,14 @@ class BJGeTi(models.Model):
         else:
             return "Error: 'bianhao' 未找到"
 
-    # @api.multi
-    # def baofei(self):
-    #     self.ensure_one()
-    #     self.zhuangtai = 'baofei'
-    #     self.env['wms.lishijilu'].create({
-    #         'xinxi': '报废',
-    #         'geti_id': self.id,})
-    # @api.multi
-    # def yiku(self):
-    #     self.ensure_one()
-    #     self.zhuangtai = 'yiku'
-    #     self.env['wms.lishijilu'].create({
-    #         'xinxi': '从"%s"出库' % self.huowei.complete_bianma,
-    #         'geti_id': self.id,})
 
+class DaiYiku(models.Model):
+    _name = 'wms.daiyiku'
+    _description = '待移库记录'
+
+    geti_id = fields.Many2one('wms.geti', string="个体", required=True, ondelete="cascade")
+    yuancangku = fields.Many2one('wms.cangku', string="原始仓库", related="geti_id.cangku")
+    mudicangku = fields.Many2one('wms.cangku', string="目的仓库", required=True)
 
 class LishiJilu(models.Model):
     _name = 'wms.lishijilu'
