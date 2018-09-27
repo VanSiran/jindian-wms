@@ -97,14 +97,14 @@ class BJGeTi(models.Model):
         # NOTE: 此处若顶层仓库不是“电务段”要更改！
         domain = []
         if isinstance(cangku, (list, tuple)):
-            domain.append(('cangku.complete_name', '=', ' / '.join(str(x) for x in cangku if x)))
+            domain.append(('cangku.complete_name', '=', ' / '.join(str(x).strip() for x in cangku if x)))
             #duan = '电务段'
         elif isinstance(cangku, str):
-            domain.append(('cangku.name', '=', cangku))
+            domain.append(('cangku.name', '=', cangku.strip()))
         else:
             return "Error: 'cangku' 必须是数组、字符串"
         if isinstance(shebei, (list, tuple)):
-            shebeiname = ' / '.join(str(x) for x in shebei if x)
+            shebeiname = ' / '.join(str(x).strip() for x in shebei if x)
             shebeiobj = self.env['wms.shebei'].search([('complete_name','=',shebeiname)], limit=1)
             if len(shebeiobj) == 1:
                 domain.append(('beijianext','in',[obj.id for obj in shebeiobj.beijianexts]))
@@ -133,9 +133,9 @@ class BJGeTi(models.Model):
     @api.multi
     def chuku(self, bianhao, yongtu, yonghu):
         if isinstance(bianhao, str):
-            domain = [('xuliehao', '=', bianhao)]
+            domain = [('xuliehao', '=', bianhao.strip())]
         elif isinstance(bianhao, (list, tuple)):
-            domain = [('xuliehao', 'in', bianhao)]
+            domain = [('xuliehao', 'in', [x.strip() for x in bianhao])]
         else:
             return "Error: 'bianhao' 必须是数组、字符串"
         objs = self.search(domain)
