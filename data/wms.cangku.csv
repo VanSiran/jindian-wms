@@ -1,6 +1,5 @@
 "id","parent_id/id","name","suoxie"
 "wms.cangku_dwd","","电务段","dwd",""
-<<<<<<< HEAD
 "wms.cangku_czhcj","wms.cangku_dwd","曹庄车间","czcj"
 "__export__.wms_cangku_3","wms.cangku_czhcj","西站工区","xzgq"
 "__export__.wms_cangku_4","wms.cangku_czhcj","货通场工区","htcgq"
@@ -10,13 +9,3 @@
 "__export__.wms_cangku_7","wms.cangku_czcj","沧二工区","cegq"
 "wms.cangku_jhgcj","wms.cangku_dwd","京沪高铁车间","jhgcj"
 "wms.cangku_cangzhouxizhan","wms.cangku_jhgcj","沧州西站工区","czxzgq"
-=======
-"wms.cangku_czhcj","wms.cangku_dwd","曹庄车间","czcj",""
-"__export__.wms_cangku_3","wms.cangku_czhcj","西站工区","xzgq",""
-"__export__.wms_cangku_4","wms.cangku_czhcj","货通场工区","htcgq",""
-"__export__.wms_cangku_8","wms.cangku_dwd","检修车间","jxcj",""
-"wms.cangku_czcj","wms.cangku_dwd","沧州车间","czcj",""
-"__export__.wms_cangku_6","wms.cangku_czcj","沧一工区","cygq",""
-"__export__.wms_cangku_7","wms.cangku_czcj","沧二工区","cegq",""
-"wms.cangku_jhgcj","wms.cangku_dwd","京沪高铁车间","jhgcj",""
->>>>>>> 31d679925e7a10bb2a7ff04470566465dcff3ca9
