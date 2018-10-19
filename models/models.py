@@ -97,12 +97,16 @@ class BJGeTi(models.Model):
         # NOTE: 此处若顶层仓库不是“电务段”要更改！
         domain = []
         if isinstance(cangku, (list, tuple)):
-            domain.append(('cangku.complete_name', '=', ' / '.join(str(x).strip() for x in cangku if x)))
+            dcangku = ('cangku.complete_name', '=', ' / '.join(str(x).strip() for x in cangku if x))
             #duan = '电务段'
         elif isinstance(cangku, str):
-            domain.append(('cangku.name', '=', cangku.strip()))
+            dcangku = ('cangku.name', '=', cangku.strip())
         else:
             return "Error: 'cangku' 必须是数组、字符串"
+        dtcangku = tuple([dcangku[0].replace('cangku.', ''), *dcangku[1:]])
+        if self.env['wms.cangku'].search_count([dtcangku]) == 0:
+            return "Error: 未找到仓库 %s" % dtcangku[2]
+        domain.append(dcangku)
         if isinstance(shebei, (list, tuple)):
             shebeiname = ' / '.join(str(x).strip() for x in shebei if x)
             shebeiobj = self.env['wms.shebei'].search([('complete_name','=',shebeiname)], limit=1)
@@ -166,8 +170,50 @@ class DaiYiku(models.Model):
     _description = '待移库记录'
 
     geti_id = fields.Many2one('wms.geti', string="个体", required=True, ondelete="cascade")
+    # beijian = fields.Many2one('wms.beijian', string="备件名称", related="geti_id.beijian")
+    # beijianext = fields.Many2one('wms.beijianext', string="备件型号", related="geti_id.beijianext")
     yuancangku = fields.Many2one('wms.cangku', string="原始仓库", related="geti_id.cangku")
     mudicangku = fields.Many2one('wms.cangku', string="目的仓库", required=True)
+
+    # @api.multi
+    # def querenshouhuo(self):
+    #     if self.env['wms.kucuncelue'].search_count([
+    #         ('beijianext', '=', self.beijianext.id),
+    #         ('cangku', '=', self.cangku.id)]) == 0:
+    #         return {
+    #             'name': '为此备件设置库存报警',
+    #             'type': 'ir.actions.act_window',
+    #             'res_model': 'wms.wizard.setkucuncelue',
+    #             'views': [[
+    #                 self.env.ref('wms.setkucuncelue_wizard_view').id, 'form']],
+    #             'target': 'new',
+    #             'context': {
+    #                 'cangku': self.cangku.id,
+    #                 'beijianext': self.beijianext.id,
+    #                 'object': self.id,}}
+    #     if self.env['wms.huowei'].search_count([
+    #         ('beijianext', '=', self.beijianext.id),
+    #         ('cangku', '=', self.cangku.id)]) == 0:
+    #         return {
+    #             'name': '为此备件分配货位',
+    #             'type': 'ir.actions.act_window',
+    #             'res_model': 'wms.wizard.newhuowei',
+    #             'views': [[self.env.ref('wms.newhuowei_wizard_view').id, 'form']],
+    #             'target': 'new',
+    #             'context': {
+    #                 'cangku': self.cangku.id,
+    #                 'beijianext': self.beijianext.id,
+    #                 'object': self.id,}}
+    #     return {
+    #         'name': '将此备件存储到哪个货位',
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'wms.wizard.yikuqueren',
+    #         'views': [[self.env.ref('wms.newhuowei_wizard_view').id, 'form']],
+    #         'target': 'new',
+    #         'context': {
+    #             'cangku': self.cangku.id,
+    #             'beijianext': self.beijianext.id,
+    #             'object': self.id,}}
 
 class LishiJilu(models.Model):
     _name = 'wms.lishijilu'
