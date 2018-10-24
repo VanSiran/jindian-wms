@@ -3,13 +3,16 @@ from odoo.http import request
 
 class Main(http.Controller):
     @http.route('/wms/json/list', type='json', auth='none')
-    def list(self):
-        # records = [1,2,3]
-        # obj = request.env['wms.geti'].sudo()
-        records = self.list_geti(['电务段'，'京沪高铁车间'，'沧州西站工区'], ['轨道电路'，'ZPW-2000K'])
+    def list(self, cangku, shebei):
+        obj = request.env['wms.geti'].sudo()
+        records = obj.list_geti(cangku, shebei)
         return records
+        # example:
+        #  curl -i -X POST -H "Content-Type:application/json" -d '{"params":{"cangku": ["\u7535\u52a1\u6bb5", "\u4eac\u6caa\u9ad8\u94c1\u8f66\u95f4", "\u6ca7\u5dde\u897f\u7ad9\u5de5\u533a"], "shebei": ["\u8f68\u9053\u7535\u8def", "ZPW-2000K"]}}' http://47.95.8.185/wms/json/list
 
-    def list_geti(cangku, shebei):
+    # note: this method deprecated!
+    def list_geti(self, cangku, shebei):
+        # return [1,2,3,4,5,6]
         # NOTE: 此处若顶层仓库不是“电务段”要更改！
         domain = []
         if isinstance(cangku, (list, tuple)):
