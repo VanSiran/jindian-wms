@@ -2,13 +2,17 @@ from odoo import http
 from odoo.http import request
 
 class Main(http.Controller):
-    @http.route('/wms/json/list', type='json', auth='none')
+    @http.route('/wms/json/list', type='json', auth='none', cors="*")
     def list(self, cangku, shebei):
         obj = request.env['wms.geti'].sudo()
         records = obj.list_geti(cangku, shebei)
         return records
         # example:
         #  curl -i -X POST -H "Content-Type:application/json" -d '{"params":{"cangku": ["\u7535\u52a1\u6bb5", "\u4eac\u6caa\u9ad8\u94c1\u8f66\u95f4", "\u6ca7\u5dde\u897f\u7ad9\u5de5\u533a"], "shebei": ["\u8f68\u9053\u7535\u8def", "ZPW-2000K"]}}' http://47.95.8.185/wms/json/list
+
+    @http.route('/wms/json/chuku', type='json', auth='user')
+    def chuku(self):
+        return [1,2,3]
 
     # note: this method deprecated!
     def list_geti(self, cangku, shebei):
