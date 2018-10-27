@@ -45,3 +45,7 @@ class Newhuowei(models.TransientModel):
                 wiz.huowei = inventory
                 if wiz.state != 'fillform':
                     return wiz.check_missing_settings()
+        elif self.env.context.get('object', -1) != -1:
+            wiz = self.env['wms.daiyiku'].browse(self.env.context['object'])
+            if wiz:
+                return wiz.querenshouhuo()

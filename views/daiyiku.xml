@@ -1,5 +1,51 @@
 <odoo>
   <data>
+    <record model="ir.ui.view" id="daiyiku_form_view">
+      <field name="name">待移库表视图</field>
+      <field name="model">wms.daiyiku</field>
+      <field name="arch" type="xml">
+        <form create="false" edit="false">
+          <sheet>
+            <div class="oe_button_box" name="button_box">
+              <button class="oe_stat_button" name="%(wms.chuku_wizard_act_window)d"
+                type="action" icon="fa-eject" context="{'geti': id}"
+                attrs="{'invisible': [('zhuangtai', 'not in', ('zaiku', 'daibaofei', 'daijiance'))]}">
+                  <div class="o_field_widget o_stat_info">
+                    <span class="o_stat_text">出库</span>
+                  </div>
+                </button>
+              </div>
+              <group>
+                <group>
+                  <field name="beijian" readonly="1"/>
+                  <field name="beijianext" readonly="1"/>
+                  <field name="shiyongshebei" readonly="1" widget="many2many_tags"/>
+                </group>
+                <group>
+                  <field name="xuliehao" readonly="1"/>
+                  <field name="zhuangtai" readonly="1"/>
+                  <field name="huowei" readonly="1"
+                    attrs="{'invisible': [('zhuangtai', '=', 'chuku')]}"/>
+                  <field name="cangku" readonly="1"
+                    attrs="{'invisible': [('zhuangtai', '!=', 'chuku')]}"/>
+                </group>
+              </group>
+              <group>
+                <group>
+                  <field name="changjia" readonly="1"/>
+                  <field name="pihao" readonly="1"/>
+                </group>
+                <group>
+                  <field name="shengchanriqi" readonly="1"/>
+                  <field name="jiancedaoqiri" readonly="1"/>
+                </group>
+              </group>
+              <field name="lishijilu" readonly="1"/>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
     <record id="daiyiku_act_window" model="ir.actions.act_window">
       <field name="name">待移库列表</field>
       <field name="type">ir.actions.act_window</field>

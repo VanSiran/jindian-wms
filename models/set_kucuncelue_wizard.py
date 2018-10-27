@@ -50,3 +50,7 @@ class SetKucuncelue(models.TransientModel):
             wiz = self.env['wms.wizard.ruku'].browse(self.env.context['wizard'])
             if wiz:
                 return wiz.check_missing_settings()
+        elif self.env.context.get('object', -1) != -1:
+            wiz = self.env['wms.daiyiku'].browse(self.env.context['object'])
+            if wiz:
+                return wiz.querenshouhuo()
