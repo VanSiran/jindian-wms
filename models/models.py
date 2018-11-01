@@ -102,10 +102,18 @@ class BJGeTi(models.Model):
         elif isinstance(cangku, str):
             dcangku = ('cangku.name', '=', cangku.strip())
         else:
-            return "Error: 'cangku' 必须是数组、字符串"
+            return {
+                "message": "仓库参数必须是数组或字符串",
+                "data": [],
+                "success": False
+            }
         dtcangku = tuple([dcangku[0].replace('cangku.', ''), *dcangku[1:]])
         if self.env['wms.cangku'].search_count([dtcangku]) == 0:
-            return "Error: 未找到仓库 %s" % dtcangku[2]
+            return {
+                "message": "找不到仓库 %s" % dtcangku[2],
+                "data": [],
+                "success": False
+            }
         domain.append(dcangku)
         if isinstance(shebei, (list, tuple)):
             shebeiname = ' / '.join(str(x).strip() for x in shebei if x)
@@ -113,26 +121,37 @@ class BJGeTi(models.Model):
             if len(shebeiobj) == 1:
                 domain.append(('beijianext','in',[obj.id for obj in shebeiobj.beijianexts]))
             else:
-                return "Error: 未找到设备 %s" % shebeiname
+                return {
+                    "message": "找不到设备 %s" % shebeiname,
+                    "data": [],
+                    "success": False
+                }
             #domain.append(('beijianext.shiyongshebei.complete_name', '=', ' / '.join(str(x) for x in cangku)))
         # elif isinstance(shebei, str):
         #     return "Error: 未找到设备 %s" % shebeiname
         else:
-            return "Error: 'shebei' 必须是数组"
+            return {
+                "message": "设备参数必须是数组",
+                "data": [],
+                "success": False
+            }
         # NOTE: 返回可用备件
         domain.append(('zhuangtai','in',('zaiku', 'daijiance', 'daibaofei')))
         objs = self.search(domain)
-        return [
-            {'beijianmingcheng': obj.beijian.name,
-             'beijianxinghao': obj.beijianext.name,
-             'huowei': obj.huowei.complete_bianma,
-             'bianhao': obj.xuliehao,
-             'zhuangtai': obj.zhuangtai,
-             'changjia': obj.changjia.name,
-             'shiyongshebei': [x.complete_name for x in obj.shiyongshebei],
-             'pihao': obj.pihao,
-             'shengchanriqi': obj.shengchanriqi}
-              for obj in objs]
+        return {
+            "success": True,
+            "message": "查询到 %d 个备件" % len(objs),
+            "data": [
+            {'beijianmingcheng': obj.beijian.name if obj.beijian.name else "",
+             'beijianxinghao': obj.beijianext.name if obj.beijianext.name else "",
+             'huowei': obj.huowei.complete_bianma if obj.huowei.complete_bianma else "",
+             'bianhao': obj.xuliehao if obj.xuliehao else "",
+             'zhuangtai': obj.zhuangtai if obj.zhuangtai else "",
+             'changjia': obj.changjia.name if obj.changjia.name else "",
+             'shiyongshebei': ", ".join(x.complete_name for x in obj.shiyongshebei) if obj.shiyongshebei else "",
+             'pihao': obj.pihao if obj.pihao else "",
+             'shengchanriqi': obj.shengchanriqi if obj.shengchanriqi else ""}
+              for obj in objs]}
 
     @api.multi
     def chuku(self, bianhao, yongtu, yonghu):
@@ -141,20 +160,32 @@ class BJGeTi(models.Model):
         elif isinstance(bianhao, (list, tuple)):
             domain = [('xuliehao', 'in', [x.strip() for x in bianhao])]
         else:
-            return "Error: 'bianhao' 必须是数组、字符串"
+            return {
+                "message": "编号参数必须是字符串",
+                "data": [],
+                "success": False
+            }
         objs = self.search(domain)
         if len(objs):
             for obj in objs:
                 # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
                 if obj.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
-                    return "Error: 备件已经出库。%s" % obj.xuliehao
+                    return {
+                        "message": "备件不可出库。%s" % obj.xuliehao,
+                        "data": [],
+                        "success": False
+                    }
                 obj.zhuangtai_core = 'chukuqu'
                 # user = self.env['res.users'].search([('name','=',yonghu)], limit=1)
                 self.env['wms.lishijilu'].create({
                     'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, yongtu, "(办理人: %s)" % yonghu),
                     'geti_id': obj.id,})
                     #'create_uid': user.id if user else False})
-                return "Success: 出库成功。%s" % obj.xuliehao
+                return {
+                    "message": "%s 出库成功。" % obj.xuliehao,
+                    "data": [],
+                    "success": True
+                }
                 # hist = {
                 #     'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, self.yongtu, "(办理人: %s)" % yonghu if not user else ''),
                 #     'geti_id': geti.id,}
@@ -162,7 +193,11 @@ class BJGeTi(models.Model):
                 #     hist['create_uid'] = user.id
                 # self.env['wms.lishijilu'].create()
         else:
-            return "Error: 'bianhao' 未找到"
+            return {
+                "message": "未找到此编号",
+                "data": [],
+                "success": False
+            }
 
 
 class DaiYiku(models.Model):
