@@ -138,6 +138,7 @@ class BJGeTi(models.Model):
         # NOTE: 返回可用备件
         domain.append(('zhuangtai','in',('zaiku', 'daijiance', 'daibaofei')))
         objs = self.search(domain)
+        ztdic = {'zaiku': '在库', 'daijiance': '待检测', 'daibaofei': '待报废'}
         return {
             "success": True,
             "message": "查询到 %d 个备件" % len(objs),
@@ -146,7 +147,7 @@ class BJGeTi(models.Model):
              'beijianxinghao': obj.beijianext.name if obj.beijianext.name else "",
              'huowei': obj.huowei.complete_bianma if obj.huowei.complete_bianma else "",
              'bianhao': obj.xuliehao if obj.xuliehao else "",
-             'zhuangtai': obj.zhuangtai if obj.zhuangtai else "",
+             'zhuangtai': ztdic[obj.zhuangtai],
              'changjia': obj.changjia.name if obj.changjia.name else "",
              'shiyongshebei': ", ".join(x.complete_name for x in obj.shiyongshebei) if obj.shiyongshebei else "",
              'pihao': obj.pihao if obj.pihao else "",
