@@ -160,20 +160,32 @@ class BJGeTi(models.Model):
         elif isinstance(bianhao, (list, tuple)):
             domain = [('xuliehao', 'in', [x.strip() for x in bianhao])]
         else:
-            return "Error: 'bianhao' 必须是数组、字符串"
+            return {
+                "message": "编号参数必须是字符串",
+                "data": [],
+                "success": False
+            }
         objs = self.search(domain)
         if len(objs):
             for obj in objs:
                 # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
                 if obj.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
-                    return "Error: 备件已经出库。%s" % obj.xuliehao
+                    return {
+                        "message": "备件不可出库。%s" % obj.xuliehao,
+                        "data": [],
+                        "success": False
+                    }
                 obj.zhuangtai_core = 'chukuqu'
                 # user = self.env['res.users'].search([('name','=',yonghu)], limit=1)
                 self.env['wms.lishijilu'].create({
                     'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, yongtu, "(办理人: %s)" % yonghu),
                     'geti_id': obj.id,})
                     #'create_uid': user.id if user else False})
-                return "Success: 出库成功。%s" % obj.xuliehao
+                return {
+                    "message": "%s 出库成功。" % obj.xuliehao,
+                    "data": [],
+                    "success": True
+                }
                 # hist = {
                 #     'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, self.yongtu, "(办理人: %s)" % yonghu if not user else ''),
                 #     'geti_id': geti.id,}
@@ -181,7 +193,11 @@ class BJGeTi(models.Model):
                 #     hist['create_uid'] = user.id
                 # self.env['wms.lishijilu'].create()
         else:
-            return "Error: 'bianhao' 未找到"
+            return {
+                "message": "未找到此编号",
+                "data": [],
+                "success": False
+            }
 
 
 class DaiYiku(models.Model):
