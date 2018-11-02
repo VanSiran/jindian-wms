@@ -158,6 +158,7 @@ class BJGeTi(models.Model):
     def chuku(self, bianhao, yongtu, yonghu):
         if isinstance(bianhao, str):
             domain = [('xuliehao', '=', bianhao.strip())]
+            bianhao = [bianhao,]
         elif isinstance(bianhao, (list, tuple)):
             domain = [('xuliehao', 'in', [x.strip() for x in bianhao])]
         else:
@@ -167,6 +168,30 @@ class BJGeTi(models.Model):
                 "success": False
             }
         objs = self.search(domain)
+        state_fail_arr = []
+        success_arr = []
+        for obj in objs:
+            if obj.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
+                state_fail_arr.append(obj.xuliehao)
+                continue
+            success_arr.append(obj.xuliehao)
+        notfound_arr = list(set(bianhao) - set(state_fail_arr) - set(success_arr))
+        if set(notfound_arr) + set(state_fail_arr):
+            return {
+                "message": "".join(["%s未找到; " % nf for nf in notfound_arr] + ["%s已出库或不允许出库; " % sf for sf in state_fail_arr]),
+                "data": [],
+                "success": False
+            }
+        for obj in objs:
+            obj.zhuangtai_core = 'chuku'
+            self.env['wms.lishijilu'].create({
+                'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, yongtu, "(办理人: %s)" % yonghu),
+                'geti_id': obj.id,})
+        return {
+            "message": "%d 个备件出库成功" % len(objs),
+            "data": [],
+            "success": True
+        }
         # fail_arr = []
         success_arr = []
         for obj in objs:
