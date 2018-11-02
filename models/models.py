@@ -162,43 +162,50 @@ class BJGeTi(models.Model):
             domain = [('xuliehao', 'in', [x.strip() for x in bianhao])]
         else:
             return {
-                "message": "编号参数必须是字符串",
+                "message": "编号参数必须是字符串或数组",
                 "data": [],
                 "success": False
             }
         objs = self.search(domain)
-        if len(objs):
-            for obj in objs:
-                # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
-                if obj.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
-                    return {
-                        "message": "备件不可出库。%s" % obj.xuliehao,
-                        "data": [],
-                        "success": False
-                    }
-                obj.zhuangtai_core = 'chukuqu'
-                # user = self.env['res.users'].search([('name','=',yonghu)], limit=1)
-                self.env['wms.lishijilu'].create({
-                    'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, yongtu, "(办理人: %s)" % yonghu),
-                    'geti_id': obj.id,})
-                    #'create_uid': user.id if user else False})
-                return {
-                    "message": "%s 出库成功。" % obj.xuliehao,
-                    "data": [],
-                    "success": True
-                }
-                # hist = {
-                #     'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, self.yongtu, "(办理人: %s)" % yonghu if not user else ''),
-                #     'geti_id': geti.id,}
-                # if user:
-                #     hist['create_uid'] = user.id
-                # self.env['wms.lishijilu'].create()
-        else:
-            return {
-                "message": "未找到此编号",
-                "data": [],
-                "success": False
-            }
+        # fail_arr = []
+        success_arr = []
+        for obj in objs:
+            # NOTE: 此处的状态判断要与geti视图中的按钮显示条件一致
+            if obj.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
+                # fail_arr.append({
+                #     "message": "备件状态不允许出库。",
+                #     "data": obj.xuliehao,
+                # })
+                # fail_arr.append(obj.xuliehao)
+                continue
+            obj.zhuangtai_core = 'chukuqu'
+            # user = self.env['res.users'].search([('name','=',yonghu)], limit=1)
+            self.env['wms.lishijilu'].create({
+                'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, yongtu, "(办理人: %s)" % yonghu),
+                'geti_id': obj.id,})
+                #'create_uid': user.id if user else False})
+            # success_arr.append({
+            #     "message": "成功",
+            #     "data": obj.xuliehao,
+            # })
+            success_arr.append(obj.xuliehao)
+            # return {
+            #     "message": "%s 出库成功。" % obj.xuliehao,
+            #     "data": [],
+            #     "success": True
+            # }
+            # hist = {
+            #     'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, self.yongtu, "(办理人: %s)" % yonghu if not user else ''),
+            #     'geti_id': geti.id,}
+            # if user:
+            #     hist['create_uid'] = user.id
+            # self.env['wms.lishijilu'].create()
+        fail_arr = list(set(bianhao) - set(success_arr))
+        return {
+            "message": "%s 个成功，%s 个失败" % (len(success_arr), len(fail_arr)),
+            "data": {"success": success_arr, "fail": fail_arr},
+            "success": True
+        }
 
 
 class DaiYiku(models.Model):
