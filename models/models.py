@@ -176,7 +176,7 @@ class BJGeTi(models.Model):
                 continue
             success_arr.append(obj.xuliehao)
         notfound_arr = list(set(bianhao) - set(state_fail_arr) - set(success_arr))
-        if set(notfound_arr) + set(state_fail_arr):
+        if notfound_arr or state_fail_arr:
             return {
                 "message": "".join(["%s未找到; " % nf for nf in notfound_arr] + ["%s已出库或不允许出库; " % sf for sf in state_fail_arr]),
                 "data": [],
