@@ -183,7 +183,7 @@ class BJGeTi(models.Model):
                 "success": False
             }
         for obj in objs:
-            obj.zhuangtai_core = 'chuku'
+            obj.zhuangtai_core = 'chukuqu'
             self.env['wms.lishijilu'].create({
                 'xinxi': '从"%s"出库,用于"%s" %s' % (obj.huowei.complete_bianma, yongtu, "(办理人: %s)" % yonghu),
                 'geti_id': obj.id,})
