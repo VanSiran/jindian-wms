@@ -3,7 +3,7 @@
 from odoo.exceptions import ValidationError
 from odoo import models, fields, api, tools
 import datetime, dateutil
-
+from fuzzywuzzy import process
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -311,6 +311,14 @@ class BeijianExt(models.Model):
     # image_medium = fields.Binary("图片（中）", attachment=True)
     # image_small = fields.Binary("图片（小）", attachment=True)
     data = fields.Text('附加数据')
+
+    @api.multi
+    def find_similar(self, dest):
+        # fuzz.partial_ratio
+        names = self.search([]).mapped(lambda r: {"id": r.id, "beijianext": r.name, "beijian": r.beijian.name})
+        # names = self.search([]).mapped(lambda r: (r.id, r.name, r.beijian.name))
+        # _logger.info(names)
+        return process.extractBests({"beijianext": dest}, names, processor=lambda x: x["beijianext"], score_cutoff=60)
 
 
 class Beijian(models.Model):
