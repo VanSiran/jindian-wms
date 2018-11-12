@@ -486,6 +486,24 @@ class Huowei(models.Model):
     bukeyonggetishu = fields.Integer('本货位不可用备品数量', compute='_compute_getishu', store=True)
     geti = fields.One2many('wms.geti', 'huowei', '架上备品', domain=[('zhuangtai_core', '=', 'jiashang')])
 
+    @api.multi
+    def create_huowei_check_celue(self, bianma, cangku, beijianext):
+        celue = self.env['wms.kucuncelue'].search([('cangku.id', '=', cangku), ('beijianext.id', '=', beijianext)])
+        msg = "not create new celue"
+        if len(celue) == 0:
+            celue = self.env['wms.kucuncelue'].create({
+                'beijianext': beijianext,
+                'cangku': cangku,
+                'xiaxian': 0,
+                'shangxian': 0,
+            })
+            msg = "create new celue"
+        huowei = self.create({
+            'bianma': bianma,
+            'kucuncelue': celue.id,
+        })
+        return {"id":huowei.id,"msg":msg}
+        # pass
 
 class Kucuncelue(models.Model):
     _name = 'wms.kucuncelue'
