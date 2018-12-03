@@ -205,6 +205,17 @@ class BJGeTi(models.Model):
               for obj in objs]}
 
     @api.multi
+    def phone_chuku(self, yongtu):
+        self.ensure_one()
+        if self.zhuangtai not in ('zaiku', 'daibaofei', 'daijiance'):
+            raise ValidationError("备件已经出库，若界面未更新，请刷新网页。%s" % self.xuliehao)
+        self.zhuangtai_core = 'chukuqu'
+        self.env['wms.lishijilu'].create({
+            'xinxi': '从"%s"出库,用于"%s"' % (self.huowei.complete_bianma, yongtu),
+            'geti_id': self.id,})
+        return {'result': 'no_error'}
+
+    @api.multi
     def chuku(self, bianhao, yongtu, yonghu):
         if isinstance(bianhao, str):
             domain = [('xuliehao', '=', bianhao.strip())]
