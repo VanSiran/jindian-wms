@@ -135,7 +135,7 @@ class BJGeTi(models.Model):
             "jiancedaoqiri": res.jiancedaoqiri,
             "jiancebaojing": res.beijianext.jiancebaojing,
             "type": type,
-            "is_own": True if self.browse(res.id) else False
+            "is_own": True if self.search_count([('id','=',ress.id)]) else False
         } for res in ress]
 
 
