@@ -112,6 +112,8 @@ class BJGeTi(models.Model):
 
     @api.model
     def info(self, code):
+        if not code:
+            return []
         ress = self.search([('xuliehao', '=', code)], limit=1)
         type = 'xuliehao'
         if not ress:
