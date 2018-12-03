@@ -122,6 +122,7 @@ class BJGeTi(models.Model):
             # if not ress:
             #     return []
         return [{
+            "id": res.id,
             "beijian": res.beijian.name,
             "beijianext": res.beijianext.name,
             "xuliehao": res.xuliehao,
