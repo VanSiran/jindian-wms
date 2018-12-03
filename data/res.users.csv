@@ -1,2 +1,0 @@
-"id","name","cangku/id","login","groups_id/id","password_crypt"
-"__export__.res_users_5","贾奇","__export__.wms_cangku_4","jq","base.group_user,base.group_no_one,res_groups_zhigong,base.group_partner_manager","$pbkdf2-sha512$25000$PWfM2fufE.K8NyYEQAgBYA$HuapXWTVz3y/E6EZOagenl8DIdV5HLlZqYqT5vI.SKu/L2LeMSDjuwemmqqXFS95zlziz6jzetl0MaaU6u9K7A"

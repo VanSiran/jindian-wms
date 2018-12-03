@@ -22,5 +22,3 @@
 "__export__.ir_model_access_143","False","False","False","备件个体","wms.model_wms_geti","True","res_groups_diaodu","True"
 "__export__.ir_model_access_145","False","False","False","库存报警","wms.model_wms_sqlview_kucunbaojing","True","res_groups_zhigong","True"
 "__export__.ir_model_access_147","False","False","False","仓库镜像","wms.model_wms_cangku_mirror","True","res_groups_zhigong","True"
-
-"wms.ir_model_access_daiyiku","True","True","True","待移库","wms.model_wms_daiyiku","True","res_groups_zhigong","True"
