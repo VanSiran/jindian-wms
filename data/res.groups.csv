@@ -1,4 +1,4 @@
 "id","share","category_id/id","implied_ids/id","is_portal","view_access/id","name","menu_access/id","color","comment"
-"res_groups_zhigong","False","base.module_category_human_resources","","False","","职工","wms.menu_root,wms.menu_dashboard1,wms.menu_jiancebaojing,wms.menu_geti,wms.menu_kucuncelue,wms.menu_daiyiku","0",""
+"res_groups_zhigong","False","base.module_category_human_resources","","False","","职工","wms.menu_root,wms.menu_dashboard1,wms.menu_jiancebaojing,wms.menu_geti,wms.menu_kucuncelue","0",""
 "res_groups_diaodu","False","base.module_category_human_resources","","False","","调度","wms.menu_root,wms.menu_jiancebaojing,wms.menu_geti,wms.menu_kucuncelue","0",""
 "res_groups_baoguanyuan","False","base.module_category_human_resources","res_groups_zhigong","False","","仓库包管员","","0",""
