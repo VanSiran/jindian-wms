@@ -110,6 +110,33 @@ class BJGeTi(models.Model):
             'xinxi': '检测通过',
             'geti_id': self.id,})
 
+    @api.model
+    def info(self, code):
+        ress = self.search([('xuliehao', '=', code)], limit=1)
+        type = 'xuliehao'
+        if not ress:
+            ress = self.search([('changbianhao', '=', code)])
+            type = 'changbianhao'
+            # if not ress:
+            #     return []
+        return [{
+            "beijian": res.beijian.name,
+            "beijianext": res.beijianext.name,
+            "xuliehao": res.xuliehao,
+            "zhuangtai": res.zhuangtai,
+            "shiyongshebei": [r.name for r in res.shiyongshebei],
+            "huowei": res.huowei.name,
+            "cangku": res.cangku.name,
+            "changjia": res.changjia.name,
+            "shengchanriqi": res.shengchanriqi,
+            "pihao": res.pihao,
+            "changbianhao": res.changbianhao,
+            "jiancedaoqiri": res.jiancedaoqiri,
+            "jiancebaojing": res.beijianext.jiancebaojing,
+            "type": type
+        } for res in ress]
+
+
     @api.multi
     def list_geti(self, cangku, shebei, recursive, limit, offset):
         # NOTE: 此处若顶层仓库不是“电务段”要更改！
