@@ -119,8 +119,6 @@ class BJGeTi(models.Model):
         if not ress:
             ress = self.sudo().search([('changbianhao', '=', code)])
             type = 'changbianhao'
-            # if not ress:
-            #     return []
         return [{
             "id": res.id,
             "beijian": res.beijian.name,
@@ -136,7 +134,8 @@ class BJGeTi(models.Model):
             "changbianhao": res.changbianhao,
             "jiancedaoqiri": res.jiancedaoqiri,
             "jiancebaojing": res.beijianext.jiancebaojing,
-            "type": type
+            "type": type,
+            "is_own": True if self.browse(res.id) else False
         } for res in ress]
 
 
