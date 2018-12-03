@@ -27,9 +27,9 @@
 
         'data/res.company.csv',
         'data/ir.sequence.csv',
-        'data/wms.cangku.csv',
+        #'data/wms.cangku.csv',
         'data/wms.shebei.csv',
-        'data/wms.beijian.csv',
+        #'data/wms.beijian.csv',
         'data/wms.beijianext.csv',
 
         'views/dashboard.xml',
@@ -63,7 +63,7 @@
         'data/ir.rule.csv',
         'data/ir.model.access.csv',
         'data/ir.cron.csv',
-        'data/res.users.csv',
+        #'data/res.users.csv',
     ],
 
     # 'qweb': [
