@@ -232,6 +232,21 @@ class BJGeTi(models.Model):
         return {'result': 'no_error'}
 
     @api.multi
+    def phone_shouhuo(self, huowei):
+        self.ensure_one()
+        if not huowei:
+            raise ValidationError("请选择货位！")
+        geti = self.sudo()
+        if geti.zhuangtai not in ('chuku', 'yiku'):
+            raise ValidationError("备件已经回库，若界面未更新，请刷新网页。%s" % geti.xuliehao)
+        geti.huowei = huowei
+        geti.zhuangtai_core = 'jiashang'
+        geti.env['wms.lishijilu'].create({
+            'xinxi': '收货到"%s"' % geti.huowei.complete_bianma,
+            'geti_id': geti.id,})
+        return {'result': 'no_error'}
+
+    @api.multi
     def chuku(self, bianhao, yongtu, yonghu):
         if isinstance(bianhao, str):
             domain = [('xuliehao', '=', bianhao.strip())]
