@@ -2,9 +2,9 @@
   <data>
     <menuitem name="库存管理" id="wms.menu_root"/>
 
-    <!-- <menuitem name="仪表盘" id="wms.menu_dashboard"/> -->
+    <!-- <menuitem name="控制台" id="wms.menu_dashboard"/> -->
     <!-- <menuitem name="入库" id="wms.menu_ruku" parent="wms.menu_dashboard" action="ruku_wizard_act_window"/> -->
-    <menuitem name="仪表盘" id="wms.menu_dashboard1" parent="wms.menu_root" action="dashboard_act_window"/>
+    <menuitem name="控制台" id="wms.menu_dashboard1" parent="wms.menu_root" action="dashboard_act_window"/>
 
     <menuitem name="库存报警" id="wms.menu_kucunbaojing" parent="wms.menu_root" action="kucunbaojing_act_window"/>
     <menuitem name="检测报警" id="wms.menu_jiancebaojing" parent="wms.menu_root" action="jiancebaojing_act_window"/>

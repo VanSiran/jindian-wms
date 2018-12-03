@@ -1,7 +1,7 @@
 <odoo>
   <data>
     <record model="ir.ui.view" id="dashboard_view">
-        <field name="name">仪表盘</field>
+        <field name="name">控制台</field>
         <field name="model">wms.view.dashboard</field>
         <field name="type">kanban</field>
         <field name="arch" type="xml">
@@ -27,7 +27,7 @@
     </record>
 
     <record model="ir.ui.view" id="dashboard_tree_view">
-        <field name="name">仪表盘列表</field>
+        <field name="name">控制台列表</field>
         <field name="model">wms.view.dashboard</field>
         <field name="arch" type="xml">
         	<tree>
@@ -39,10 +39,10 @@
         </field>
     </record>
     <!-- <record id="dashboard_search_view" model="ir.ui.view">
-        <field name="name">仪表盘搜索视图</field>
+        <field name="name">控制台搜索视图</field>
         <field name="model">wms.view.dashboard</field>
         <field name="arch" type="xml">
-            <search string="仪表盘搜索视图">
+            <search string="控制台搜索视图">
                 <field name="create_uid" string="分组" group_by="create_uid"/>
                 <separator/>
             </search>
@@ -50,7 +50,7 @@
     </record> -->
 
     <record id="dashboard_act_window" model="ir.actions.act_window">
-        <field name="name">仪表盘</field>
+        <field name="name">控制台</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">wms.view.dashboard</field>
         <!-- <field name="view_type">kanban</field> -->

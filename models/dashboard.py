@@ -4,7 +4,7 @@ from odoo import api, models, fields, tools
 
 class Dashboard(models.Model):
     _name = "wms.view.dashboard"
-    _description = "仪表盘"
+    _description = "控制台"
 
     name = fields.Char(string="动作")
     type = fields.Char("类型")
