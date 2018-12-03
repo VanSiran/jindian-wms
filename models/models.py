@@ -17,6 +17,7 @@ class BJGeTi(models.Model):
 
     xuliehao = fields.Char('编号', required=True, index=True,
         default=lambda self: self.env['ir.sequence'].next_by_code('wms.geti'))
+    changbianhao = fields.Char('厂编号')
     beijianext = fields.Many2one('wms.beijianext', "备件型号", required=True)
     huowei = fields.Many2one('wms.huowei', '货位', required=True)
     zhuangtai = fields.Selection([
@@ -45,6 +46,23 @@ class BJGeTi(models.Model):
     cangku = fields.Many2one(string='所属仓库', related='huowei.cangku', store=True)
     image = fields.Binary(string='图片', related='beijianext.image')
     jiancedaoqiri = fields.Date(string='检测到期日', compute='_compute_daoqiri', store=True)
+
+    @api.model
+    def create_with_history(self, values):
+        z = self.create({
+            'xuliehao': self.env['ir.sequence'].next_by_code('wms.geti'),
+            'beijianext': values['beijianext'],
+            'huowei': values['huowei'],
+            'changjia': values['changjia'] if values['changjia'] else False,
+            'shengchanriqi': values['shengchanriqi'],
+            'changbianhao': values['changbianhao'],
+            'shangcijiance': values['shangcijiance'],
+            'pihao': values['pihao'],
+            'zhuangtai_core': 'jiashang',})
+        self.env['wms.lishijilu'].create({
+            'xinxi': '入库到"%s"' % (values['complete_bianma']),
+            'geti_id': z.id,})
+        return {'xuliehao': z.xuliehao}
 
     @api.depends('jiancedaoqiri', 'beijianext.jiancebaojing', 'zhuangtai_core')
     def _compute_zhuangtai(self):
@@ -93,27 +111,30 @@ class BJGeTi(models.Model):
             'geti_id': self.id,})
 
     @api.multi
-    def list_geti(self, cangku, shebei):
+    def list_geti(self, cangku, shebei, recursive, limit, offset):
         # NOTE: 此处若顶层仓库不是“电务段”要更改！
+        # TODO: 本函数和其他几个接口参数改@api.model，调用点也要相对修改
         domain = []
         if isinstance(cangku, (list, tuple)):
             dcangku = ('cangku.complete_name', '=', ' / '.join(str(x).strip() for x in cangku if x))
-            #duan = '电务段'
-        elif isinstance(cangku, str):
-            dcangku = ('cangku.name', '=', cangku.strip())
+        #elif isinstance(cangku, str):
+        #    dcangku = ('cangku.name', '=', cangku.strip())
         else:
             return {
-                "message": "仓库参数必须是数组或字符串",
+                "message": "仓库参数必须是数组",
                 "data": [],
                 "success": False
             }
         dtcangku = tuple([dcangku[0].replace('cangku.', ''), *dcangku[1:]])
-        if self.env['wms.cangku'].search_count([dtcangku]) == 0:
+        cangku_result = self.env['wms.cangku'].search([dtcangku])
+        if len(cangku_result) == 0:
             return {
                 "message": "找不到仓库 %s" % dtcangku[2],
                 "data": [],
                 "success": False
             }
+        if recursive:
+            dcangku = ('cangku.parent_id', 'child_of', cangku_result[0].id)
         domain.append(dcangku)
         if isinstance(shebei, (list, tuple)):
             shebeiname = ' / '.join(str(x).strip() for x in shebei if x)
@@ -127,8 +148,6 @@ class BJGeTi(models.Model):
                     "success": False
                 }
             #domain.append(('beijianext.shiyongshebei.complete_name', '=', ' / '.join(str(x) for x in cangku)))
-        # elif isinstance(shebei, str):
-        #     return "Error: 未找到设备 %s" % shebeiname
         else:
             return {
                 "message": "设备参数必须是数组",
@@ -137,11 +156,13 @@ class BJGeTi(models.Model):
             }
         # NOTE: 返回可用备件
         domain.append(('zhuangtai','in',('zaiku', 'daijiance', 'daibaofei')))
-        objs = self.search(domain)
+        objs = self.search(domain, limit=limit, offset=offset, order='cangku asc')
+        lengths = self.search_count(domain)
         ztdic = {'zaiku': '在库', 'daijiance': '待检测', 'daibaofei': '待报废'}
         return {
             "success": True,
-            "message": "查询到 %d 个备件" % len(objs),
+            "message": "查询到 %d 个备件" % lengths,
+            "length": lengths,
             "data": [
             {'beijianmingcheng': obj.beijian.name if obj.beijian.name else "",
              'beijianxinghao': obj.beijianext.name if obj.beijianext.name else "",
@@ -315,7 +336,7 @@ class BeijianExt(models.Model):
     @api.multi
     def find_similar(self, dest):
         # fuzz.partial_ratio
-        names = self.search([]).mapped(lambda r: {"id": r.id, "beijianext": r.name, "beijian": r.beijian.name})
+        names = self.search([]).mapped(lambda r: {"id": r.id, "beijianext": r.name, "beijian": r.beijian.name, "bjid": r.beijian.id, "jiancebaojing": r.jiancebaojing})
         # names = self.search([]).mapped(lambda r: (r.id, r.name, r.beijian.name))
         # _logger.info(names)
         return process.extractBests({"beijianext": dest}, names, processor=lambda x: x["beijianext"], score_cutoff=60)
@@ -576,3 +597,7 @@ class ResUsers(models.Model):
         user = super(ResUsers, self).create(values)
         user.write({'password': "123456"})
         return user
+
+    @api.multi
+    def can_add_cangjia(self):
+        return self in self.env['res.groups'].browse(15).users

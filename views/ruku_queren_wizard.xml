@@ -22,11 +22,12 @@
                 <group>
                   <field name="changjia" readonly="1"/>
                   <field name="shengchanriqi" readonly="1"/>
+                  <field name="changbianhao" readonly="1"/>
                   <field name="pihao" readonly="1"/>
                 </group>
                 <group attrs="{'invisible': [('rukushuliang','==',1)]}">
                   <div colspan="2">
-                    <p><b>⚠️ 注意</b>：一次性入库<field name="rukushuliang" readonly='1'/>个备件，请务必确定每个备件：</p><ol><li>都是<b>同一厂家</b>生产；</li><li>都是同一<b>生产日期</b>；</li><li>都是同一<b>批号</b>。</li></ol><p>若有不同者，请修改入库数量，并分多次入库。</p>
+                    <p><b>⚠️ 注意</b>：一次性入库<field name="rukushuliang" readonly='1'/>个备件，请务必确定每个备件：</p><ol><li>都是<b>同一厂家</b>生产；</li><li>都是同一<b>生产日期</b>；</li><li>都是同一<b>批号</b>。</li></ol><p>若有不同者，请修改入库数量，并分多次入库。如有厂编号，则必须分次录入！</p>
                   </div>
                 </group>
           	</group>

@@ -24,6 +24,7 @@ class Rukuqueren(models.TransientModel):
     rukushuliang = fields.Integer('入库数量')
     huowei = fields.Char('货位')
     changjia = fields.Char('生产厂家')
+    changbianhao = fields.Char('厂编号')
     shengchanriqi = fields.Date('生产日期')
     pihao = fields.Char("批次号")
     print_info = fields.Text()

@@ -31,6 +31,7 @@ class RukuWizard(models.TransientModel):
     rukushuliang = fields.Integer('入库数量', default=1)
     huowei = fields.Many2one('wms.huowei', '货位')
     changjia = fields.Many2one('wms.changjia', '生产厂家')
+    changbianhao = fields.Char("厂编号")
     shengchanriqi = fields.Date('生产日期', default=fields.Date.today)
     pihao = fields.Char("批次号")
     image = fields.Binary("图片", compute='_compute_img')
@@ -124,6 +125,8 @@ class RukuWizard(models.TransientModel):
                 raise ValidationError("请填写货位！")
             if not self.shengchanriqi:
                 raise ValidationError("请填写生产日期！")
+            if self.changbianhao and self.rukushuliang > 1:
+                raise ValidationError("同厂编号入库数量不能大于1")
             return {
                 'name': '入库确认',
                 'type': 'ir.actions.act_window',
@@ -136,6 +139,7 @@ class RukuWizard(models.TransientModel):
                     'huowei': self.huowei.id,
                     'changjia': self.changjia.id if self.changjia else False,
                     'shengchanriqi': self.shengchanriqi,
+                    'changbianhao': self.changbianhao,
                     'pihao': self.pihao,
                     'hide_close_btn': True,}}
         return {'type': "ir_actions_act_window_donothing",}

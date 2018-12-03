@@ -39,6 +39,7 @@
                 <button string="+ 新增货位" colspan="1" type="object" name="newhuowei_wizard_act_window"/>
                 <field name="changjia" colspan="10" domain="['|', ('beijian', '=', beijian), ('beijian', '=', False)]" options="{'no_create': True}"/>
                 <field name="shengchanriqi" colspan="10"/>
+                <field name="changbianhao" colspan="10"/>
                 <field name="pihao" colspan="10"/>
           	</group>
             <group attrs="{'invisible': [('state','!=','confirm')]}">
