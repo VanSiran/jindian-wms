@@ -125,7 +125,7 @@ class BJGeTi(models.Model):
             "xuliehao": res.xuliehao,
             "zhuangtai": res.zhuangtai,
             "shiyongshebei": [r.name for r in res.shiyongshebei],
-            "huowei": res.huowei.name,
+            "huowei": res.huowei.bianma,
             "cangku": res.cangku.name,
             "changjia": res.changjia.name,
             "shengchanriqi": res.shengchanriqi,
