@@ -114,10 +114,10 @@ class BJGeTi(models.Model):
     def info(self, code):
         if not code:
             return []
-        ress = self.search([('xuliehao', '=', code)], limit=1)
+        ress = self.sudo().search([('xuliehao', '=', code)], limit=1)
         type = 'xuliehao'
         if not ress:
-            ress = self.search([('changbianhao', '=', code)])
+            ress = self.sudo().search([('changbianhao', '=', code)])
             type = 'changbianhao'
             # if not ress:
             #     return []
