@@ -18,7 +18,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'web'],
 
     # always loaded
     'data': [
@@ -28,9 +28,9 @@
         'data/res.company.csv',
         'data/ir.sequence.csv',
         #'data/wms.cangku.csv',
-        'data/wms.shebei.csv',
+        #'data/wms.shebei.csv',
         #'data/wms.beijian.csv',
-        'data/wms.beijianext.csv',
+        #'data/wms.beijianext.csv',
 
         'views/dashboard.xml',
         'views/jiancebaojing_sqlview.xml',

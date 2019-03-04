@@ -41,11 +41,18 @@ class BJGeTi(models.Model):
     data = fields.Text('附加数据')
 
     lishijilu = fields.One2many('wms.lishijilu', 'geti_id', string='历史记录')
-    beijian = fields.Many2one(string='备件名称', related='beijianext.beijian')
+    beijian = fields.Many2one(string='备件名称', related='beijianext.beijian', store=True)
     shiyongshebei = fields.Many2many(string='适用设备', related='beijianext.shiyongshebei')
     cangku = fields.Many2one(string='所属仓库', related='huowei.cangku', store=True)
     image = fields.Binary(string='图片', related='beijianext.image')
     jiancedaoqiri = fields.Date(string='检测到期日', compute='_compute_daoqiri', store=True)
+
+    @api.model
+    def multi_create_with_history(self, values, amount):
+        res = []
+        for i in range(int(amount)):
+            res.append(self.create_with_history(values))
+        return res
 
     @api.model
     def create_with_history(self, values):

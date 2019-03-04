@@ -1,2 +1,2 @@
 "id","name","code","model_id/id","state","user_id/id","numbercall","interval_number","priority","doall","nextcall","active","interval_type"
-"__export__.ir_cron_2","每日个体状态更新","env['wms.geti'].search([('zhuangtai_core','=','jiashang')])._compute_zhuangtai()","wms.model_wms_geti","code","base.user_root","-1","1","5","False","2018-08-29 16:00:05","True","天"
+"ir_cron_geti_update","每日个体状态更新","env['wms.geti'].search([('zhuangtai_core','=','jiashang')])._compute_zhuangtai()","wms.model_wms_geti","code","base.user_root","-1","1","5","False","2018-08-29 16:00:05","True","天"

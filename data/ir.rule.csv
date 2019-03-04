@@ -1,8 +1,8 @@
-"id","name","domain_force","model_id/id","perm_write","perm_unlink","perm_create","perm_read","active","groups/id"
-"__export__.ir_rule_27","只显示本仓库及下级仓库检测报警","[('cangku.parent_id', 'child_of', user.cangku.id)]","wms.model_wms_sqlview_kucunbaojing","True","True","True","True","True","res_groups_zhigong"
-"__export__.ir_rule_22","只显示本仓库及下级仓库检测报警","[('huowei.cangku.parent_id', 'child_of', user.cangku.id)]","wms.model_wms_sqlview_jiancebaojing","True","True","True","True","True","res_groups_zhigong,res_groups_diaodu"
-"__export__.ir_rule_25","只显示本仓库及下级仓库库存策略","[('cangku.parent_id', 'child_of', user.cangku.id)]","wms.model_wms_kucuncelue","True","True","True","True","True","res_groups_zhigong,res_groups_diaodu"
-"__export__.ir_rule_26","只显示本仓库及其下级仓库的货位","[('kucuncelue.cangku.parent_id', 'child_of', user.cangku.id)]","wms.model_wms_huowei","True","True","True","True","True","res_groups_zhigong,res_groups_diaodu"
-"__export__.ir_rule_24","只显示本仓库及下级仓库的个体","[('huowei.cangku.parent_id', 'child_of', user.cangku.id)]","wms.model_wms_geti","True","True","True","True","True","res_groups_zhigong,res_groups_diaodu"
-"__export__.ir_rule_23","只显示本仓库及其下级仓库","[('parent_id', 'child_of', user.cangku.id)]","wms.model_wms_cangku","True","True","True","True","True","res_groups_zhigong,res_groups_diaodu"
-"wms.ir_rule_daiyiku","只显示原仓库及目的仓库是本仓库的待移库","['|', ('yuancangku.id', '=', user.cangku.id), ('mudicangku.id', '=', user.cangku.id)]","wms.model_wms_daiyiku","True","True","True","True","True","res_groups_zhigong"
+id,name,domain_force,model_id/id,perm_write,perm_unlink,perm_create,perm_read,active,groups/id
+ir_rule_kucunbaojing,只显示本仓库及下级仓库库存报警,"[('cangku.parent_id', 'child_of', user.cangku.id)]",wms.model_wms_sqlview_kucunbaojing,TRUE,TRUE,TRUE,TRUE,TRUE,res_groups_zhigong
+ir_rule_jiancebaojing,只显示本仓库及下级仓库检测报警,"[('huowei.cangku.parent_id', 'child_of', user.cangku.id)]",wms.model_wms_sqlview_jiancebaojing,TRUE,TRUE,TRUE,TRUE,TRUE,"res_groups_zhigong,res_groups_diaodu"
+ir_rule_kucuncelue,只显示本仓库及下级仓库库存策略,"[('cangku.parent_id', 'child_of', user.cangku.id)]",wms.model_wms_kucuncelue,TRUE,TRUE,TRUE,TRUE,TRUE,"res_groups_zhigong,res_groups_diaodu"
+ir_rule_huowei,只显示本仓库及其下级仓库的货位,"[('kucuncelue.cangku.parent_id', 'child_of', user.cangku.id)]",wms.model_wms_huowei,TRUE,TRUE,TRUE,TRUE,TRUE,"res_groups_zhigong,res_groups_diaodu"
+ir_rule_geti,只显示本仓库及下级仓库的个体,"[('huowei.cangku.parent_id', 'child_of', user.cangku.id)]",wms.model_wms_geti,TRUE,TRUE,TRUE,TRUE,TRUE,"res_groups_zhigong,res_groups_diaodu"
+ir_rule_cangku,只显示本仓库及其下级仓库,"[('parent_id', 'child_of', user.cangku.id)]",wms.model_wms_cangku,TRUE,TRUE,TRUE,TRUE,TRUE,"res_groups_zhigong,res_groups_diaodu"
+ir_rule_daiyiku,只显示原仓库及目的仓库是本仓库的待移库,"['|', ('yuancangku.id', '=', user.cangku.id), ('mudicangku.id', '=', user.cangku.id)]",wms.model_wms_daiyiku,TRUE,TRUE,TRUE,TRUE,TRUE,res_groups_zhigong
